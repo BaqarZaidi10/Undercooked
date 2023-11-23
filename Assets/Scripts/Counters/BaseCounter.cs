@@ -3,53 +3,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseCounter : MonoBehaviour, IKitchenObjectParent {
+// BaseCounter class implements IKitchenObjectParent interface and extends MonoBehaviour
+public class BaseCounter : MonoBehaviour, IKitchenObjectParent
+{
 
-
+    // Event triggered when any object is placed on a counter
     public static event EventHandler OnAnyObjectPlacedHere;
 
-    public static void ResetStaticData() {
+    // Static method to reset static data, clearing the event handlers
+    public static void ResetStaticData()
+    {
         OnAnyObjectPlacedHere = null;
     }
 
-
+    // Reference to the point on the counter where kitchen objects should be placed
     [SerializeField] private Transform counterTopPoint;
 
-
+    // Reference to the kitchen object currently on the counter
     private KitchenObject kitchenObject;
 
-
-    public virtual void Interact(Player player) {
+    // Called when the player interacts with the counter
+    public virtual void Interact(Player player)
+    {
         Debug.LogError("BaseCounter.Interact();");
     }
 
-    public virtual void InteractAlternate(Player player) {
+    // Called when the player interacts with the counter in an alternate way
+    public virtual void InteractAlternate(Player player)
+    {
         //Debug.LogError("BaseCounter.InteractAlternate();");
     }
 
-
-    public Transform GetKitchenObjectFollowTransform() {
+    // Returns the transform where the kitchen object should follow
+    public Transform GetKitchenObjectFollowTransform()
+    {
         return counterTopPoint;
     }
 
-    public void SetKitchenObject(KitchenObject kitchenObject) {
+    // Sets the kitchen object currently on the counter
+    public void SetKitchenObject(KitchenObject kitchenObject)
+    {
         this.kitchenObject = kitchenObject;
 
-        if (kitchenObject != null) {
+        if (kitchenObject != null)
+        {
+            // Trigger the OnAnyObjectPlacedHere event
             OnAnyObjectPlacedHere?.Invoke(this, EventArgs.Empty);
         }
     }
 
-    public KitchenObject GetKitchenObject() {
+    // Gets the kitchen object currently on the counter
+    public KitchenObject GetKitchenObject()
+    {
         return kitchenObject;
     }
 
-    public void ClearKitchenObject() {
+    // Clears the kitchen object from the counter
+    public void ClearKitchenObject()
+    {
         kitchenObject = null;
     }
 
-    public bool HasKitchenObject() {
+    // Checks if the counter currently has a kitchen object
+    public bool HasKitchenObject()
+    {
         return kitchenObject != null;
     }
-
 }

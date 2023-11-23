@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IHasProgress {
+// Interface for objects that have progress
+public interface IHasProgress
+{
 
-
+    // Event triggered when the progress changes
     public event EventHandler<OnProgressChangedEventArgs> OnProgressChanged;
-    public class OnProgressChangedEventArgs : EventArgs {
+
+    // Custom EventArgs class for the OnProgressChanged event
+    public class OnProgressChangedEventArgs : EventArgs
+    {
         public float progressNormalized;
     }
 
