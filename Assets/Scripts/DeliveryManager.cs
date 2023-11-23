@@ -11,19 +11,15 @@ public class DeliveryManager : MonoBehaviour {
     public event EventHandler OnRecipeSuccess;
     public event EventHandler OnRecipeFailed;
 
-
     public static DeliveryManager Instance { get; private set; }
 
-
     [SerializeField] private RecipeListSO recipeListSO;
-
 
     private List<RecipeSO> waitingRecipeSOList;
     private float spawnRecipeTimer;
     private float spawnRecipeTimerMax = 4f;
     private int waitingRecipesMax = 4;
     private int successfulRecipesAmount;
-
 
     private void Awake() {
         Instance = this;

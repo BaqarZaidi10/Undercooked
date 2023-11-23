@@ -3,42 +3,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IKitchenObjectParent {
-
-
-    public static Player Instance { get; private set; }
-
-
-
-    public event EventHandler OnPickedSomething;
-    public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+public class Player : MonoBehaviour, IKitchenObjectParent 
+{
+    public static event EventHandler OnPickedSomething;
+    public static event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
     public class OnSelectedCounterChangedEventArgs : EventArgs {
         public BaseCounter selectedCounter;
     }
 
-
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private GameInput gameInput;
+    [SerializeField] private GameInputP1 gameInputP1;
+    [SerializeField] private GameInputP2 gameInputP2;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
 
-
     private bool isWalking;
+    public bool isPlayer1;
     private Vector3 lastInteractDir;
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
 
-
-    private void Awake() {
-        if (Instance != null) {
-            Debug.LogError("There is more than one Player instance");
+    private void OnEnable() 
+    {
+        if(isPlayer1)
+        {
+            gameInputP1.OnInteractAction += GameInput_OnInteractAction;
+            gameInputP1.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
         }
-        Instance = this;
+        else
+        {
+            gameInputP2.OnInteractAction += GameInput_OnInteractAction;
+            gameInputP2.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
+        }
     }
-
-    private void Start() {
-        gameInput.OnInteractAction += GameInput_OnInteractAction;
-        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
+    
+    private void OnDisable() 
+    {
+        if(isPlayer1)
+        {
+            gameInputP1.OnInteractAction -= GameInput_OnInteractAction;
+            gameInputP1.OnInteractAlternateAction -= GameInput_OnInteractAlternateAction;
+        }
+        else
+        {
+            gameInputP2.OnInteractAction -= GameInput_OnInteractAction;
+            gameInputP2.OnInteractAlternateAction -= GameInput_OnInteractAlternateAction;
+        }
     }
 
     private void GameInput_OnInteractAlternateAction(object sender, EventArgs e) {
@@ -67,7 +77,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent {
     }
 
     private void HandleInteractions() {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = isPlayer1 ? gameInputP1.GetMovementVectorNormalized() : gameInputP2.GetMovementVectorNormalized();
 
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
@@ -92,7 +102,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent {
     }
 
     private void HandleMovement() {
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
+        Vector2 inputVector = isPlayer1 ? gameInputP1.GetMovementVectorNormalized() : gameInputP2.GetMovementVectorNormalized();
 
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
