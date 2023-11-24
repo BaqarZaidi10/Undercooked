@@ -4,11 +4,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DeliveryResultUI : MonoBehaviour {
-
+public class DeliveryResultUI : MonoBehaviour
+{
 
     private const string POPUP = "Popup";
-
 
     [SerializeField] private Image backgroundImage;
     [SerializeField] private Image iconImage;
@@ -18,21 +17,27 @@ public class DeliveryResultUI : MonoBehaviour {
     [SerializeField] private Sprite successSprite;
     [SerializeField] private Sprite failedSprite;
 
-
     private Animator animator;
 
-    private void Awake() {
+    private void Awake()
+    {
+        // Get the Animator component on Awake
         animator = GetComponent<Animator>();
     }
 
-    private void Start() {
+    private void Start()
+    {
+        // Subscribe to recipe success and failure events
         DeliveryManager.Instance.OnRecipeSuccess += DeliveryManager_OnRecipeSuccess;
         DeliveryManager.Instance.OnRecipeFailed += DeliveryManager_OnRecipeFailed;
 
+        // Deactivate the UI on start
         gameObject.SetActive(false);
     }
 
-    private void DeliveryManager_OnRecipeFailed(object sender, System.EventArgs e) {
+    private void DeliveryManager_OnRecipeFailed(object sender, System.EventArgs e)
+    {
+        // Activate the UI, trigger the popup animation, and set UI elements for a failed recipe
         gameObject.SetActive(true);
         animator.SetTrigger(POPUP);
         backgroundImage.color = failedColor;
@@ -40,12 +45,13 @@ public class DeliveryResultUI : MonoBehaviour {
         messageText.text = "DELIVERY\nFAILED";
     }
 
-    private void DeliveryManager_OnRecipeSuccess(object sender, System.EventArgs e) {
+    private void DeliveryManager_OnRecipeSuccess(object sender, System.EventArgs e)
+    {
+        // Activate the UI, trigger the popup animation, and set UI elements for a successful recipe
         gameObject.SetActive(true);
         animator.SetTrigger(POPUP);
         backgroundImage.color = successColor;
         iconImage.sprite = successSprite;
         messageText.text = "DELIVERY\nSUCCESS";
     }
-
 }
