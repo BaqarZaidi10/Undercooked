@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SelectedCounterVisual : MonoBehaviour
 {
-
     // Reference to the associated BaseCounter
     [SerializeField] private BaseCounter baseCounter;
 
@@ -14,7 +13,7 @@ public class SelectedCounterVisual : MonoBehaviour
     // Subscribe to the player's OnSelectedCounterChanged event when the script starts
     private void Start()
     {
-        Player.Instance.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
+        Player.OnSelectedCounterChanged += Player_OnSelectedCounterChanged;
     }
 
     // Event handler for the player's OnSelectedCounterChanged event

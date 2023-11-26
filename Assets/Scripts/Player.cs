@@ -5,13 +5,9 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IKitchenObjectParent
 {
-
-    // Singleton instance of the Player
-    public static Player Instance { get; private set; }
-
     // Events for player actions
-    public event EventHandler OnPickedSomething;
-    public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
+    public static event EventHandler OnPickedSomething;
+    public static event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
 
     // Struct for event arguments when the selected counter changes
     public class OnSelectedCounterChangedEventArgs : EventArgs
@@ -22,7 +18,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     // Serialized fields for player parameters and references
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private GameInput gameInput;
-    [SerializeField] private LayerMask countersLayerMask;
+    [SerializeField] private LayerMask countersLayerMask = 1 << 6;
     [SerializeField] private Transform kitchenObjectHoldPoint;
 
     // Private variables for internal state
@@ -31,14 +27,10 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
 
-    // Awake method to handle singleton instance
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Debug.LogError("There is more than one Player instance");
-        }
-        Instance = this;
+        kitchenObjectHoldPoint = GetComponentInChildren<KitchenObjectHoldPoint>().transform;
+        gameInput = GameObject.Find("GameInput").GetComponent<GameInput>();
     }
 
     // Start method for initialization

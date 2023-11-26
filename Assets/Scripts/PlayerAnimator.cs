@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-
     // Animator parameter name for walking state
     private const string IS_WALKING = "IsWalking";
 
@@ -17,6 +16,7 @@ public class PlayerAnimator : MonoBehaviour
     // Awake method for initialization
     private void Awake()
     {
+        player = GetComponentInParent<Player>();
         // Get the Animator component on the same GameObject
         animator = GetComponent<Animator>();
     }
