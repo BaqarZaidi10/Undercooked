@@ -1,3 +1,4 @@
+// Include necessary namespaces
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -5,12 +6,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OptionsUI : MonoBehaviour {
-
-
+// OptionsUI class handles the options menu in the game
+public class OptionsUI : MonoBehaviour
+{
+    // Singleton instance for easy access
     public static OptionsUI Instance { get; private set; }
 
-
+    // UI elements for various options
     [SerializeField] private Button soundEffectsButton;
     [SerializeField] private Button musicButton;
     [SerializeField] private Button closeButton;
@@ -38,13 +40,15 @@ public class OptionsUI : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI gamepadPauseText;
     [SerializeField] private Transform pressToRebindKeyTransform;
 
-
+    // Callback action for the close button
     private Action onCloseButtonAction;
 
-
-    private void Awake() {
+    // Initialize the singleton instance
+    private void Awake()
+    {
         Instance = this;
 
+        // Assign button click listeners
         soundEffectsButton.onClick.AddListener(() => {
             SoundManager.Instance.ChangeVolume();
             UpdateVisual();
@@ -58,6 +62,7 @@ public class OptionsUI : MonoBehaviour {
             onCloseButtonAction();
         });
 
+        // Rebind buttons for keyboard and gamepad controls
         moveUpButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Move_Up); });
         moveDownButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Move_Down); });
         moveLeftButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Move_Left); });
@@ -70,20 +75,26 @@ public class OptionsUI : MonoBehaviour {
         gamepadPauseButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Gamepad_Pause); });
     }
 
-    private void Start() {
+    // Subscribe to events when the game is unpaused
+    private void Start()
+    {
         KitchenGameManager.Instance.OnGameUnpaused += KitchenGameManager_OnGameUnpaused;
 
+        // Update UI visuals, hide rebind key instructions, and hide the options menu
         UpdateVisual();
-
         HidePressToRebindKey();
         Hide();
     }
 
-    private void KitchenGameManager_OnGameUnpaused(object sender, System.EventArgs e) {
+    // Event handler when the game is unpaused
+    private void KitchenGameManager_OnGameUnpaused(object sender, System.EventArgs e)
+    {
         Hide();
     }
 
-    private void UpdateVisual() {
+    // Update UI visuals based on current settings
+    private void UpdateVisual()
+    {
         soundEffectsText.text = "Sound Effects: " + Mathf.Round(SoundManager.Instance.GetVolume() * 10f);
         musicText.text = "Music: " + Mathf.Round(MusicManager.Instance.GetVolume() * 10f);
 
@@ -99,32 +110,42 @@ public class OptionsUI : MonoBehaviour {
         gamepadPauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Pause);
     }
 
-    public void Show(Action onCloseButtonAction) {
+    // Show the options menu with a specified callback action
+    public void Show(Action onCloseButtonAction)
+    {
         this.onCloseButtonAction = onCloseButtonAction;
 
+        // Activate the options menu and focus on the sound effects button
         gameObject.SetActive(true);
-
         soundEffectsButton.Select();
     }
 
-    private void Hide() {
+    // Hide the options menu
+    private void Hide()
+    {
         gameObject.SetActive(false);
     }
 
-    private void ShowPressToRebindKey() {
+    // Show the "Press to Rebind Key" UI element
+    private void ShowPressToRebindKey()
+    {
         pressToRebindKeyTransform.gameObject.SetActive(true);
     }
 
-    private void HidePressToRebindKey() {
+    // Hide the "Press to Rebind Key" UI element
+    private void HidePressToRebindKey()
+    {
         pressToRebindKeyTransform.gameObject.SetActive(false);
     }
 
-    private void RebindBinding(GameInput.Binding binding) {
+    // Rebind a specified input binding
+    private void RebindBinding(GameInput.Binding binding)
+    {
+        // Show the "Press to Rebind Key" UI element, rebind the key, and hide the UI element when done
         ShowPressToRebindKey();
         GameInput.Instance.RebindBinding(binding, () => {
             HidePressToRebindKey();
             UpdateVisual();
         });
     }
-
 }

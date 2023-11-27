@@ -27,7 +27,7 @@ public class KitchenGameManager : MonoBehaviour
     private State state;
     private float countdownToStartTimer = 3f; // Initial countdown timer value
     private float gamePlayingTimer; // Timer for the main gameplay
-    private float gamePlayingTimerMax = 30f; // Maximum time for the gameplay
+    private float gamePlayingTimerMax = 120f; // Maximum time for the gameplay
     private bool isGamePaused = false; // Flag to track whether the game is paused
 
     // Called when the script instance is being loaded
