@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 6094372249399299929}
   - component: {fileID: -5165228279407939642}
   - component: {fileID: 635660819717588053}
+  - component: {fileID: 8563531718970707372}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Untagged
@@ -122,6 +123,24 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: f533f0c6-a526-45d1-ab00-ed86c15608d8
     m_ActionName: 'Player/Pause[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6d4c2634-fb36-4f54-86e0-25eec554ede5
+    m_ActionName: 'Player1/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/Logitech
+      Logitech Dual Action/stick]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 48d3e28a-c51a-4997-b659-95aaf6921f5d
+    m_ActionName: 'Player1/Interact[/Keyboard/e,/Logitech Logitech Dual Action/button2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 464d44aa-eb0a-46f0-af0e-51dcd1eb9b69
+    m_ActionName: 'Player1/InteractAlternate[/Keyboard/f,/Logitech Logitech Dual
+      Action/button3]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b06d43c7-ca56-4cf8-847f-6b240bc35014
+    m_ActionName: 'Player1/Pause[/Keyboard/escape,/Logitech Logitech Dual Action/button10]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -145,6 +164,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   kitchenObjectHoldPoint: {fileID: 0}
+--- !u!114 &8563531718970707372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433313224566348618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a445f5aca17ba347af5d293806b52aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5388318921316762194
 PrefabInstance:
   m_ObjectHideFlags: 0
