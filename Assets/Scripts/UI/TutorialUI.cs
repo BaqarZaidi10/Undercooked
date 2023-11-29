@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class TutorialUI : MonoBehaviour
 {
+    // References to TextMeshProUGUI elements for different key bindings
     [SerializeField] private TextMeshProUGUI keyMoveUpText;
     [SerializeField] private TextMeshProUGUI keyMoveDownText;
     [SerializeField] private TextMeshProUGUI keyMoveLeftText;
@@ -19,17 +20,21 @@ public class TutorialUI : MonoBehaviour
 
     private void Start()
     {
+        // Subscribe to events when the game starts
         GameInput.Instance.OnBindingRebind += GameInput_OnBindingRebind;
         GameManager_.Instance.OnStateChanged += GameManager_OnStateChanged;
 
+        // Update UI visuals based on current key bindings
         UpdateVisual();
 
+        // Show the UI initially
         Show();
     }
 
     private void GameManager_OnStateChanged(object sender, EventArgs e)
     {
-        if(GameManager_.Instance.IsCountdownToStartActive())
+        // Hide UI when the game is in countdown state
+        if (GameManager_.Instance.IsCountdownToStartActive())
         {
             Hide();
         }
@@ -37,11 +42,13 @@ public class TutorialUI : MonoBehaviour
 
     private void GameInput_OnBindingRebind(object sender, EventArgs e)
     {
+        // Update UI visuals when key bindings are rebound
         UpdateVisual();
     }
 
     private void UpdateVisual()
     {
+        // Update UI elements with the current key bindings
         keyMoveUpText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Up_WASD);
         keyMoveDownText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Down_WASD);
         keyMoveLeftText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left_WASD);
@@ -56,12 +63,13 @@ public class TutorialUI : MonoBehaviour
 
     private void Show()
     {
+        // Set the GameObject active to show the UI
         gameObject.SetActive(true);
     }
 
     private void Hide()
     {
+        // Set the GameObject inactive to hide the UI
         gameObject.SetActive(false);
     }
-
 }

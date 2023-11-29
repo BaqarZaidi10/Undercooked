@@ -3,44 +3,44 @@ using UnityEngine;
 
 public class LobbyCountdownUI : MonoBehaviour
 {
-    private const string NUMBER_POPUP = "NumberPopUp";
+    private const string NUMBER_POPUP = "NumberPopUp"; // Animation trigger parameter
 
-    [SerializeField] private TextMeshProUGUI countdownText;
+    [SerializeField] private TextMeshProUGUI countdownText; // Reference to the TextMeshProUGUI component
 
-    private Animator animator;
-    private int previousCountdownNumber;
-    private float countdownNumber;
+    private Animator animator; // Reference to the Animator component
+    private int previousCountdownNumber; // Previous countdown number to detect changes
+    private float countdownNumber; // Current countdown number
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
-        Hide();
-
+        animator = GetComponent<Animator>(); // Get the Animator component
+        Hide(); // Initially hide the countdown UI
     }
 
     private void Update()
     {
-        countdownNumber = LobbyUI.Instance.GetLobbyCountdown();
-        int intCountdownNumber = Mathf.CeilToInt(countdownNumber);
-        countdownText.text = intCountdownNumber.ToString();
+        countdownNumber = LobbyUI.Instance.GetLobbyCountdown(); // Get the current lobby countdown from LobbyUI
+        int intCountdownNumber = Mathf.CeilToInt(countdownNumber); // Convert the countdown number to an integer (ceiling value)
+        countdownText.text = intCountdownNumber.ToString(); // Update the text to display the countdown
 
-
-        if(previousCountdownNumber != intCountdownNumber)
+        // Check if the countdown number has changed
+        if (previousCountdownNumber != intCountdownNumber)
         {
-            previousCountdownNumber = intCountdownNumber;
-            animator.SetTrigger(NUMBER_POPUP);
-            SoundManager.Instance.PlayCountdownSound();
+            previousCountdownNumber = intCountdownNumber; // Update the previous countdown number
+            animator.SetTrigger(NUMBER_POPUP); // Trigger the "NumberPopUp" animation
+            SoundManager.Instance.PlayCountdownSound(); // Play the countdown sound effect
         }
     }
 
+    // Method to show the countdown UI
     public void Show()
     {
         gameObject.SetActive(true);
     }
 
+    // Method to hide the countdown UI
     public void Hide()
     {
         gameObject.SetActive(false);
     }
 }
-

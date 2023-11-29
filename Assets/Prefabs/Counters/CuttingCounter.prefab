@@ -112,7 +112,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2513651689412138050, guid: d72bee846803d074784ffb8f64e993ca,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 1a0afd856a35421469b28b916116fd9c, type: 2}
     - target: {fileID: 4171094756720850327, guid: d72bee846803d074784ffb8f64e993ca,
@@ -207,12 +207,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6016978675324250517, guid: d72bee846803d074784ffb8f64e993ca,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 1a0afd856a35421469b28b916116fd9c, type: 2}
     - target: {fileID: 7398771634956237162, guid: d72bee846803d074784ffb8f64e993ca,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 1a0afd856a35421469b28b916116fd9c, type: 2}
     - target: {fileID: 8101788021821549737, guid: d72bee846803d074784ffb8f64e993ca,
@@ -394,6 +394,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bef65b87589c70f4f8cd61e5dd33d4e2, type: 2}
   - {fileID: 11400000, guid: 2e249984942664d41bc338d20aa2be8a, type: 2}
   - {fileID: 11400000, guid: 5f2e44204e9b31247a25761958ba7f34, type: 2}
+  - {fileID: 11400000, guid: 8048d1fa2e6352440b5ea12497f4f2ec, type: 2}
+  - {fileID: 11400000, guid: 21cb0a73dd7feb943962c7e2fa0f0951, type: 2}
+  - {fileID: 11400000, guid: b73e33a52973f684ca7111d5f96f10d1, type: 2}
+  - {fileID: 11400000, guid: 0c058329e8e54c146bcc7501c7387b7a, type: 2}
 --- !u!4 &4171331623178490204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 216900917738539068, guid: 1fc9445d05ffabb44a09d6218768e9e7,

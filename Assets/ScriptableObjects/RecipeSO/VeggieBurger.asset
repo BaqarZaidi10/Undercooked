@@ -17,5 +17,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bee0371208acf7348a95c849b21d2c4e, type: 2}
   - {fileID: 11400000, guid: c90cba9f783a4494fa706905a6109f03, type: 2}
   - {fileID: 11400000, guid: ddd1f6a20657b9d45a3e04c6b20011fa, type: 2}
+  - {fileID: 11400000, guid: d17edd8faa2edca4d81b941e78843722, type: 2}
   recipeName: VeggieBurger
-  recipeSellValue: 17

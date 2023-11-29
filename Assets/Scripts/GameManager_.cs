@@ -5,20 +5,25 @@ using UnityEngine.InputSystem;
 
 public class GameManager_ : MonoBehaviour
 {
+    // Singleton instance of the GameManager
+    public static GameManager_ Instance { get; private set; }
 
-    public static GameManager_ Instance {get; private set;}
-
+    // UI element for handling device removal
     [SerializeField] private DeviceRemovedUI deviceRemovedUI;
 
+    // Events to notify state changes and other events
     public event EventHandler OnStateChanged;
     public event EventHandler OnGamePaused;
     public event EventHandler OnGameUnpaused;
     public event EventHandler<EventArgsOnDeviceLost> OnDeviceLost;
+
+    // Custom EventArgs class for device loss event
     public class EventArgsOnDeviceLost : EventArgs
     {
         public string deviceName;
     }
 
+    // Enum representing different game states
     private enum State
     {
         WaitingToStart,
@@ -28,25 +33,24 @@ public class GameManager_ : MonoBehaviour
         CountdownToRestart
     }
 
-    private State state;
-    private float countdownToStartTimer = 3f;
-    private float countdownToRestartTimer;
-    private float countdownToRestartTimerMax = 3f;
+    private State state; // Current game state
+    private float countdownToStartTimer = 3f; // Timer for the countdown to start
+    private float countdownToRestartTimer; // Timer for the countdown to restart
+    private float countdownToRestartTimerMax = 3f; // Maximum time for countdown to restart
 
-    [SerializeField] private float gamePlayingTimerMax = 60f;
-    private float gamePlayingTimer;
-    private bool isGamePaused = false;
-    private InputUser inputUserChanged;
+    [SerializeField] private float gamePlayingTimerMax = 60f; // Maximum time for the game playing state
+    private float gamePlayingTimer; // Timer for the game playing state
+    private bool isGamePaused = false; // Flag indicating if the game is paused
+    private InputUser inputUserChanged; // InputUser affected by device changes
 
-
-
+    // Awake is called when the script instance is being loaded
     private void Awake()
     {
         Instance = this;
-
         state = State.WaitingToStart;
     }
 
+    // Start is called before the first frame update
     private void Start()
     {
         GameInput.Instance.OnPauseAction += GameInput_OnPauseAction;
@@ -54,20 +58,23 @@ public class GameManager_ : MonoBehaviour
         PlayerLoader.OnPlayerInstantiationCompleted += PlayerLoader_OnPlayerInstantiationCompleted;
     }
 
+    // Event handler for the interact action
     private void GameInput_OnInteractAction(object sender, EventArgs e)
     {
-        if(state == State.WaitingToStart)
+        if (state == State.WaitingToStart)
         {
             state = State.CountdownToStart;
             OnStateChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
+    // Event handler for the pause action
     private void GameInput_OnPauseAction(object sender, EventArgs e)
     {
         TogglePauseMenu();
     }
 
+    // Update is called once per frame
     private void Update()
     {
         switch (state)
@@ -77,20 +84,19 @@ public class GameManager_ : MonoBehaviour
 
             case State.CountdownToStart:
                 countdownToStartTimer -= Time.deltaTime;
-                
-                if(countdownToStartTimer < 0)
+
+                if (countdownToStartTimer < 0)
                 {
                     state = State.GamePlaying;
                     gamePlayingTimer = gamePlayingTimerMax;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
-
                 }
                 break;
 
             case State.GamePlaying:
                 gamePlayingTimer -= Time.deltaTime;
-                
-                if(gamePlayingTimer < 0)
+
+                if (gamePlayingTimer < 0)
                 {
                     state = State.GameOver;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
@@ -99,28 +105,29 @@ public class GameManager_ : MonoBehaviour
 
             case State.CountdownToRestart:
                 countdownToRestartTimer -= Time.deltaTime;
-                
-                if(countdownToRestartTimer < 0)
+
+                if (countdownToRestartTimer < 0)
                 {
                     state = State.GamePlaying;
-                
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
                 }
                 break;
-            
+
             case State.GameOver:
                 break;
         }
     }
 
+    // Event handler for player instantiation completion
     private void PlayerLoader_OnPlayerInstantiationCompleted(object sender, EventArgs e)
     {
         InputUser.onChange += InputUser_OnChange;
     }
 
+    // Event handler for input user changes
     private void InputUser_OnChange(InputUser inputUser, InputUserChange inputUserChange, InputDevice inputDevice)
     {
-        if(inputUserChange == InputUserChange.DeviceLost)
+        if (inputUserChange == InputUserChange.DeviceLost)
         {
             TogglePauseDeviceRemoved();
 
@@ -134,7 +141,7 @@ public class GameManager_ : MonoBehaviour
             deviceRemovedUI.OnRemovePlayer += DeviceRemovedUI_OnRemovePlayer;
         }
 
-        if(inputUserChange == InputUserChange.DeviceRegained && inputUserChanged == inputUser)
+        if (inputUserChange == InputUserChange.DeviceRegained && inputUserChanged == inputUser)
         {
             countdownToRestartTimer = countdownToRestartTimerMax;
             TogglePauseDeviceRemoved();
@@ -145,6 +152,7 @@ public class GameManager_ : MonoBehaviour
         }
     }
 
+    // Event handler for removing a player due to device removal
     private void DeviceRemovedUI_OnRemovePlayer(object sender, EventArgs e)
     {
         int playerParametersIndex = Array.FindIndex(GameControlsManager.Instance.GetAllControlSchemeParameters(), parameters => parameters.controlScheme == inputUserChanged.controlScheme);
@@ -159,45 +167,53 @@ public class GameManager_ : MonoBehaviour
         deviceRemovedUI.OnRemovePlayer -= DeviceRemovedUI_OnRemovePlayer;
     }
 
+    // Check if the game is currently in the playing state
     public bool IsGamePlaying()
     {
         return (state == State.GamePlaying);
     }
 
+    // Check if the game is currently in the countdown to start state
     public bool IsCountdownToStartActive()
     {
         return (state == State.CountdownToStart);
     }
 
+    // Check if the game is currently in the countdown to restart state
     public bool IsCountdownToRestartActive()
     {
         return (state == State.CountdownToRestart);
     }
 
+    // Get the remaining time for the countdown to start
     public float GetCountdownToStartTimer()
     {
         return countdownToStartTimer;
     }
 
+    // Get the remaining time for the countdown to restart
     public float GetCountdownToRestartTimer()
     {
         return countdownToRestartTimer;
     }
 
+    // Check if the game is currently in the game over state
     public bool IsGameOver()
     {
-        return(state == State.GameOver);
+        return (state == State.GameOver);
     }
 
+    // Get the normalized value of the game playing timer
     public float GetGamePlayingTimerNormalized()
     {
-        return (1 - gamePlayingTimer/gamePlayingTimerMax);
+        return (1 - gamePlayingTimer / gamePlayingTimerMax);
     }
 
+    // Toggle the pause menu
     public void TogglePauseMenu()
     {
         isGamePaused = !isGamePaused;
-        if(isGamePaused)
+        if (isGamePaused)
         {
             Time.timeScale = 0f;
             OnGamePaused?.Invoke(this, EventArgs.Empty);
@@ -209,10 +225,11 @@ public class GameManager_ : MonoBehaviour
         }
     }
 
+    // Toggle the pause menu for device removal
     public void TogglePauseDeviceRemoved()
     {
         isGamePaused = !isGamePaused;
-        if(isGamePaused)
+        if (isGamePaused)
         {
             Time.timeScale = 0f;
         }

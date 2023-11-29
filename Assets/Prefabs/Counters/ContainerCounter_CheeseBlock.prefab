@@ -68,6 +68,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4942691222399549499, guid: c5803fbdf0a1ebf49ae270deab283155,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: da2d04fe27b94e34ea0b624569b48a6f,
+        type: 3}
     - target: {fileID: 6223615063402717356, guid: c5803fbdf0a1ebf49ae270deab283155,
         type: 3}
       propertyPath: kitchenObjectSO

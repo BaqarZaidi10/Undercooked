@@ -1,14 +1,20 @@
 using UnityEngine;
 
-public interface IKitchenObjectParent 
+// Interface for objects that can act as parents for kitchen objects
+public interface IKitchenObjectParent
 {
-    public Transform GetKitchenObjectFollowTransform();
+    // Returns the transform that a kitchen object should follow
+    Transform GetKitchenObjectFollowTransform();
 
-    public void SetKitchenObject(KitchenObject kitchenObject);
+    // Sets the kitchen object associated with this parent
+    void SetKitchenObject(KitchenObject kitchenObject);
 
-    public KitchenObject GetKitchenObject();
+    // Gets the kitchen object associated with this parent
+    KitchenObject GetKitchenObject();
 
-    public void ClearKitchenObject();
+    // Clears the association with the kitchen object
+    void ClearKitchenObject();
 
-    public bool HasKitchenObject();
+    // Checks if this parent currently has a kitchen object associated with it
+    bool HasKitchenObject();
 }

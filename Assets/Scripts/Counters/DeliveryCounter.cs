@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class DeliveryCounter : BaseCounter
 {
-    public static DeliveryCounter Instance {get; private set;}
+    // Singleton instance of the DeliveryCounter
+    public static DeliveryCounter Instance { get; private set; }
 
+    // Called when the script instance is being loaded
     private void Awake()
     {
+        // Set the singleton instance to this object
         Instance = this;
     }
+
+    // Override of the Interact method from BaseCounter
     public override void Interact(PlayerController player)
     {
+        // Check if the player is carrying a kitchen object
         if (player.HasKitchenObject())
         {
-            if(player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+            // Attempt to get a PlateKitchenObject from the player's kitchen object
+            if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
             {
-                // Only accepts plates
+                // DeliveryCounter only accepts plates
+                // Deliver the recipe associated with the plate to the DeliveryManager
                 DeliveryManager.Instance.DeliverRecipe(plateKitchenObject);
 
+                // Destroy the kitchen object (plate) carried by the player
                 player.GetKitchenObject().DestroySelf();
             }
         }
