@@ -1,31 +1,16 @@
-// Include necessary namespaces
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
+using System;
 
-// OptionsUI class handles the options menu in the game
 public class OptionsUI : MonoBehaviour
 {
-    // Singleton instance for easy access
-    public static OptionsUI Instance { get; private set; }
 
-    // UI elements for various options
+    public static OptionsUI Instance {get; private set;} 
+
     [SerializeField] private Button soundEffectsButton;
     [SerializeField] private Button musicButton;
     [SerializeField] private Button closeButton;
-    [SerializeField] private Button moveUpButton;
-    [SerializeField] private Button moveDownButton;
-    [SerializeField] private Button moveLeftButton;
-    [SerializeField] private Button moveRightButton;
-    [SerializeField] private Button interactButton;
-    [SerializeField] private Button interactAlternateButton;
-    [SerializeField] private Button pauseButton;
-    [SerializeField] private Button gamepadInteractButton;
-    [SerializeField] private Button gamepadInteractAlternateButton;
-    [SerializeField] private Button gamepadPauseButton;
     [SerializeField] private TextMeshProUGUI soundEffectsText;
     [SerializeField] private TextMeshProUGUI musicText;
     [SerializeField] private TextMeshProUGUI moveUpText;
@@ -33,117 +18,160 @@ public class OptionsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI moveLeftText;
     [SerializeField] private TextMeshProUGUI moveRightText;
     [SerializeField] private TextMeshProUGUI interactText;
-    [SerializeField] private TextMeshProUGUI interactAlternateText;
+    [SerializeField] private TextMeshProUGUI interactAltText;
     [SerializeField] private TextMeshProUGUI pauseText;
+    [SerializeField] private TextMeshProUGUI moveUpArrowsText;
+    [SerializeField] private TextMeshProUGUI moveDownArrowsText;
+    [SerializeField] private TextMeshProUGUI moveLeftArrowsText;
+    [SerializeField] private TextMeshProUGUI moveRightArrowsText;
+    [SerializeField] private TextMeshProUGUI interactArrowsText;
+    [SerializeField] private TextMeshProUGUI interactAltArrowsText;
+    [SerializeField] private TextMeshProUGUI pauseArrowsText;
     [SerializeField] private TextMeshProUGUI gamepadInteractText;
-    [SerializeField] private TextMeshProUGUI gamepadInteractAlternateText;
+    [SerializeField] private TextMeshProUGUI gamepadInteractAltText;
     [SerializeField] private TextMeshProUGUI gamepadPauseText;
-    [SerializeField] private Transform pressToRebindKeyTransform;
 
-    // Callback action for the close button
+    [SerializeField] private Button moveUpWASDButton;
+    [SerializeField] private Button moveDownWASDButton;
+    [SerializeField] private Button moveLeftWASDButton;
+    [SerializeField] private Button moveRightWASDButton;
+    [SerializeField] private Button interactWASDButton;
+    [SerializeField] private Button interactAltWASDButton;
+    [SerializeField] private Button pauseButton;
+    [SerializeField] private Button moveUpArrowsButton;
+    [SerializeField] private Button moveDownArrowsButton;
+    [SerializeField] private Button moveLeftArrowsButton;
+    [SerializeField] private Button moveRightArrowsButton;
+    [SerializeField] private Button interactArrowsButton;
+    [SerializeField] private Button interactAltArrowsButton;
+    [SerializeField] private Button pauseArrowsButton;
+    [SerializeField] private Button gamepadInteractButton;
+    [SerializeField] private Button gamepadInteractAltButton;
+    [SerializeField] private Button gamepadPauseButton;
+    [SerializeField] private Transform pressToRebindKeyTransform; 
+
     private Action onCloseButtonAction;
 
-    // Initialize the singleton instance
+
+
+
+
+
+
     private void Awake()
     {
         Instance = this;
 
-        // Assign button click listeners
-        soundEffectsButton.onClick.AddListener(() => {
+        soundEffectsButton.onClick.AddListener(() => 
+        {
             SoundManager.Instance.ChangeVolume();
             UpdateVisual();
         });
-        musicButton.onClick.AddListener(() => {
+        
+        musicButton.onClick.AddListener(() =>
+        {
             MusicManager.Instance.ChangeVolume();
             UpdateVisual();
         });
-        closeButton.onClick.AddListener(() => {
+
+        closeButton.onClick.AddListener(() =>
+        {
             Hide();
             onCloseButtonAction();
         });
 
-        // Rebind buttons for keyboard and gamepad controls
-        moveUpButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Move_Up); });
-        moveDownButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Move_Down); });
-        moveLeftButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Move_Left); });
-        moveRightButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Move_Right); });
-        interactButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Interact); });
-        interactAlternateButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.InteractAlternate); });
-        pauseButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Pause); });
-        gamepadInteractButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Gamepad_Interact); });
-        gamepadInteractAlternateButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Gamepad_InteractAlternate); });
-        gamepadPauseButton.onClick.AddListener(() => { RebindBinding(GameInput.Binding.Gamepad_Pause); });
+        moveUpWASDButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Move_Up_WASD);});
+        moveDownWASDButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Move_Down_WASD);});
+        moveLeftWASDButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Move_Left_WASD);});
+        moveRightWASDButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Move_Right_WASD);});
+        interactWASDButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Interact_WASD);});
+        interactAltWASDButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Interact_Alt_WASD);});
+        pauseButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Pause);});
+
+        moveUpArrowsButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Move_Up_Arrows);});
+        moveDownArrowsButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Move_Down_Arrows);});
+        moveLeftArrowsButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Move_Left_Arrows);});
+        moveRightArrowsButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Move_Right_Arrows);});
+        interactArrowsButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Interact_Arrows);});
+        interactAltArrowsButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Interact_Alt_Arrows);});
+        pauseArrowsButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Pause_Alt_Arrows);});
+
+        gamepadInteractButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Gamepad_Interact);});
+        gamepadInteractAltButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Gamepad_Interact_Alternate);});
+        gamepadPauseButton.onClick.AddListener(() => {RebindBinding(GameInput.Binding.Gamepad_Pause);});
+
+
     }
 
-    // Subscribe to events when the game is unpaused
     private void Start()
     {
-        KitchenGameManager.Instance.OnGameUnpaused += KitchenGameManager_OnGameUnpaused;
+        GameManager_.Instance.OnGameUnpaused += GameManager_OnGameUnpaused;
 
-        // Update UI visuals, hide rebind key instructions, and hide the options menu
-        UpdateVisual();
-        HidePressToRebindKey();
+        UpdateVisual();    
         Hide();
+        HidePressToRebindKey();
     }
 
-    // Event handler when the game is unpaused
-    private void KitchenGameManager_OnGameUnpaused(object sender, System.EventArgs e)
+    private void GameManager_OnGameUnpaused(object sender, EventArgs e)
     {
         Hide();
     }
 
-    // Update UI visuals based on current settings
     private void UpdateVisual()
     {
-        soundEffectsText.text = "Sound Effects: " + Mathf.Round(SoundManager.Instance.GetVolume() * 10f);
-        musicText.text = "Music: " + Mathf.Round(MusicManager.Instance.GetVolume() * 10f);
+        soundEffectsText.text = "Sound effects: " + Mathf.Round(SoundManager.Instance.GetVolume() * 10f).ToString();
+        musicText.text = "Music: " + Mathf.Round(MusicManager.Instance.GetVolume() * 10f).ToString();
 
-        moveUpText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Up);
-        moveDownText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Down);
-        moveLeftText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left);
-        moveRightText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right);
-        interactText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
-        interactAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.InteractAlternate);
+        moveUpText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Up_WASD);
+        moveDownText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Down_WASD);
+        moveLeftText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left_WASD);
+        moveRightText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right_WASD);
+        interactText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact_WASD);
+        interactAltText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact_Alt_WASD);
         pauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
+
+        moveUpArrowsText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Up_Arrows);
+        moveDownArrowsText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Down_Arrows);
+        moveLeftArrowsText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left_Arrows);
+        moveRightArrowsText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right_Arrows);
+        interactArrowsText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact_Arrows);
+        interactAltArrowsText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact_Alt_Arrows);
+        pauseArrowsText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause_Alt_Arrows);
+
         gamepadInteractText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact);
-        gamepadInteractAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_InteractAlternate);
+        gamepadInteractAltText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact_Alternate);
         gamepadPauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Pause);
+
     }
 
-    // Show the options menu with a specified callback action
     public void Show(Action onCloseButtonAction)
     {
         this.onCloseButtonAction = onCloseButtonAction;
-
-        // Activate the options menu and focus on the sound effects button
         gameObject.SetActive(true);
+
         soundEffectsButton.Select();
     }
 
-    // Hide the options menu
-    private void Hide()
+    public void Hide()
     {
         gameObject.SetActive(false);
     }
 
-    // Show the "Press to Rebind Key" UI element
     private void ShowPressToRebindKey()
     {
         pressToRebindKeyTransform.gameObject.SetActive(true);
     }
 
-    // Hide the "Press to Rebind Key" UI element
     private void HidePressToRebindKey()
     {
         pressToRebindKeyTransform.gameObject.SetActive(false);
     }
 
-    // Rebind a specified input binding
     private void RebindBinding(GameInput.Binding binding)
     {
-        // Show the "Press to Rebind Key" UI element, rebind the key, and hide the UI element when done
         ShowPressToRebindKey();
-        GameInput.Instance.RebindBinding(binding, () => {
+        GameInput.Instance.RebindBinding(binding, () => 
+        {
             HidePressToRebindKey();
             UpdateVisual();
         });

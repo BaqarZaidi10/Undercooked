@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -18,56 +19,49 @@ public class TutorialUI : MonoBehaviour
 
     private void Start()
     {
-        // Subscribe to events
         GameInput.Instance.OnBindingRebind += GameInput_OnBindingRebind;
-        KitchenGameManager.Instance.OnStateChanged += KitchenGameManager_OnStateChanged;
+        GameManager_.Instance.OnStateChanged += GameManager_OnStateChanged;
 
-        // Update UI visuals
         UpdateVisual();
 
-        // Show the tutorial UI
         Show();
     }
 
-    private void KitchenGameManager_OnStateChanged(object sender, System.EventArgs e)
+    private void GameManager_OnStateChanged(object sender, EventArgs e)
     {
-        // Hide the tutorial UI during the countdown to start
-        if (KitchenGameManager.Instance.IsCountdownToStartActive())
+        if(GameManager_.Instance.IsCountdownToStartActive())
         {
             Hide();
         }
     }
 
-    private void GameInput_OnBindingRebind(object sender, System.EventArgs e)
+    private void GameInput_OnBindingRebind(object sender, EventArgs e)
     {
-        // Update UI visuals when input bindings are rebound
         UpdateVisual();
     }
 
     private void UpdateVisual()
     {
-        // Update UI text with the current input bindings
-        keyMoveUpText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Up);
-        keyMoveDownText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Down);
-        keyMoveLeftText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left);
-        keyMoveRightText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right);
-        keyInteractText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
-        keyInteractAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.InteractAlternate);
+        keyMoveUpText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Up_WASD);
+        keyMoveDownText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Down_WASD);
+        keyMoveLeftText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left_WASD);
+        keyMoveRightText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right_WASD);
+        keyInteractText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact_WASD);
+        keyInteractAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact_Alt_WASD);
         keyPauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
         keyGamepadInteractText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact);
-        keyGamepadInteractAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_InteractAlternate);
+        keyGamepadInteractAlternateText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact_Alternate);
         keyGamepadPauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Pause);
     }
 
     private void Show()
     {
-        // Activate the tutorial UI
         gameObject.SetActive(true);
     }
 
     private void Hide()
     {
-        // Deactivate the tutorial UI
         gameObject.SetActive(false);
     }
+
 }

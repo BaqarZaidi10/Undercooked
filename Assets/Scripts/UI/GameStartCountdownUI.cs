@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using TMPro;
 using UnityEngine;
 
 public class GameStartCountdownUI : MonoBehaviour
 {
-
-    private const string NUMBER_POPUP = "NumberPopup";
+    private const string NUMBER_POPUP = "NumberPopUp";
 
     [SerializeField] private TextMeshProUGUI countdownText;
 
@@ -15,23 +13,44 @@ public class GameStartCountdownUI : MonoBehaviour
 
     private void Awake()
     {
-        // Get the Animator component attached to the GameObject
         animator = GetComponent<Animator>();
     }
 
     private void Start()
     {
-        // Subscribe to the game state change event
-        KitchenGameManager.Instance.OnStateChanged += KitchenGameManager_OnStateChanged;
-
-        // Hide the countdown UI initially
+        GameManager_.Instance.OnStateChanged += GameManager_OnStateChanged;
         Hide();
     }
 
-    private void KitchenGameManager_OnStateChanged(object sender, System.EventArgs e)
+    private void OnDestroy()
     {
-        // Check if the countdown to start is active and show or hide the UI accordingly
-        if (KitchenGameManager.Instance.IsCountdownToStartActive())
+        GameManager_.Instance.OnStateChanged -= GameManager_OnStateChanged;
+    }
+
+    private void Update()
+    {
+        int countdownNumber;
+        if(GameManager_.Instance.IsCountdownToStartActive())
+        {
+            countdownNumber = Mathf.CeilToInt(GameManager_.Instance.GetCountdownToStartTimer());
+        }
+        else
+        {
+            countdownNumber = Mathf.CeilToInt(GameManager_.Instance.GetCountdownToRestartTimer());
+        }
+        countdownText.text = countdownNumber.ToString();
+
+        if(previousCountdownNumber != countdownNumber)
+        {
+            previousCountdownNumber = countdownNumber;
+            animator.SetTrigger(NUMBER_POPUP);
+            SoundManager.Instance.PlayCountdownSound();
+        }
+    }
+
+    private void GameManager_OnStateChanged(object sender, EventArgs e)
+    {
+        if(GameManager_.Instance.IsCountdownToStartActive() || GameManager_.Instance.IsCountdownToRestartActive())
         {
             Show();
         }
@@ -41,30 +60,13 @@ public class GameStartCountdownUI : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        // Get the countdown number and update the UI text
-        int countdownNumber = Mathf.CeilToInt(KitchenGameManager.Instance.GetCountdownToStartTimer());
-        countdownText.text = countdownNumber.ToString();
-
-        // Check if the countdown number has changed, trigger animation, and play sound
-        if (previousCountdownNumber != countdownNumber)
-        {
-            previousCountdownNumber = countdownNumber;
-            animator.SetTrigger(NUMBER_POPUP);
-            SoundManager.Instance.PlayCountdownSound();
-        }
-    }
-
     private void Show()
     {
-        // Set the GameObject to active to show the UI
         gameObject.SetActive(true);
     }
 
     private void Hide()
     {
-        // Set the GameObject to inactive to hide the UI
         gameObject.SetActive(false);
     }
 }

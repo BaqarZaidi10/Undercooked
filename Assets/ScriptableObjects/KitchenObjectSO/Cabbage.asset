@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dc21a10037aee741b16be775dd5891f, type: 3}
+  m_Script: {fileID: 11500000, guid: 04e626dfd7c188c448b2bc68e6afbf0d, type: 3}
   m_Name: Cabbage
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1778288183289012027, guid: 243b0a9cc071cec4cae5f801fbb473e7, type: 3}
+  prefab: {fileID: 4559660612615320886, guid: 935867e90a1a35e40b9d8e02000ebfe6, type: 3}
   sprite: {fileID: 21300000, guid: e1c23b5aded59d84da30738d3267a6c9, type: 3}
   objectName: Cabbage

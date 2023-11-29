@@ -5,66 +5,56 @@ using UnityEngine;
 
 public class PlatesCounter : BaseCounter
 {
-
-    // Event triggered when a plate is spawned
     public event EventHandler OnPlateSpawned;
-
-    // Event triggered when a plate is removed
     public event EventHandler OnPlateRemoved;
 
-    // The kitchen object scriptable object for plates
     [SerializeField] private KitchenObjectSO plateKitchenObjectSO;
-
-    // Timer variables for spawning plates
-    private float spawnPlateTimer;
+    private float spawnPlateTimer = 4f;
     private float spawnPlateTimerMax = 4f;
-
-    // Counters for the plates spawned and the maximum allowed plates
-    private int platesSpawnedAmount;
+    private int plateSpawnedAmount;
     private int platesSpawnedAmountMax = 4;
 
-    // Called every frame
+
     private void Update()
     {
-        // Increment the spawn timer
-        spawnPlateTimer += Time.deltaTime;
-
-        // Check if it's time to spawn a plate
-        if (spawnPlateTimer > spawnPlateTimerMax)
+        if(GameManager_.Instance.IsGamePlaying())
         {
-            // Reset the timer
-            spawnPlateTimer = 0f;
-
-            // Check if the game is playing and the maximum plates haven't been reached
-            if (KitchenGameManager.Instance.IsGamePlaying() && platesSpawnedAmount < platesSpawnedAmountMax)
+            spawnPlateTimer += Time.deltaTime;
+            if(spawnPlateTimer > spawnPlateTimerMax)
             {
-                // Increment the spawned plates counter
-                platesSpawnedAmount++;
+                spawnPlateTimer = 0f;
 
-                // Trigger the OnPlateSpawned event
-                OnPlateSpawned?.Invoke(this, EventArgs.Empty);
+                if(plateSpawnedAmount < platesSpawnedAmountMax)
+                {
+                    plateSpawnedAmount ++;
+
+                    OnPlateSpawned?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
+        
     }
 
-    // Interaction method when a player interacts with the counter
-    public override void Interact(Player player)
+    private void GameManager_OnGameStart(object sender, EventArgs e)
     {
-        // Check if the player is empty-handed
-        if (!player.HasKitchenObject())
-        {
-            // Check if there is at least one plate available
-            if (platesSpawnedAmount > 0)
-            {
-                // Decrement the spawned plates counter
-                platesSpawnedAmount--;
+        spawnPlateTimer = 4f;
+    }
 
-                // Spawn a plate in the player's hands
+    public override void Interact(PlayerController player)
+    {
+        if(!player.HasKitchenObject())
+        {
+            //player is empty handed
+            if(plateSpawnedAmount > 0)
+            {
+                //there is at least one plate here
+                plateSpawnedAmount--;
+
                 KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player);
 
-                // Trigger the OnPlateRemoved event
                 OnPlateRemoved?.Invoke(this, EventArgs.Empty);
             }
         }
     }
+
 }

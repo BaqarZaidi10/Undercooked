@@ -2,194 +2,303 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class GameInput : MonoBehaviour
 {
+    public static GameInput Instance {get; private set;}
 
-    // PlayerPrefs key for storing and retrieving input bindings
     private const string PLAYER_PREFS_BINDINGS = "InputBindings";
 
-    // Singleton pattern to ensure only one instance of GameInput exists
-    public static GameInput Instance { get; private set; }
+    public event EventHandler<OnInteractActionEventArgs> OnInteractAction;
+    public class OnInteractActionEventArgs: EventArgs
+    {
+        public InputAction.CallbackContext action;
+    }
 
-    // Events for different input actions
-    public event EventHandler OnInteractAction;
-    public event EventHandler OnInteractAlternateAction;
+    public event EventHandler<OnInteractAlternateActionEventArgs> OnInteractAlternateAction;
+    public class OnInteractAlternateActionEventArgs: EventArgs
+    {
+        public InputAction.CallbackContext action;
+    }
+
     public event EventHandler OnPauseAction;
     public event EventHandler OnBindingRebind;
 
-    // Enum representing different input bindings
     public enum Binding
     {
-        Move_Up,
-        Move_Down,
-        Move_Left,
-        Move_Right,
-        Interact,
-        InteractAlternate,
+        Move_Up_WASD,
+        Move_Down_WASD,
+        Move_Left_WASD,
+        Move_Right_WASD,
+        Interact_WASD,
+        Interact_Alt_WASD,
+        Move_Up_Arrows,
+        Move_Down_Arrows,
+        Move_Left_Arrows,
+        Move_Right_Arrows,
+        Interact_Arrows,
+        Interact_Alt_Arrows,
         Pause,
+        Pause_Alt_Arrows,
         Gamepad_Interact,
-        Gamepad_InteractAlternate,
+        Gamepad_Interact_Alternate,
         Gamepad_Pause
+
     }
 
-    // Input actions for player controls
-    private PlayerInputActions playerInputActions;
-
-    // Called when the script instance is being loaded
-    private void Awake()
+    public enum ControlSchemes
     {
-        Instance = this; // Set the singleton instance
+        Keyboard_WASD,
+        Keyboard_Arrows,
+        Gamepad
+    }
 
-        playerInputActions = new PlayerInputActions(); // Initialize the player input actions
+    private static PlayerInputActions defaultPlayerInputActions;
 
-        // Load saved input bindings from PlayerPrefs if available
-        if (PlayerPrefs.HasKey(PLAYER_PREFS_BINDINGS))
+    private void Awake() 
+    {
+        Instance = this;
+
+        defaultPlayerInputActions = new PlayerInputActions();
+
+        //Load saved binding preferences
+        if(PlayerPrefs.HasKey(PLAYER_PREFS_BINDINGS))
+        {
+            defaultPlayerInputActions.LoadBindingOverridesFromJson(PlayerPrefs.GetString(PLAYER_PREFS_BINDINGS));
+        }
+    }
+
+    public void InitializePlayerInputActions(PlayerInputActions playerInputActions)
+    {       
+        LoadPlayerPrefs(playerInputActions);
+        SubscribeToInputActions(playerInputActions);
+    }
+
+    private void LoadPlayerPrefs (PlayerInputActions playerInputActions)
+    {
+        if(PlayerPrefs.HasKey(PLAYER_PREFS_BINDINGS))
         {
             playerInputActions.LoadBindingOverridesFromJson(PlayerPrefs.GetString(PLAYER_PREFS_BINDINGS));
         }
-
-        playerInputActions.Player.Enable(); // Enable player input actions
-
-        // Subscribe to input action events
-        playerInputActions.Player.Interact.performed += Interact_performed;
-        playerInputActions.Player.InteractAlternate.performed += InteractAlternate_performed;
-        playerInputActions.Player.Pause.performed += Pause_performed;
     }
 
-    // Called when the script is being destroyed
-    private void OnDestroy()
+    private void SubscribeToInputActions(PlayerInputActions playerInputActions)
     {
-        // Unsubscribe from input action events
-        playerInputActions.Player.Interact.performed -= Interact_performed;
-        playerInputActions.Player.InteractAlternate.performed -= InteractAlternate_performed;
-        playerInputActions.Player.Pause.performed -= Pause_performed;
+        playerInputActions.Player.Enable();      
 
-        // Dispose of player input actions
+        playerInputActions.Player.Interact.performed += Interact_Performed;
+        playerInputActions.Player.InteractAlternate.performed += InteractAlternate_Performed;
+        playerInputActions.Player.Pause.performed += Pause_Performed;
+    } 
+
+    public void DestroyPlayerInputActions(PlayerInputActions playerInputActions)
+    {
+        UnsubscribeToInputActions(playerInputActions);
+    }
+
+    private void UnsubscribeToInputActions(PlayerInputActions playerInputActions)
+    {
+        playerInputActions.Player.Interact.performed -= Interact_Performed;
+        playerInputActions.Player.InteractAlternate.performed -= InteractAlternate_Performed;
+        playerInputActions.Player.Pause.performed -= Pause_Performed;
+
         playerInputActions.Dispose();
     }
 
-    // Event handler for pause input action
-    private void Pause_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void Pause_Performed(InputAction.CallbackContext obj)
     {
         OnPauseAction?.Invoke(this, EventArgs.Empty);
     }
 
-    // Event handler for alternate interact input action
-    private void InteractAlternate_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void InteractAlternate_Performed(InputAction.CallbackContext action)
     {
-        OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
+        OnInteractAlternateAction?.Invoke(this, new OnInteractAlternateActionEventArgs
+        {
+            action = action
+        });
     }
 
-    // Event handler for primary interact input action
-    private void Interact_performed(UnityEngine.InputSystem.InputAction.CallbackContext obj)
+    private void Interact_Performed(UnityEngine.InputSystem.InputAction.CallbackContext action)
     {
-        OnInteractAction?.Invoke(this, EventArgs.Empty);
+        OnInteractAction?.Invoke(this, new OnInteractActionEventArgs
+        {
+            action = action
+        });
     }
 
-    // Get normalized movement vector from player controls
-    public Vector2 GetMovementVectorNormalized()
+    public Vector2 GetMovementVectorNormalized(PlayerInputActions playerInputActions)
     {
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
-        inputVector = inputVector.normalized;
-        return inputVector;
+        Vector2 inputVector2 = playerInputActions.Player.Move.ReadValue<Vector2>();
+        inputVector2 = inputVector2.normalized;
+
+        return inputVector2;
     }
 
-    // Get the display string for a specific input binding
+    public bool isActionMine(InputAction.CallbackContext obj, PlayerInputActions playerInputActions)
+    {    
+        return (playerInputActions.Contains(obj.action));
+    }
+ 
+    public PlayerInputActions GetDefaultPlayerInputActions()
+    {
+        return defaultPlayerInputActions;
+    }
+
+#region Binding
     public string GetBindingText(Binding binding)
     {
-        switch (binding)
+        switch(binding)
         {
             default:
-            case Binding.Move_Up:
-                return playerInputActions.Player.Move.bindings[1].ToDisplayString();
-            case Binding.Move_Down:
-                return playerInputActions.Player.Move.bindings[2].ToDisplayString();
-            case Binding.Move_Left:
-                return playerInputActions.Player.Move.bindings[3].ToDisplayString();
-            case Binding.Move_Right:
-                return playerInputActions.Player.Move.bindings[4].ToDisplayString();
-            case Binding.Interact:
-                return playerInputActions.Player.Interact.bindings[0].ToDisplayString();
-            case Binding.InteractAlternate:
-                return playerInputActions.Player.InteractAlternate.bindings[0].ToDisplayString();
+            case Binding.Interact_WASD:
+                return (defaultPlayerInputActions.Player.Interact.bindings[0].ToDisplayString());
+            case Binding.Interact_Alt_WASD:
+                return (defaultPlayerInputActions.Player.InteractAlternate.bindings[0].ToDisplayString());
             case Binding.Pause:
-                return playerInputActions.Player.Pause.bindings[0].ToDisplayString();
+                return (defaultPlayerInputActions.Player.Pause.bindings[0].ToDisplayString());
+            case Binding.Pause_Alt_Arrows:
+                return (defaultPlayerInputActions.Player.Pause.bindings[2].ToDisplayString());
+            case Binding.Move_Up_WASD:
+                return (defaultPlayerInputActions.Player.Move.bindings[1].ToDisplayString());
+            case Binding.Move_Down_WASD:
+                return (defaultPlayerInputActions.Player.Move.bindings[2].ToDisplayString());
+            case Binding.Move_Left_WASD:
+                return (defaultPlayerInputActions.Player.Move.bindings[3].ToDisplayString());
+            case Binding.Move_Right_WASD:
+                return (defaultPlayerInputActions.Player.Move.bindings[4].ToDisplayString());
+
+            case Binding.Interact_Arrows:
+                return (defaultPlayerInputActions.Player.Interact.bindings[1].ToDisplayString());
+            case Binding.Interact_Alt_Arrows:
+                return (defaultPlayerInputActions.Player.InteractAlternate.bindings[1].ToDisplayString());
+            case Binding.Move_Up_Arrows:
+                return (defaultPlayerInputActions.Player.Move.bindings[6].ToDisplayString());
+            case Binding.Move_Down_Arrows:
+                return defaultPlayerInputActions.Player.Move.bindings[7].ToDisplayString();
+            case Binding.Move_Left_Arrows:
+                return defaultPlayerInputActions.Player.Move.bindings[8].ToDisplayString();
+            case Binding.Move_Right_Arrows:
+                return defaultPlayerInputActions.Player.Move.bindings[9].ToDisplayString();
+
             case Binding.Gamepad_Interact:
-                return playerInputActions.Player.Interact.bindings[1].ToDisplayString();
-            case Binding.Gamepad_InteractAlternate:
-                return playerInputActions.Player.InteractAlternate.bindings[1].ToDisplayString();
+                return defaultPlayerInputActions.Player.Interact.bindings[2].ToDisplayString();
+            case Binding.Gamepad_Interact_Alternate:
+                return defaultPlayerInputActions.Player.InteractAlternate.bindings[2].ToDisplayString();
             case Binding.Gamepad_Pause:
-                return playerInputActions.Player.Pause.bindings[1].ToDisplayString();
+                return defaultPlayerInputActions.Player.Pause.bindings[1].ToDisplayString();
         }
     }
 
-    // Rebind a specific input binding and invoke the provided callback on completion
     public void RebindBinding(Binding binding, Action onActionRebound)
     {
-        playerInputActions.Player.Disable(); // Disable player input actions during rebinding
+        defaultPlayerInputActions.Player.Disable();
 
         InputAction inputAction;
         int bindingIndex;
-
-        // Determine the input action and binding index based on the specified binding
         switch (binding)
         {
             default:
-            case Binding.Move_Up:
-                inputAction = playerInputActions.Player.Move;
+            case Binding.Move_Up_WASD:
+                inputAction = defaultPlayerInputActions.Player.Move;
                 bindingIndex = 1;
                 break;
-            case Binding.Move_Down:
-                inputAction = playerInputActions.Player.Move;
+            case Binding.Move_Down_WASD:
+                inputAction = defaultPlayerInputActions.Player.Move;
                 bindingIndex = 2;
                 break;
-            case Binding.Move_Left:
-                inputAction = playerInputActions.Player.Move;
+            case Binding.Move_Left_WASD:
+                inputAction = defaultPlayerInputActions.Player.Move;
                 bindingIndex = 3;
                 break;
-            case Binding.Move_Right:
-                inputAction = playerInputActions.Player.Move;
+            case Binding.Move_Right_WASD:
+                inputAction = defaultPlayerInputActions.Player.Move;
                 bindingIndex = 4;
                 break;
-            case Binding.Interact:
-                inputAction = playerInputActions.Player.Interact;
+            case Binding.Interact_WASD:
+                inputAction = defaultPlayerInputActions.Player.Interact;
                 bindingIndex = 0;
                 break;
-            case Binding.InteractAlternate:
-                inputAction = playerInputActions.Player.InteractAlternate;
+            case Binding.Interact_Alt_WASD:
+                inputAction = defaultPlayerInputActions.Player.InteractAlternate;
                 bindingIndex = 0;
                 break;
             case Binding.Pause:
-                inputAction = playerInputActions.Player.Pause;
+                inputAction = defaultPlayerInputActions.Player.Pause;
                 bindingIndex = 0;
                 break;
-            case Binding.Gamepad_Interact:
-                inputAction = playerInputActions.Player.Interact;
+            case Binding.Pause_Alt_Arrows:
+                inputAction = defaultPlayerInputActions.Player.Pause;
+                bindingIndex = 2;
+                break;
+            case Binding.Move_Up_Arrows:
+                inputAction = defaultPlayerInputActions.Player.Move;
+                bindingIndex = 6;
+                break;
+            case Binding.Move_Down_Arrows:
+                inputAction = defaultPlayerInputActions.Player.Move;
+                bindingIndex = 7;
+                break;
+            case Binding.Move_Left_Arrows:
+                inputAction = defaultPlayerInputActions.Player.Move;
+                bindingIndex = 8;
+                break;
+            case Binding.Move_Right_Arrows:
+                inputAction = defaultPlayerInputActions.Player.Move;
+                bindingIndex = 9;
+                break;
+            case Binding.Interact_Arrows:
+                inputAction = defaultPlayerInputActions.Player.Interact;
                 bindingIndex = 1;
                 break;
-            case Binding.Gamepad_InteractAlternate:
-                inputAction = playerInputActions.Player.InteractAlternate;
+            case Binding.Interact_Alt_Arrows:
+                inputAction = defaultPlayerInputActions.Player.InteractAlternate;
                 bindingIndex = 1;
+                break;
+            case Binding.Gamepad_Interact:
+                inputAction = defaultPlayerInputActions.Player.Interact;
+                bindingIndex = 2;
+                break;
+            case Binding.Gamepad_Interact_Alternate:
+                inputAction = defaultPlayerInputActions.Player.InteractAlternate;
+                bindingIndex = 2;
                 break;
             case Binding.Gamepad_Pause:
-                inputAction = playerInputActions.Player.Pause;
+                inputAction = defaultPlayerInputActions.Player.Pause;
                 bindingIndex = 1;
                 break;
         }
-
-        // Start the interactive rebinding process
         inputAction.PerformInteractiveRebinding(bindingIndex)
-            .OnComplete(callback => {
+            .OnComplete(callback =>
+            {
                 callback.Dispose();
-                playerInputActions.Player.Enable(); // Re-enable player input actions
+                defaultPlayerInputActions.Player.Enable();
+
                 onActionRebound();
 
-                // Save the updated input bindings to PlayerPrefs
-                PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, playerInputActions.SaveBindingOverridesAsJson());
+                PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, defaultPlayerInputActions.SaveBindingOverridesAsJson());
                 PlayerPrefs.Save();
 
-                OnBindingRebind?.Invoke(this, EventArgs.Empty); // Notify subscribers of the binding rebind
+                ReloadBindingsOnRebind();
+
+                OnBindingRebind?.Invoke(this, EventArgs.Empty);
+                
             })
             .Start();
     }
+        
+    private void ReloadBindingsOnRebind()
+    {
+        LoadPlayerPrefs(defaultPlayerInputActions);
+
+        foreach (ControlSchemeParameters controlSchemeParameters in GameControlsManager.Instance.GetAllControlSchemeParameters())
+        {
+            if (controlSchemeParameters.playerInputActions != null)
+            {
+                LoadPlayerPrefs(controlSchemeParameters.playerInputActions);
+            }
+        }
+    }
+
+#endregion
+
 }

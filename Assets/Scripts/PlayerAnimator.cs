@@ -4,27 +4,19 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-
-    // Animator parameter name for walking state
     private const string IS_WALKING = "IsWalking";
-
-    // Reference to the Player script
-    [SerializeField] private Player player;
-
-    // Reference to the Animator component
     private Animator animator;
 
-    // Awake method for initialization
-    private void Awake()
+    [SerializeField] private PlayerController player;
+
+    private void Awake() 
     {
-        // Get the Animator component on the same GameObject
         animator = GetComponent<Animator>();
+        animator.SetBool(IS_WALKING, player.IsWalking());
     }
 
-    // Update method to check and update the walking state in the Animator
-    private void Update()
+    private void Update() 
     {
-        // Set the "IsWalking" parameter in the Animator based on the player's walking state
         animator.SetBool(IS_WALKING, player.IsWalking());
     }
 }

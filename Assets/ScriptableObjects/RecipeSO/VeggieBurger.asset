@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0bc8e78076f7bb47894253fa280c634, type: 3}
+  m_Script: {fileID: 11500000, guid: 6670a6fdb987f3e4aa6cf5b6e0a2639c, type: 3}
   m_Name: VeggieBurger
   m_EditorClassIdentifier: 
   kitchenObjectSOList:
-  - {fileID: 11400000, guid: dc7206a372e873e44945cb9155f8c1ba, type: 2}
-  - {fileID: 11400000, guid: 8119098929e2ba14baf2c6ad491cf05e, type: 2}
-  - {fileID: 11400000, guid: e4036e8164a2bbc418fc7feb3e7ebabd, type: 2}
-  - {fileID: 11400000, guid: caea38706d21dfa40a744b22f2f86434, type: 2}
-  - {fileID: 11400000, guid: 455ac2b492a3c3442bf926b427bb40d2, type: 2}
+  - {fileID: 11400000, guid: 079d6dd596f6f564492870a0fb133d65, type: 2}
+  - {fileID: 11400000, guid: bee0371208acf7348a95c849b21d2c4e, type: 2}
+  - {fileID: 11400000, guid: c90cba9f783a4494fa706905a6109f03, type: 2}
+  - {fileID: 11400000, guid: ddd1f6a20657b9d45a3e04c6b20011fa, type: 2}
   recipeName: VeggieBurger
+  recipeSellValue: 17

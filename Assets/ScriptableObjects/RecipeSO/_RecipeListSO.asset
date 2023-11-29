@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e819837f7f6db84dac7a1624f76423a, type: 3}
+  m_Script: {fileID: 11500000, guid: 550921021a2ee1443ab44595dc5c4c26, type: 3}
   m_Name: _RecipeListSO
   m_EditorClassIdentifier: 
   recipeSOList:
-  - {fileID: 11400000, guid: 772dda55c4cfb504c97444e850689fba, type: 2}
-  - {fileID: 11400000, guid: abcb5e8b7f43fec41a83760426dc0960, type: 2}
-  - {fileID: 11400000, guid: 38a6c544b7bd6084d90fa496f5245e87, type: 2}
-  - {fileID: 11400000, guid: 22d7aca7b2b25fb459073ee4fc1260b4, type: 2}
-  - {fileID: 11400000, guid: 3b8662c1ed6386340a8d5d80019f0ac5, type: 2}
-  - {fileID: 11400000, guid: a634bc9e2fa3d8e48816402765b9f27b, type: 2}
-  - {fileID: 11400000, guid: ff3d4b070511c384799b89b7cdee37ff, type: 2}
+  - {fileID: 11400000, guid: 0462aae9d9abdde44bc878e64728512a, type: 2}
+  - {fileID: 11400000, guid: 1a02ff46a9110fe4ca011f826c9e48bd, type: 2}
+  - {fileID: 11400000, guid: 162af3502d856664491cac2052233a1f, type: 2}
+  - {fileID: 11400000, guid: e2750ac85f670b64eaa541c9a8737e76, type: 2}
+  - {fileID: 11400000, guid: a17200b00412f5547834ace5fac6ff9b, type: 2}
