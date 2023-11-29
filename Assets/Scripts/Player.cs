@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour, IKitchenObjectParent
 {
@@ -17,9 +18,15 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     // Serialized fields for player parameters and references
     [SerializeField] private float moveSpeed = 7f;
-    [SerializeField] private GameInput gameInput;
+    //[SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask countersLayerMask = 1 << 6;
     [SerializeField] private Transform kitchenObjectHoldPoint;
+
+    private CharacterController controller;
+    private Vector2 inputVector;
+    private bool interactPressed;
+    private bool altInteractPressed;
+    private bool pausePressed;
 
     // Private variables for internal state
     private bool isWalking;
@@ -27,18 +34,72 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
 
+    // Events for different input actions
+    public event EventHandler OnInteractAction;
+    public event EventHandler OnInteractAlternateAction;
+    public event EventHandler OnPauseAction;
+    public event EventHandler OnBindingRebind;    
+
+    // Input actions for player controls
+    private PlayerInputActions playerInputActions;
+
+    // Called when the script instance is being loaded
+    private void OnEnable()
+    {
+        playerInputActions = new PlayerInputActions(); // Initialize the player input actions
+        
+        // Enable player input actions
+        playerInputActions.Player.Enable(); 
+
+        // Subscribe to input action events
+        playerInputActions.Player.Interact.performed += Interact_performed;
+        playerInputActions.Player.InteractAlternate.performed += InteractAlternate_performed;
+        playerInputActions.Player.Pause.performed += Pause_performed;
+    }
+
+    // Called when the script is being destroyed
+    private void OnDisable()
+    {
+        // Unsubscribe from input action events
+        playerInputActions.Player.Interact.performed -= Interact_performed;
+        playerInputActions.Player.InteractAlternate.performed -= InteractAlternate_performed;
+        playerInputActions.Player.Pause.performed -= Pause_performed;
+
+        // Dispose of player input actions
+        playerInputActions.Dispose();
+    }
+
     private void Awake()
     {
         kitchenObjectHoldPoint = GetComponentInChildren<KitchenObjectHoldPoint>().transform;
-        gameInput = GameObject.Find("GameInput").GetComponent<GameInput>();
+        //gameInput = GameObject.Find("GameInput").GetComponent<GameInput>();
+        controller = GetComponent<CharacterController>();
+    }
+
+    // Event handler for pause input action
+    private void Pause_performed(InputAction.CallbackContext obj)
+    {
+        OnPauseAction?.Invoke(this, EventArgs.Empty);
+    }
+
+    // Event handler for alternate interact input action
+    private void InteractAlternate_performed(InputAction.CallbackContext obj)
+    {
+        OnInteractAlternateAction?.Invoke(this, EventArgs.Empty);
+    }
+
+    // Event handler for primary interact input action
+    private void Interact_performed(InputAction.CallbackContext obj)
+    {
+        OnInteractAction?.Invoke(this, EventArgs.Empty);
     }
 
     // Start method for initialization
     private void Start()
     {
         // Subscribe to input events
-        gameInput.OnInteractAction += GameInput_OnInteractAction;
-        gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
+        OnInteractAction += GameInput_OnInteractAction;
+        OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
     }
 
     // Input event handlers
@@ -80,7 +141,6 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     private void HandleInteractions()
     {
         // Get normalized movement vector
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
         // Update the last interact direction
@@ -111,12 +171,22 @@ public class Player : MonoBehaviour, IKitchenObjectParent
             SetSelectedCounter(null);
         }
     }
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        inputVector = context.ReadValue<Vector2>();
+        inputVector = inputVector.normalized;
+    }
+    
+    public bool OnInteract(InputAction.CallbackContext context)
+    {
+        interactPressed = context.action.triggered;
+        return interactPressed;
+    }
 
     // Method to handle player movement
     private void HandleMovement()
     {
         // Get normalized movement vector
-        Vector2 inputVector = gameInput.GetMovementVectorNormalized();
         Vector3 moveDir = new Vector3(inputVector.x, 0f, inputVector.y);
 
         // Check for obstacles and adjust movement direction
@@ -151,7 +221,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         // Move the player
         if (canMove)
         {
-            transform.position += moveDir * moveDistance;
+            controller.Move(moveDir * moveDistance);
         }
 
         // Update walking state

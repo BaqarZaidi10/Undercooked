@@ -17,6 +17,8 @@ public class GameInput : MonoBehaviour
     public event EventHandler OnPauseAction;
     public event EventHandler OnBindingRebind;
 
+    Vector2 inputVector;
+
     // Enum representing different input bindings
     public enum Binding
     {
@@ -49,6 +51,7 @@ public class GameInput : MonoBehaviour
         }
 
         playerInputActions.Player.Enable(); // Enable player input actions
+        //playerInputActions.controlSchemes
 
         // Subscribe to input action events
         playerInputActions.Player.Interact.performed += Interact_performed;
@@ -89,7 +92,7 @@ public class GameInput : MonoBehaviour
     // Get normalized movement vector from player controls
     public Vector2 GetMovementVectorNormalized()
     {
-        Vector2 inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
+        inputVector = playerInputActions.Player.Move.ReadValue<Vector2>();
         inputVector = inputVector.normalized;
         return inputVector;
     }
