@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c1b9d05eef7cd94a9f0a6c230c7aefb, type: 3}
+  m_Name: Onion-OnionSlices
+  m_EditorClassIdentifier: 
+  input: {fileID: 11400000, guid: 0da6c95769db5c740a7bcb6eeec92209, type: 2}
+  output: {fileID: 11400000, guid: 2db7cbb740c772241a656feb936fc2a8, type: 2}
+  cuttingProgressMax: 3
