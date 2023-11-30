@@ -16,6 +16,8 @@ public class DeliveryResultUI : MonoBehaviour
     [SerializeField] private Sprite successSprite; // Sprite for success icon
     [SerializeField] private Sprite failSprite; // Sprite for fail icon
 
+    public static event Action<bool> delivered;
+
     private Animator animator; // Reference to the animator component
 
     private void Awake()
@@ -42,6 +44,7 @@ public class DeliveryResultUI : MonoBehaviour
         backgroundImage.color = failColor; // Set background color to fail color
         iconImage.sprite = failSprite; // Set icon sprite to fail sprite
         messageText.text = "DELIVERY\nFAILED"; // Set message text
+        delivered?.Invoke(false); //Trigger event so that player loses points.
     }
 
     // Event handler for recipe success
@@ -53,5 +56,6 @@ public class DeliveryResultUI : MonoBehaviour
         backgroundImage.color = successColor; // Set background color to success color
         iconImage.sprite = successSprite; // Set icon sprite to success sprite
         messageText.text = "DELIVERY\nSUCCESS"; // Set message text
+        delivered?.Invoke(true); //Trigger event so that player gains points.
     }
 }

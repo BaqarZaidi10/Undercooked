@@ -20,8 +20,6 @@ public class ContainerCounter : BaseCounter
         else
         {
             //player is carrying something
-
-
         }
     }
 
