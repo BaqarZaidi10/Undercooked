@@ -36,21 +36,33 @@ public class DeliveryManager : MonoBehaviour
     {
         if (GameManager_.Instance.IsGamePlaying())
         {
-            spawnRecipeTimer -= Time.deltaTime;
-            if (spawnRecipeTimer <= 0f)
-            {
-                spawnRecipeTimer = spawnRecipeTimerMax;
 
-                if (waitingRecipeSOList.Count < waitingRecipesMax)
-                {
-                    // Spawn recipe
-                    RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
-                    waitingRecipeSOList.Add(waitingRecipeSO);
+            //spawnRecipeTimer -= Time.deltaTime;
+            //if (spawnRecipeTimer <= 0f)
+            //{
+            //    spawnRecipeTimer = spawnRecipeTimerMax;
 
-                    OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
-                }
-            }
+            //    if (waitingRecipeSOList.Count < waitingRecipesMax)
+            //    {
+            //        // Spawn recipe
+            //        RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
+            //        waitingRecipeSOList.Add(waitingRecipeSO);
+
+            //        OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+            //    }
+            //}
         }
+    }
+
+    public void NewRecipe()
+    {
+        if (waitingRecipeSOList.Count > 0)
+            waitingRecipeSOList.RemoveAt(0);
+
+        RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
+        waitingRecipeSOList.Add(waitingRecipeSO);
+
+        OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
     }
 
     // Method for delivering a recipe
@@ -89,7 +101,7 @@ public class DeliveryManager : MonoBehaviour
                     // Player delivered the correct recipe
                     successfulRecipesAmount++;
 
-                    waitingRecipeSOList.RemoveAt(i);
+                    //waitingRecipeSOList.RemoveAt(i);
 
                     OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
                     OnRecipeSuccessed?.Invoke(this, EventArgs.Empty);

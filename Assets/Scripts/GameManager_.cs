@@ -34,6 +34,7 @@ public class GameManager_ : MonoBehaviour
     }
 
     private State state; // Current game state
+    private int currentRound = 1;
     private float countdownToStartTimer = 3f; // Timer for the countdown to start
     private float countdownToRestartTimer; // Timer for the countdown to restart
     private float countdownToRestartTimerMax = 3f; // Maximum time for countdown to restart
@@ -88,6 +89,7 @@ public class GameManager_ : MonoBehaviour
                 if (countdownToStartTimer < 0)
                 {
                     state = State.GamePlaying;
+                    DeliveryManager.Instance.NewRecipe();
                     gamePlayingTimer = gamePlayingTimerMax;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
                 }
@@ -98,8 +100,19 @@ public class GameManager_ : MonoBehaviour
 
                 if (gamePlayingTimer < 0)
                 {
-                    state = State.GameOver;
-                    OnStateChanged?.Invoke(this, EventArgs.Empty);
+                    gamePlayingTimer = gamePlayingTimerMax;
+
+                    if (currentRound >= 3)
+                    {
+                        state = State.GameOver;
+                        OnStateChanged?.Invoke(this, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        currentRound += 1;
+                        DeliveryManager.Instance.NewRecipe();
+                        DeliveryCounter.Instance.ResetCounterSpace();
+                    }
                 }
                 break;
 
@@ -165,6 +178,11 @@ public class GameManager_ : MonoBehaviour
         OnStateChanged?.Invoke(this, EventArgs.Empty);
 
         deviceRemovedUI.OnRemovePlayer -= DeviceRemovedUI_OnRemovePlayer;
+    }
+
+    public int GetCurrentRound()
+    {
+        return currentRound;
     }
 
     // Check if the game is currently in the playing state
