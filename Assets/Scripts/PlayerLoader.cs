@@ -3,6 +3,7 @@ using System;
 
 public class PlayerLoader : MonoBehaviour
 {
+    int playersLoaded = 0;
     // Singleton instance for the PlayerLoader class
     public static PlayerLoader Instance { get; private set; }
 
@@ -58,6 +59,8 @@ public class PlayerLoader : MonoBehaviour
                     allControlSchemesParameters[i].playerInputActions,
                     allControlSchemesParameters[i].playerVisualMaterial
                 );
+                playersLoaded++;
+                playerInstance.name = $"p{playersLoaded}";
 
                 // Set the player instance in the control scheme parameters
                 allControlSchemesParameters[i].playerInstance = playerInstance;

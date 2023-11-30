@@ -77,7 +77,7 @@ public class LobbyUI : MonoBehaviour
     {
         Instance = this;
 
-        countdownNumber = 0f;
+        countdownNumber = 3f;
         numberOfPlayersReady = 0;
         players = new List<CharacterSelectionSingleUI>();
         players.Add(characterSelectionUITemplate);
@@ -196,17 +196,17 @@ public class LobbyUI : MonoBehaviour
         // Check if all players are ready
         if (numberOfPlayersReady == players.Count)
         {
-            countdownNumber += Time.deltaTime;
+            countdownNumber -= Time.deltaTime;
             lobbyCountdownUI.Show();
         }
         else
         {
             lobbyCountdownUI.Hide();
-            countdownNumber = 0f;
+            countdownNumber = 3f;
         }
 
         // Load the game scene after a countdown
-        if (countdownNumber >= 2.5f)
+        if (countdownNumber <= 0.5f)
         {
             Loader.Load(Loader.Scene.GameScene);
         }

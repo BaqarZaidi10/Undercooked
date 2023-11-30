@@ -113,7 +113,5 @@ public class DeliveryManager : MonoBehaviour
     public int GetSuccessfulRecipesAmount()
     {
         return successfulRecipesAmount;
-    }
-
-    
+    }    
 }

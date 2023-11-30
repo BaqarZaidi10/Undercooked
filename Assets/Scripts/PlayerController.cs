@@ -22,9 +22,11 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
     private PlayerInputActions playerInputActions;
+    private CharacterController controller;
 
     private void Start()
     {
+        controller = GetComponent<CharacterController>();
         // Subscribe to input events when the player is instantiated
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
         GameInput.Instance.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
@@ -111,43 +113,8 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         Vector3 moveDirection = new Vector3(inputVector2Normalized.x, 0, inputVector2Normalized.y);
 
         float moveDistance = movementSpeed * Time.deltaTime;
-        float playerRadius = .7f;
-        float playerHeight = 2f;
 
-        // Check for obstacles using capsule casting
-        bool canMove = !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirection, moveDistance);
-
-        if (!canMove)
-        {
-            // Cannot move towards the direction, attempt only X movement
-            Vector3 moveDirectionX = new Vector3(moveDirection.x, 0, 0).normalized;
-            canMove = (moveDirection.x < -.5f || moveDirection.x > +.5f) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirectionX, moveDistance);
-
-            if (canMove)
-            {
-                moveDirection = moveDirectionX;
-            }
-            else
-            {
-                // Cannot move only on the X, attempt only Z movement
-                Vector3 moveDirectionZ = new Vector3(0, 0, moveDirection.z).normalized;
-                canMove = (moveDirection.z < -.5f || moveDirection.z > +.5f) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirectionZ, moveDistance);
-
-                if (canMove)
-                {
-                    moveDirection = moveDirectionZ;
-                }
-                else
-                {
-                    // Cannot move in any direction
-                }
-            }
-        }
-
-        if (canMove)
-        {
-            transform.position += moveDirection * movementSpeed * Time.deltaTime;
-        }
+        controller.Move(moveDirection * movementSpeed * Time.deltaTime);        
 
         // Update walking status and rotation
         isWalking = moveDirection != Vector3.zero;

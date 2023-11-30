@@ -7,11 +7,14 @@ public class DeliveryCounter : BaseCounter
     // Singleton instance of the DeliveryCounter
     public static DeliveryCounter Instance { get; private set; }
 
+    public GameObject currentPlayer;
+
     // Called when the script instance is being loaded
     private void Awake()
     {
         // Set the singleton instance to this object
         Instance = this;
+        currentPlayer = null;
     }
 
     // Override of the Interact method from BaseCounter
@@ -31,5 +34,16 @@ public class DeliveryCounter : BaseCounter
                 player.GetKitchenObject().DestroySelf();
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        currentPlayer = other.gameObject;
+        print(currentPlayer.name);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        currentPlayer = null;
     }
 }

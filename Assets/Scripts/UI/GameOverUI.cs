@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class GameOverUI : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI recipesDeliveredText; // Reference to the text displaying the number of recipes delivered
+    // Reference to the text displaying the number of recipes delivered
+    [SerializeField] private TextMeshProUGUI recipesDeliveredText; 
+    [SerializeField] private TextMeshProUGUI playerText; 
+    [SerializeField] private GameObject scoreUI; 
 
     private void Start()
     {
+        scoreUI = GameObject.Find("ScoreUI");
+        playerText = GameObject.Find("PlayerText").GetComponent<TextMeshProUGUI>();
         // Subscribe to the game state changed event
         GameManager_.Instance.OnStateChanged += GameManager_OnStateChanged;
 
@@ -24,9 +29,31 @@ public class GameOverUI : MonoBehaviour
         {
             // Show the game over UI
             Show();
-
             // Update the recipesDeliveredText with the number of successful recipes delivered
             recipesDeliveredText.text = DeliveryManager.Instance.GetSuccessfulRecipesAmount().ToString();
+            if(ScoreUI.instance.p1Wins > ScoreUI.instance.p2Wins)
+            {
+                playerText.text = "1";
+            }
+            else if(ScoreUI.instance.p1Wins < ScoreUI.instance.p2Wins)
+            {
+                playerText.text = "2";
+            }
+            else
+            {
+                if (ScoreUI.instance.p1Fails > ScoreUI.instance.p2Fails)
+                {
+                    playerText.text = "2";
+                }
+                else if (ScoreUI.instance.p1Fails < ScoreUI.instance.p2Fails)
+                {
+                    playerText.text = "1";
+                }
+                else
+                {
+                    playerText.text = "3";
+                }
+            }
         }
         else
         {
@@ -39,11 +66,13 @@ public class GameOverUI : MonoBehaviour
     private void Show()
     {
         gameObject.SetActive(true);
+        scoreUI.SetActive(false);
     }
 
     // Method to hide the game over UI
     private void Hide()
     {
         gameObject.SetActive(false);
+        scoreUI.SetActive(true);
     }
 }
