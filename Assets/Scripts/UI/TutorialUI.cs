@@ -17,9 +17,11 @@ public class TutorialUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI keyGamepadInteractText;
     [SerializeField] private TextMeshProUGUI keyGamepadInteractAlternateText;
     [SerializeField] private TextMeshProUGUI keyGamepadPauseText;
+    [SerializeField] private GameObject scoreUI;
 
     private void Start()
     {
+        scoreUI = GameObject.Find("ScoreUI");
         // Subscribe to events when the game starts
         GameInput.Instance.OnBindingRebind += GameInput_OnBindingRebind;
         GameManager_.Instance.OnStateChanged += GameManager_OnStateChanged;
@@ -65,11 +67,13 @@ public class TutorialUI : MonoBehaviour
     {
         // Set the GameObject active to show the UI
         gameObject.SetActive(true);
+        scoreUI.SetActive(false);
     }
 
     private void Hide()
     {
         // Set the GameObject inactive to hide the UI
         gameObject.SetActive(false);
+        scoreUI.SetActive(true);
     }
 }

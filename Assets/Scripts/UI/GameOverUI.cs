@@ -8,17 +8,29 @@ public class GameOverUI : MonoBehaviour
     // Reference to the text displaying the number of recipes delivered
     [SerializeField] private TextMeshProUGUI recipesDeliveredText; 
     [SerializeField] private TextMeshProUGUI playerText; 
-    [SerializeField] private GameObject scoreUI; 
+    [SerializeField] private GameObject scoreUI;
+
+    private void Awake()
+    {
+        scoreUI = GameObject.Find("ScoreUI");
+    }
 
     private void Start()
     {
-        scoreUI = GameObject.Find("ScoreUI");
         playerText = GameObject.Find("PlayerText").GetComponent<TextMeshProUGUI>();
         // Subscribe to the game state changed event
         GameManager_.Instance.OnStateChanged += GameManager_OnStateChanged;
 
         // Initially hide the game over UI
         Hide();
+    }
+
+    private void Update()
+    {
+        if(Input.anyKey)
+        {
+            Loader.Load(Loader.Scene.MainMenuScene);
+        }
     }
 
     // Event handler for the game state changed event
@@ -73,6 +85,5 @@ public class GameOverUI : MonoBehaviour
     private void Hide()
     {
         gameObject.SetActive(false);
-        scoreUI.SetActive(true);
     }
 }

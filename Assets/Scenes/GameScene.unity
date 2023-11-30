@@ -605,6 +605,7 @@ MonoBehaviour:
   keyGamepadInteractText: {fileID: 1835860751}
   keyGamepadInteractAlternateText: {fileID: 174667743}
   keyGamepadPauseText: {fileID: 1780470035}
+  scoreUI: {fileID: 0}
 --- !u!1 &94589174
 GameObject:
   m_ObjectHideFlags: 0
@@ -8764,7 +8765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deviceRemovedUI: {fileID: 906327744}
-  gamePlayingTimerMax: 180
+  gamePlayingTimerMax: 90
 --- !u!4 &842645775
 Transform:
   m_ObjectHideFlags: 0
