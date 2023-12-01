@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         if (_canMove)
         {
             HandleMovement();
-            
+            transform.Find("Player_Slip").gameObject.SetActive(false);
         }
         else
         {
@@ -196,13 +196,14 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     {
         if(other.gameObject.CompareTag("Slip"))
         {
-            this.gameObject.SetActive(false);
+            GameObject.FindGameObjectWithTag("PlayerVisual").gameObject.SetActive(false);
+            transform.Find("Player_Slip").gameObject.SetActive(true);
             Quaternion currentRotation;
             currentRotation = _playerVisual.transform.rotation;
             rb.velocity = Vector3.zero;
             _canMove = false;
-            transform.rotation = Quaternion.Euler(transform.rotation.x - 30f, transform.rotation.y, transform.rotation.z);
-            StartCoroutine(SlipPlayer(4f, currentRotation));
+            //transform.rotation = Quaternion.Euler(transform.rotation.x - 30f, transform.rotation.y, transform.rotation.z);
+            StartCoroutine(SlipPlayer(5f, currentRotation));
         }
     }
 
@@ -210,13 +211,14 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     {
         yield return new WaitForSeconds(time);
         _canMove = true;
-        _playerVisual.transform.rotation = rotationNormal;
+        //_playerVisual.transform.rotation = rotationNormal;
+        transform.Find("PlayerVisual").gameObject.SetActive(true);
     }
     
     private void Rotate360()
     {
         
-        transform.Rotate(Vector3.up  * 360 * Time.deltaTime, Space.World);
+        //transform.Rotate(Vector3.up  * 360 * Time.deltaTime, Space.World);
         //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.x - 30f, transform.rotation.y, transform.rotation.z), Time.deltaTime * 100f);
     }
 

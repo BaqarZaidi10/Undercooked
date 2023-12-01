@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04e626dfd7c188c448b2bc68e6afbf0d, type: 3}
+  m_Name: CookedHam
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3122414479216498689, guid: 5f1ac706e1f516647abc0e31925c121c, type: 3}
+  sprite: {fileID: 21300000, guid: a0d500e6d83739243859a83b4c136da0, type: 3}
+  objectName: CokkedHam
