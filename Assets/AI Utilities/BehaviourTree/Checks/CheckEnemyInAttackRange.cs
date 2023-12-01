@@ -22,12 +22,13 @@ public class CheckEnemyInAttackRange : Node
 
         Transform target = (Transform)t;
 
-        if(Vector2.Distance(transform.position, target.position) <= GuardBT.attackRange)
+        if(Vector3.Distance(transform.position, target.position) <= GuardBT.attackRange)
         {
             state = NODESTATE.SUCCESS;
             return state;
         }
 
+        Debug.Log("checking attack range");
         state = NODESTATE.FAILURE;
         return state;
     }

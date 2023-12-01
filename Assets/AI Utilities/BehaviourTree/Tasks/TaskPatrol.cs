@@ -26,7 +26,7 @@ public class TaskPatrol : Node
         else
         {
             Transform wp = waypoints[currentWaypointIndex];
-            if (Vector2.Distance(transform.position, wp.position) < 0.01f)
+            if (Vector3.Distance(transform.position, wp.position) < 0.01f)
             {
                 transform.position = wp.position;
                 waitCounter = 0f;
@@ -38,10 +38,12 @@ public class TaskPatrol : Node
             }
             else
             {
-                transform.position = Vector2.MoveTowards(transform.position, wp.position, GuardBT.speed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, wp.position, GuardBT.speed * Time.deltaTime);
+                //transform.LookAt(wp.position);
             }
         }
 
+        Debug.Log("patrolling");
         state = NODESTATE.RUNNING;
         return state;
     }

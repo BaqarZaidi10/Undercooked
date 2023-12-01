@@ -17,7 +17,7 @@ public class CheckEnemyInFOVRange : Node
 
         if(t == null)
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, GuardBT.fovRange, enemyLayer);
+            Collider[] colliders = Physics.OverlapSphere(transform.position, GuardBT.fovRange, enemyLayer);
 
             if(colliders.Length > 0)
             {
@@ -31,6 +31,7 @@ public class CheckEnemyInFOVRange : Node
             return state;            
         }
 
+        Debug.Log("Checking fov");
         state = NODESTATE.SUCCESS;
         return state;
     } 
