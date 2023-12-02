@@ -22179,60 +22179,50 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 93200867879823329, guid: 689f1697f96218140a700ba69bd93931,
+    - target: {fileID: 3942964427288951165, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
-      propertyPath: m_Layer
-      value: 8
+      propertyPath: 'waypoints.Array.data[0]'
+      value: 
+      objectReference: {fileID: 501951966}
+    - target: {fileID: 3942964427288951165, guid: 689f1697f96218140a700ba69bd93931,
+        type: 3}
+      propertyPath: 'waypoints.Array.data[1]'
+      value: 
+      objectReference: {fileID: 1263881566}
+    - target: {fileID: 3942964427288951165, guid: 689f1697f96218140a700ba69bd93931,
+        type: 3}
+      propertyPath: 'waypoints.Array.data[2]'
+      value: 
+      objectReference: {fileID: 1088913122}
+    - target: {fileID: 6176270221780444063, guid: 689f1697f96218140a700ba69bd93931,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1328741937569650380, guid: 689f1697f96218140a700ba69bd93931,
+    - target: {fileID: 6202122785881598740, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
-      propertyPath: m_Layer
-      value: 8
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 1328741938100428055, guid: 689f1697f96218140a700ba69bd93931,
+    - target: {fileID: 6202122785881598740, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
-      propertyPath: m_Layer
-      value: 8
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1328741938197785473, guid: 689f1697f96218140a700ba69bd93931,
+    - target: {fileID: 6936142333109737403, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
-      propertyPath: m_Layer
-      value: 8
+      propertyPath: m_UseGravity
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1328741938272020172, guid: 689f1697f96218140a700ba69bd93931,
+    - target: {fileID: 6936142333109737403, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1328741938752444542, guid: 689f1697f96218140a700ba69bd93931,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2504633691839329895, guid: 689f1697f96218140a700ba69bd93931,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3234268010708013418, guid: 689f1697f96218140a700ba69bd93931,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5570881018879409003, guid: 689f1697f96218140a700ba69bd93931,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7705170349007169994, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
       propertyPath: m_Name
       value: Gordon Ramsey
-      objectReference: {fileID: 0}
-    - target: {fileID: 7705170349007169994, guid: 689f1697f96218140a700ba69bd93931,
-        type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7867546703291700016, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
@@ -22242,7 +22232,7 @@ PrefabInstance:
     - target: {fileID: 7867546703291700016, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.07
+      value: 0.081
       objectReference: {fileID: 0}
     - target: {fileID: 7867546703291700016, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
@@ -22284,40 +22274,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8570561309135574519, guid: 689f1697f96218140a700ba69bd93931,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 7705170349007169994, guid: 689f1697f96218140a700ba69bd93931,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2140598224}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 689f1697f96218140a700ba69bd93931, type: 3}
---- !u!1 &2140598223 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7705170349007169994, guid: 689f1697f96218140a700ba69bd93931,
-    type: 3}
-  m_PrefabInstance: {fileID: 2140598222}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2140598224
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2140598223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f016b9d5a10c7c4bbf0fa6dca0670dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 1333701172}
-  - {fileID: 782247200}
-  - {fileID: 1439390002}
-  - {fileID: 501951966}
-  - {fileID: 1263881566}
-  - {fileID: 1088913122}
 --- !u!1 &2140655982
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,11 +1,16 @@
 using BehaviourTree;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class TaskPatrol : Node
 {
     private Transform transform;
+    private CharacterController controller;
+    private NavMeshAgent navMeshAgent;
+
     private Transform[] waypoints;
     private int currentWaypointIndex = 0;
+
     private float waitTime = 1f, waitCounter = 0f;
     private bool waiting = false;
 
@@ -13,6 +18,7 @@ public class TaskPatrol : Node
     {
         this.transform = transform;
         this.waypoints = waypoints;
+        controller = transform.GetComponent<CharacterController>();
     }
 
     public override NODESTATE Evaluate()
@@ -26,7 +32,7 @@ public class TaskPatrol : Node
         else
         {
             Transform wp = waypoints[currentWaypointIndex];
-            if (Vector3.Distance(transform.position, wp.position) < 0.01f)
+            if (Vector3.Distance(transform.position, wp.position) < 0.1f)
             {
                 transform.position = wp.position;
                 waitCounter = 0f;
@@ -38,8 +44,9 @@ public class TaskPatrol : Node
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, wp.position, GuardBT.speed * Time.deltaTime);
-                //transform.LookAt(wp.position);
+                controller.Move((wp.position - transform.position)* GuardBT.speed * Time.deltaTime);
+                //transform.position = Vector3.MoveTowards(transform.position, wp.position, GuardBT.speed * Time.deltaTime);
+                transform.LookAt(new Vector3(wp.position.x, transform.position.y, wp.position.z));
             }
         }
 
@@ -48,3 +55,4 @@ public class TaskPatrol : Node
         return state;
     }
 }
+//new Vector3(wp.position.x, transform.position.y, wp.position.z)
