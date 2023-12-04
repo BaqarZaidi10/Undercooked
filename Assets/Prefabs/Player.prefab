@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 4511350434773696996}
   - component: {fileID: 1398545554097475498}
   - component: {fileID: 6936142333109737403}
-  - component: {fileID: 8570561309135574519}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -82,7 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 716afd950814b0b4aa18ee3b46acc8bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 500
+  movementSpeed: 150
   countersLayerMask:
     serializedVersion: 2
     m_Bits: 64
@@ -114,7 +113,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -147,32 +146,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!143 &8570561309135574519
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7705170349007169994}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 2
-  m_Radius: 0.7
-  m_SlopeLimit: 45
-  m_StepOffset: 0.1
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &4037181986999997347
 PrefabInstance:
   m_ObjectHideFlags: 0
