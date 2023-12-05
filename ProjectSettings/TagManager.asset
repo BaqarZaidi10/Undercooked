@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Slip
   - PlayerVisual
+  - PlayerSlip
   layers:
   - Default
   - TransparentFX

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoveCounter : BaseCounter, IHasProgress
+public class OvenCounter : BaseCounter, IHasProgress
 {
     // Event triggered when progress changes
     public event EventHandler<IHasProgress.OnProgressChangedEventArgs> OnProgressChanged;
@@ -21,13 +21,13 @@ public class StoveCounter : BaseCounter, IHasProgress
     public enum State
     {
         Idle,
-        Frying,
-        Fried,
+        Baking,
+        Baked,
         Burnt,
     }
 
     // Array of frying recipes
-    [SerializeField] private OvenRecipe[] fryingRecipeSOArray;
+    [SerializeField] private OvenRecipeSO[] ovenRecipeSOArray;
 
     // Array of burning recipes
     [SerializeField] private BurningRecipeSO[] burningRecipeSOArray;
@@ -36,10 +36,11 @@ public class StoveCounter : BaseCounter, IHasProgress
     private State state;
 
     // Timer for frying
-    private float fryingTimer;
+    private float bakingTimer
+;
 
     // Current frying recipe
-    private OvenRecipe fryingRecipeSO;
+    private OvenRecipeSO ovenRecipeSO;
 
     // Timer for burning
     private float burningTimer;
@@ -56,7 +57,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     // Update is called once per frame
     private void Update()
     {
-        Debug.Log(   "pan"+ HasKitchenObject());
+        Debug.Log(   "oven"+ HasKitchenObject());
         // Check if the stove counter has a kitchen object
         if (HasKitchenObject())
         {
@@ -65,24 +66,25 @@ public class StoveCounter : BaseCounter, IHasProgress
                 case State.Idle:
                     // Do nothing in the idle state
                     break;
-                case State.Frying:
+                
+                case State.Baking:
                     // Increment frying timer
-                    fryingTimer += Time.deltaTime;
+                    bakingTimer += Time.deltaTime;
 
                     // Invoke progress changed event
                     OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
                     {
-                        progressNormalized = fryingTimer / fryingRecipeSO.fryingTimerMax
+                        progressNormalized = bakingTimer / ovenRecipeSO.ovenTimerMax
                     });
 
                     // Check if frying is complete
-                    if (fryingTimer > fryingRecipeSO.fryingTimerMax)
+                    if (bakingTimer > ovenRecipeSO.ovenTimerMax)
                     {
                         // Fried
                         GetKitchenObject().DestroySelf();
-                        KitchenObject.SpawnKitchenObject(fryingRecipeSO.output, this);
+                        KitchenObject.SpawnKitchenObject(ovenRecipeSO.output, this);
 
-                        state = State.Fried;
+                        state = State.Baked;
                         burningTimer = 0f;
                         burningRecipeSO = GetBurningRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
 
@@ -93,7 +95,7 @@ public class StoveCounter : BaseCounter, IHasProgress
                         });
                     }
                     break;
-                case State.Fried:
+                case State.Baked:
                     // Increment burning timer
                     burningTimer += Time.deltaTime;
 
@@ -145,10 +147,10 @@ public class StoveCounter : BaseCounter, IHasProgress
                 {
                     // Player carrying something that can be fried
                     player.GetKitchenObject().SetKitchenObjectParent(this);
-                    fryingRecipeSO = GetFryingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
+                    ovenRecipeSO = GetOvenRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
 
-                    state = State.Frying;
-                    fryingTimer = 0f;
+                    state = State.Baking;
+                    bakingTimer = 0f;
 
                     // Invoke state changed event
                     OnStateChanged?.Invoke(this, new OnStateChangedEventArgs
@@ -159,7 +161,7 @@ public class StoveCounter : BaseCounter, IHasProgress
                     // Invoke progress changed event with initial progress
                     OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
                     {
-                        progressNormalized = fryingTimer / fryingRecipeSO.fryingTimerMax
+                        progressNormalized = bakingTimer / ovenRecipeSO.ovenTimerMax
                     });
                 }
             }
@@ -221,25 +223,25 @@ public class StoveCounter : BaseCounter, IHasProgress
     // Check if there is a recipe with the given input
     private bool HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        OvenRecipe fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
-        return fryingRecipeSO != null;
+        OvenRecipeSO burningRecipeSO = GetOvenRecipeSOWithInput(inputKitchenObjectSO);
+        return burningRecipeSO != null;
     }
 
     // Get the output kitchen object for the given input
     private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        OvenRecipe fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
-        return fryingRecipeSO != null ? fryingRecipeSO.output : null;
+        OvenRecipeSO ovenRecipeSO = GetOvenRecipeSOWithInput(inputKitchenObjectSO);
+        return ovenRecipeSO != null ? ovenRecipeSO.output : null;
     }
 
     // Get the frying recipe with the given input
-    private OvenRecipe GetFryingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
+    private OvenRecipeSO GetOvenRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        foreach (OvenRecipe fryingRecipeSO in fryingRecipeSOArray)
+        foreach (OvenRecipeSO ovenRecipeSO in ovenRecipeSOArray)
         {
-            if (fryingRecipeSO.input == inputKitchenObjectSO)
+            if (ovenRecipeSO.input == inputKitchenObjectSO)
             {
-                return fryingRecipeSO;
+                return ovenRecipeSO;
             }
         }
         return null;
@@ -259,8 +261,8 @@ public class StoveCounter : BaseCounter, IHasProgress
     }
 
     // Check if the stove counter is in the Fried state
-    public bool IsFried()
+    public bool IsBaked()
     {
-        return (state == State.Fried);
+        return (state == State.Baked);
     }
 }
