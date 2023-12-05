@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour, IKitchenObjectParent
 {
@@ -22,11 +23,21 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
     private PlayerInputActions playerInputActions;
-    private CharacterController controller;
+    private Rigidbody rb;
+
+    private GameObject _playerVisual;
+
+    private bool _canMove = true;
+
+    private void Awake()
+    {
+        _playerVisual = transform.Find("PlayerVisual").gameObject;
+        rb = GetComponent<Rigidbody>();
+        _canMove = true;
+    }
 
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
         // Subscribe to input events when the player is instantiated
         GameInput.Instance.OnInteractAction += GameInput_OnInteractAction;
         GameInput.Instance.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
@@ -63,7 +74,17 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     private void Update()
     {
         // Update player movement and interactions
-        HandleMovement();
+
+        if (_canMove)
+        {
+            HandleMovement();
+            
+        }
+        else
+        {
+            Rotate360(); 
+        }
+        
         HandleInteractions();
     }
 
@@ -112,9 +133,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         Vector2 inputVector2Normalized = GameInput.Instance.GetMovementVectorNormalized(playerInputActions);
         Vector3 moveDirection = new Vector3(inputVector2Normalized.x, 0, inputVector2Normalized.y);
 
-        float moveDistance = movementSpeed * Time.deltaTime;
-
-        controller.Move(moveDirection * movementSpeed * Time.deltaTime);        
+        rb.velocity = moveDirection * movementSpeed * Time.deltaTime;
 
         // Update walking status and rotation
         isWalking = moveDirection != Vector3.zero;
@@ -172,4 +191,33 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         // Set the player input actions
         this.playerInputActions = playerInputActions;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("Slip"))
+        {
+            this.gameObject.SetActive(false);
+            Quaternion currentRotation;
+            currentRotation = _playerVisual.transform.rotation;
+            rb.velocity = Vector3.zero;
+            _canMove = false;
+            transform.rotation = Quaternion.Euler(transform.rotation.x - 30f, transform.rotation.y, transform.rotation.z);
+            StartCoroutine(SlipPlayer(4f, currentRotation));
+        }
+    }
+
+    IEnumerator SlipPlayer(float time, Quaternion rotationNormal)
+    {
+        yield return new WaitForSeconds(time);
+        _canMove = true;
+        _playerVisual.transform.rotation = rotationNormal;
+    }
+    
+    private void Rotate360()
+    {
+        
+        transform.Rotate(Vector3.up  * 360 * Time.deltaTime, Space.World);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.x - 30f, transform.rotation.y, transform.rotation.z), Time.deltaTime * 100f);
+    }
+
 }
