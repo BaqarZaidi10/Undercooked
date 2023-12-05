@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 3516216264670426712, guid: b3d27ae279493764c857f014d85c24fe, type: 3}
   sprite: {fileID: 21300000, guid: 9d01a7fba9add874a94a73343c6a3871, type: 3}
-  objectName: RawHam
+  objectName: HamRaw

@@ -458,6 +458,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   kitchenObjectHoldPoint: {fileID: 8784508586108026654}
+  _playerVisual: {fileID: 1328741938197785473}
+  _playerSlip: {fileID: 6335154346070717409}
 --- !u!114 &4511350434773696996
 MonoBehaviour:
   m_ObjectHideFlags: 0

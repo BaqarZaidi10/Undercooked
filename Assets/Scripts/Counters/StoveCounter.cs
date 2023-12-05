@@ -56,6 +56,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     // Update is called once per frame
     private void Update()
     {
+        Debug.Log(   "pan"+ HasKitchenObject());
         // Check if the stove counter has a kitchen object
         if (HasKitchenObject())
         {

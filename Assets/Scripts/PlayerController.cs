@@ -25,13 +25,15 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     private PlayerInputActions playerInputActions;
     private Rigidbody rb;
 
+    [SerializeField]
     private GameObject _playerVisual;
+    [SerializeField]
+    private GameObject _playerSlip;
 
     private bool _canMove = true;
 
     private void Awake()
     {
-        _playerVisual = transform.Find("PlayerVisual").gameObject;
         rb = GetComponent<Rigidbody>();
         _canMove = true;
     }
@@ -78,13 +80,8 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         if (_canMove)
         {
             HandleMovement();
-            transform.Find("Player_Slip").gameObject.SetActive(false);
+            _playerSlip.gameObject.SetActive(false);
         }
-        else
-        {
-            Rotate360(); 
-        }
-        
         HandleInteractions();
     }
 
@@ -196,13 +193,12 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     {
         if(other.gameObject.CompareTag("Slip"))
         {
-            GameObject.FindGameObjectWithTag("PlayerVisual").gameObject.SetActive(false);
-            transform.Find("Player_Slip").gameObject.SetActive(true);
+            _playerVisual.gameObject.SetActive(false);
+            _playerSlip.gameObject.SetActive(true);
             Quaternion currentRotation;
             currentRotation = _playerVisual.transform.rotation;
             rb.velocity = Vector3.zero;
             _canMove = false;
-            //transform.rotation = Quaternion.Euler(transform.rotation.x - 30f, transform.rotation.y, transform.rotation.z);
             StartCoroutine(SlipPlayer(5f, currentRotation));
         }
     }
@@ -211,15 +207,8 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     {
         yield return new WaitForSeconds(time);
         _canMove = true;
-        //_playerVisual.transform.rotation = rotationNormal;
-        transform.Find("PlayerVisual").gameObject.SetActive(true);
+        _playerVisual.gameObject.SetActive(true);
     }
     
-    private void Rotate360()
-    {
-        
-        //transform.Rotate(Vector3.up  * 360 * Time.deltaTime, Space.World);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.rotation.x - 30f, transform.rotation.y, transform.rotation.z), Time.deltaTime * 100f);
-    }
 
 }

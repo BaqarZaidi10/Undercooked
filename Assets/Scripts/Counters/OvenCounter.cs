@@ -57,6 +57,7 @@ public class OvenCounter : BaseCounter, IHasProgress
     // Update is called once per frame
     private void Update()
     {
+        Debug.Log(   "oven"+ HasKitchenObject());
         // Check if the stove counter has a kitchen object
         if (HasKitchenObject())
         {
@@ -65,6 +66,7 @@ public class OvenCounter : BaseCounter, IHasProgress
                 case State.Idle:
                     // Do nothing in the idle state
                     break;
+                
                 case State.Baking:
                     // Increment frying timer
                     bakingTimer += Time.deltaTime;
@@ -221,8 +223,8 @@ public class OvenCounter : BaseCounter, IHasProgress
     // Check if there is a recipe with the given input
     private bool HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        OvenRecipeSO fryingRecipeSO = GetOvenRecipeSOWithInput(inputKitchenObjectSO);
-        return fryingRecipeSO != null;
+        OvenRecipeSO burningRecipeSO = GetOvenRecipeSOWithInput(inputKitchenObjectSO);
+        return burningRecipeSO != null;
     }
 
     // Get the output kitchen object for the given input
@@ -259,7 +261,7 @@ public class OvenCounter : BaseCounter, IHasProgress
     }
 
     // Check if the stove counter is in the Fried state
-    public bool IsFried()
+    public bool IsBaked()
     {
         return (state == State.Baked);
     }
