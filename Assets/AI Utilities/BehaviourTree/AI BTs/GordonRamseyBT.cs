@@ -1,8 +1,9 @@
 using BehaviourTree;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GuardBT : BehaviourTree.Tree
+public class GordonRamseyBT : BehaviourTree.Tree
 {
     public UnityEngine.Transform[] waypoints;
 
@@ -11,7 +12,7 @@ public class GuardBT : BehaviourTree.Tree
     public static float attackRange = 1f;
     public static float cooldown = 0f, cooldownReset = 5f;
     public bool canAttack = true;
-    public static GuardBT instance;
+    public static GordonRamseyBT instance;
 
     private void Awake()
     {
@@ -29,16 +30,16 @@ public class GuardBT : BehaviourTree.Tree
                     new Sequence //Node 1 (first priority)
                     (new List<Node>
                         {
-                            new CheckEnemyInAttackRange(transform),
-                            //new ConditionalDecorator(CanAttack),
+                            new CheckRawFood(transform),
+                            new ConditionalDecorator(CanAttack),
                             new TaskAttack(transform),
                         }
                     ),
                     new Sequence //Node 2 (second priority) - runs only when node 1 fails
                     (new List<Node>
                         {
-                            new CheckEnemyInFOVRange(transform),
-                            //new ConditionalDecorator(CanAttack),
+                            new CheckFoodOnGround(transform),
+                            new ConditionalDecorator(CanAttack),
                             new TaskGoToTarget(transform),
                         }
                     ),
@@ -60,5 +61,12 @@ public class GuardBT : BehaviourTree.Tree
         {
             return NODESTATE.FAILURE;
         }
+    }
+
+    public IEnumerator AttackCooldown(float waitTime)
+    {
+        canAttack = false;
+        yield return new WaitForSeconds(waitTime);
+        canAttack = true;
     }
 }

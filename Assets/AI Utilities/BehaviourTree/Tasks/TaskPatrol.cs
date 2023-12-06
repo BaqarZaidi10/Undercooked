@@ -45,7 +45,7 @@ public class TaskPatrol : Node
             }
             else
             {
-                controller.Move((wp.position - transform.position).normalized * GuardBT.speed * Time.deltaTime);
+                controller.Move((wp.position - transform.position).normalized * GordonRamseyBT.speed * Time.deltaTime);
                 //transform.position = Vector3.MoveTowards(transform.position, wp.position, GuardBT.speed * Time.deltaTime);
                 transform.LookAt(new Vector3(wp.position.x, transform.position.y, wp.position.z));
             }

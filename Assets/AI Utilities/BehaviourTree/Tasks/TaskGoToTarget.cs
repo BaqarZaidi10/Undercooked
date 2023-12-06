@@ -21,12 +21,12 @@ public class TaskGoToTarget : Node
 
         if(Vector3.Distance(transform.position, target.position) > 1f)
         {
-            controller.Move((target.position - transform.position) * GuardBT.speed * Time.deltaTime);
+            controller.Move((target.position - transform.position) * GordonRamseyBT.speed * Time.deltaTime);
             //transform.position = Vector3.MoveTowards(transform.position, target.position, GuardBT.speed * Time.deltaTime);
             transform.LookAt(target.position);
         }
-
-        GordonRamsey.instance.FoodOnGround(target);
+        
+        GordonRamsey.instance.ChangeState(GordonRamsey.RAMSEY_STATE.FOOD_DROPPED,  target);
 
         Debug.Log("going to target");
         state = NODESTATE.RUNNING; 

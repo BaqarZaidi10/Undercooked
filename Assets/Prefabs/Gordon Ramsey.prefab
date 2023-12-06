@@ -258,8 +258,8 @@ GameObject:
   - component: {fileID: 8570561309135574519}
   - component: {fileID: 6176270221780444063}
   - component: {fileID: 6629498046704128584}
-  - component: {fileID: 3942964427288951165}
   - component: {fileID: 6202122785881598740}
+  - component: {fileID: 7401535852351486243}
   m_Layer: 8
   m_Name: Gordon Ramsey
   m_TagString: Untagged
@@ -372,22 +372,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0441e0ffb4352ee42bb256de2e302275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3942964427288951165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7705170349007169994}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f016b9d5a10c7c4bbf0fa6dca0670dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  collideWait: 5
+  rawWait: 3
+  burntWait: 3
+  trashWait: 3
 --- !u!136 &6202122785881598740
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -411,6 +399,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &7401535852351486243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7705170349007169994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a04324baa1472734390fbbe57c7ba986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints: []
+  canAttack: 1
 --- !u!1001 &4037181986999997347
 PrefabInstance:
   m_ObjectHideFlags: 0
