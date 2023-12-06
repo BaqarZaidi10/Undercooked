@@ -32,6 +32,14 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
 
     private bool _canMove = true;
 
+    public PlayerStates playerStates;
+
+    public enum PlayerStates
+    {
+        Cooking,
+        Slipped
+    }
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -81,6 +89,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         {
             HandleMovement();
             _playerSlip.gameObject.SetActive(false);
+            playerStates = PlayerStates.Cooking;
         }
         HandleInteractions();
     }
@@ -193,6 +202,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     {
         if(other.gameObject.CompareTag("Slip"))
         {
+            playerStates = PlayerStates.Slipped;
             _playerVisual.gameObject.SetActive(false);
             _playerSlip.gameObject.SetActive(true);
             Quaternion currentRotation;
