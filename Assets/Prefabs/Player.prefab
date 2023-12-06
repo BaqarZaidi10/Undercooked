@@ -145,6 +145,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &6107078150873141372
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 140678564880798952}
+  m_Layer: 7
+  m_Name: DropFood
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &140678564880798952
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6107078150873141372}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.95}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7867546703291700016}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6133618837429026968
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +470,7 @@ Transform:
   - {fileID: 8784508586108026654}
   - {fileID: 3234268010708013419}
   - {fileID: 7124127201977816685}
+  - {fileID: 140678564880798952}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1167196045230105906
@@ -458,8 +490,12 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   kitchenObjectHoldPoint: {fileID: 8784508586108026654}
+  kitchenObjectDropPoint: {fileID: 140678564880798952}
   _playerVisual: {fileID: 1328741938197785473}
   _playerSlip: {fileID: 6335154346070717409}
+  _slipGameObject: {fileID: 3231138812111913650, guid: 2bb3c91054f9f6e439228e00649dacfe,
+    type: 3}
+  playerStates: 0
 --- !u!114 &4511350434773696996
 MonoBehaviour:
   m_ObjectHideFlags: 0

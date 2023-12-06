@@ -72,11 +72,11 @@ public class StoveCounter : BaseCounter, IHasProgress
                     // Invoke progress changed event
                     OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
                     {
-                        progressNormalized = fryingTimer / fryingRecipeSO.fryingTimerMax
+                        progressNormalized = fryingTimer / fryingRecipeSO.bakingTimerMax
                     });
 
                     // Check if frying is complete
-                    if (fryingTimer > fryingRecipeSO.fryingTimerMax)
+                    if (fryingTimer > fryingRecipeSO.bakingTimerMax)
                     {
                         // Fried
                         GetKitchenObject().DestroySelf();
@@ -159,7 +159,7 @@ public class StoveCounter : BaseCounter, IHasProgress
                     // Invoke progress changed event with initial progress
                     OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
                     {
-                        progressNormalized = fryingTimer / fryingRecipeSO.fryingTimerMax
+                        progressNormalized = fryingTimer / fryingRecipeSO.bakingTimerMax
                     });
                 }
             }
