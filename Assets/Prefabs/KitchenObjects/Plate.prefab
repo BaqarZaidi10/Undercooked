@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8900267986717345038}
   - component: {fileID: 4115973688379302533}
   - component: {fileID: 7827365224741771419}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: PlateIconsUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -166,7 +166,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8216365273466152853}
   - component: {fileID: 4543580406707544088}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: IconTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -218,7 +218,7 @@ GameObject:
   - component: {fileID: 7760646745942207349}
   - component: {fileID: 8701889178129724051}
   - component: {fileID: 2929029976785084892}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 3734948823329234719}
   - component: {fileID: 4011431696860072028}
   - component: {fileID: 7996218724970125815}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -368,7 +368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4559660612615320886}
   - component: {fileID: 1074813860981785085}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Plate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -961,6 +961,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlateCompleteVisual
       objectReference: {fileID: 0}
+    - target: {fileID: 408889407006782757, guid: 10e39c981f2de6441b54efde32ced8f0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 3611271270719445376, guid: 10e39c981f2de6441b54efde32ced8f0,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -1129,6 +1134,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4559660612615320886}
     m_Modifications:
+    - target: {fileID: 2755746467421327043, guid: c0c9afd619b40914a8f625c0535e2284,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 3812876574508226176, guid: c0c9afd619b40914a8f625c0535e2284,
         type: 3}
       propertyPath: m_RootOrder
@@ -1188,6 +1198,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Plate_Visual
+      objectReference: {fileID: 0}
+    - target: {fileID: 3812876574508226177, guid: c0c9afd619b40914a8f625c0535e2284,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

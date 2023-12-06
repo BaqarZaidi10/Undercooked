@@ -7,6 +7,8 @@ TagManager:
   - Slip
   - PlayerVisual
   - PlayerSlip
+  - Burnt
+  - Raw
   layers:
   - Default
   - TransparentFX
@@ -17,8 +19,8 @@ TagManager:
   - Counters
   - Players
   - GordonRamsey
-  - 
-  - 
+  - Food
+  - Plate
   - 
   - 
   - 

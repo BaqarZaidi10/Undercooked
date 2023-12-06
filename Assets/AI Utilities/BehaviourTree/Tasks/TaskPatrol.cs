@@ -40,11 +40,12 @@ public class TaskPatrol : Node
 
                 //Keep adding 1 to waypoint index. when current waypoint index = waypoints.length,
                 //set it back to zero to avoid index out of range exception as last index = waypoints.length - 1.
-                currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+                //currentWaypointIndex = (currentWaypointIndex + 1) % waypoints.Length;
+                currentWaypointIndex = GetRandomWaypoint();
             }
             else
             {
-                controller.Move((wp.position - transform.position)* GuardBT.speed * Time.deltaTime);
+                controller.Move((wp.position - transform.position).normalized * GuardBT.speed * Time.deltaTime);
                 //transform.position = Vector3.MoveTowards(transform.position, wp.position, GuardBT.speed * Time.deltaTime);
                 transform.LookAt(new Vector3(wp.position.x, transform.position.y, wp.position.z));
             }
@@ -53,6 +54,16 @@ public class TaskPatrol : Node
         Debug.Log("patrolling");
         state = NODESTATE.RUNNING;
         return state;
+    }
+
+    private int GetRandomWaypoint()
+    {
+        int newWaypointIndex = Random.Range(0, waypoints.Length - 1);
+
+        if(newWaypointIndex == currentWaypointIndex)        
+            GetRandomWaypoint();
+        
+        return newWaypointIndex;
     }
 }
 //new Vector3(wp.position.x, transform.position.y, wp.position.z)

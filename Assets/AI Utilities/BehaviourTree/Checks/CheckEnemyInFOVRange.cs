@@ -5,6 +5,7 @@ public class CheckEnemyInFOVRange : Node
 {
     private Transform transform;
     private LayerMask enemyLayer = 1 << 7;
+    private LayerMask foodLayer = 1 << 9;
 
     public CheckEnemyInFOVRange(Transform transform)
     {
@@ -17,15 +18,26 @@ public class CheckEnemyInFOVRange : Node
 
         if(t == null)
         {
-            Collider[] colliders = Physics.OverlapSphere(transform.position, GuardBT.fovRange, enemyLayer);
+            Collider[] enemyColliders = Physics.OverlapSphere(transform.position + (Vector3.forward * GuardBT.fovRange), GuardBT.fovRange, enemyLayer);
+            Collider[] foodColliders = Physics.OverlapSphere(transform.position + (Vector3.forward * GuardBT.fovRange), GuardBT.fovRange, foodLayer);
 
-            if(colliders.Length > 0)
+            if(foodColliders.Length > 0)
             {
-                parent.parent.SetData("target", colliders[0].transform);
+                foreach(Collider f in foodColliders)
+                {
+                    if(f.transform.position.y - GameObject.Find("Floor").transform.position.y < 0.5f)
+                    {
+                        if (enemyColliders.Length > 0)
+                        {
+                            parent.parent.SetData("target", enemyColliders[0].transform);
 
-                state = NODESTATE.SUCCESS;
-                return state;
-            } 
+                            state = NODESTATE.SUCCESS;
+                            return state;
+                        }
+                    }
+                }
+            }
+            
 
             state = NODESTATE.FAILURE;
             return state;            

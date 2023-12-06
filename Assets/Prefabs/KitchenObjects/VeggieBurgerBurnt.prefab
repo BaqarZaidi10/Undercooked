@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8530745716387488447}
   - component: {fileID: 1321142913045825654}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: VeggieBurgerBurnt
-  m_TagString: Untagged
+  m_TagString: Burnt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,6 +108,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: food_ingredient_burger_trash
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ac991d980163ae947bd33f39defcee2f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
