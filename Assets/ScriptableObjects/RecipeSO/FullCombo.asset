@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6670a6fdb987f3e4aa6cf5b6e0a2639c, type: 3}
+  m_Name: FullCombo
+  m_EditorClassIdentifier: 
+  kitchenObjectSOList:
+  - {fileID: 11400000, guid: 1440f319f3d9acb49a61cdb8bd516188, type: 2}
+  - {fileID: 11400000, guid: a578fd34f8b07724dbf04688a4ec1bc6, type: 2}
+  - {fileID: 11400000, guid: c0dcb3dfea6e73040931b2a1eafb2151, type: 2}
+  recipeName: Full Combo
