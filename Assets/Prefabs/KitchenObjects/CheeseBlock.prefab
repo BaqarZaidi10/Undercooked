@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4559660612615320886}
   - component: {fileID: -5403890836973139815}
+  - component: {fileID: 5206746135566093051}
   m_Layer: 9
   m_Name: CheeseBlock
   m_TagString: Untagged
@@ -46,6 +47,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: 49e9a16bff2230f448412eadfe548c9c, type: 2}
+--- !u!135 &5206746135566093051
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8989687676732587896}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &678653629325911593
 PrefabInstance:
   m_ObjectHideFlags: 0

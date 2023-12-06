@@ -368,6 +368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4559660612615320886}
   - component: {fileID: 1074813860981785085}
+  - component: {fileID: 5299752028563313748}
   m_Layer: 9
   m_Name: Plate
   m_TagString: Untagged
@@ -420,6 +421,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f7760388a8582b64aa20e1cd2c7f9a43, type: 2}
   - {fileID: 11400000, guid: 4f81888388793e4439b2eaea8701fb98, type: 2}
   - {fileID: 11400000, guid: c0dcb3dfea6e73040931b2a1eafb2151, type: 2}
+--- !u!135 &5299752028563313748
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8989687676732587896}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &203811918006499240
 PrefabInstance:
   m_ObjectHideFlags: 0

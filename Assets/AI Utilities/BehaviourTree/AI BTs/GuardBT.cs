@@ -1,13 +1,25 @@
 using BehaviourTree;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class GuardBT : Tree
+public class GuardBT : BehaviourTree.Tree
 {
     public UnityEngine.Transform[] waypoints;
 
     public static float speed = 1f;
     public static float fovRange = 6f;
     public static float attackRange = 1f;
+    public static float cooldown = 0f, cooldownReset = 5f;
+    public bool canAttack = true;
+    public static GuardBT instance;
+
+    private void Awake()
+    {
+        if (instance)
+            Destroy(instance.gameObject);        
+        else
+            instance = this;
+    }
 
     protected override Node SetupTree()
     {
@@ -18,6 +30,7 @@ public class GuardBT : Tree
                     (new List<Node>
                         {
                             new CheckEnemyInAttackRange(transform),
+                            //new ConditionalDecorator(CanAttack),
                             new TaskAttack(transform),
                         }
                     ),
@@ -25,6 +38,7 @@ public class GuardBT : Tree
                     (new List<Node>
                         {
                             new CheckEnemyInFOVRange(transform),
+                            //new ConditionalDecorator(CanAttack),
                             new TaskGoToTarget(transform),
                         }
                     ),
@@ -33,5 +47,18 @@ public class GuardBT : Tree
             );
         
         return root;
+    }
+
+    // Custom method to check if the attack is on cooldown
+    private NODESTATE CanAttack()
+    {
+        if (canAttack)
+        {
+            return NODESTATE.SUCCESS;
+        }
+        else
+        {
+            return NODESTATE.FAILURE;
+        }
     }
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6555840012503455579}
   - component: {fileID: 1139668053711202326}
+  - component: {fileID: 3527635993471002153}
   m_Layer: 9
   m_Name: Potato
   m_TagString: Untagged
@@ -46,6 +47,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: d0e182fd46b428f498667bb4475c4c86, type: 2}
+--- !u!135 &3527635993471002153
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225885444208585781}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &9123509332789057898
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -36,8 +36,7 @@ public class CheckEnemyInFOVRange : Node
                         }
                     }
                 }
-            }
-            
+            }            
 
             state = NODESTATE.FAILURE;
             return state;            
@@ -45,6 +44,7 @@ public class CheckEnemyInFOVRange : Node
 
         Debug.Log("Checking fov");
         state = NODESTATE.SUCCESS;
+
         return state;
     } 
 }

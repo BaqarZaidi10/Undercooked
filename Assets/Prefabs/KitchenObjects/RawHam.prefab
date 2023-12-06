@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3516216264670426712}
   - component: {fileID: 690398637271048296}
+  - component: {fileID: -4877690809301706207}
   m_Layer: 9
   m_Name: RawHam
   m_TagString: Raw
@@ -46,6 +47,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: ba0372aae25f31d4698a43b1edc03d04, type: 2}
+--- !u!135 &-4877690809301706207
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8059958278043561855}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1882042569950571061
 PrefabInstance:
   m_ObjectHideFlags: 0
