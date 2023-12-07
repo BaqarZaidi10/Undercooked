@@ -1012,6 +1012,12 @@ MonoBehaviour:
   fryingRecipeSOArray:
   - {fileID: 11400000, guid: 7ab7510292b6ca149b461c6baf2a419d, type: 2}
   - {fileID: 11400000, guid: 6e68bbf757361cb4ca08600464afd5df, type: 2}
+  - {fileID: 11400000, guid: cbc732914c9554346aa0c84f078b6ba8, type: 2}
+  - {fileID: 11400000, guid: 5df304d4d24b4de4fb9bb0602a1b9ee7, type: 2}
+  - {fileID: 11400000, guid: c6478bb6ac7b41748828b1de4c548385, type: 2}
   burningRecipeSOArray:
   - {fileID: 11400000, guid: 6d520c8776ef939428935442ee92b442, type: 2}
   - {fileID: 11400000, guid: a7e5d2c87b002334da1421cb81aadb09, type: 2}
+  - {fileID: 11400000, guid: 034633ae8de5b37468abce2d85f92b32, type: 2}
+  - {fileID: 11400000, guid: 4a00c46545644d04fb5b08688aadb1b2, type: 2}
+  - {fileID: 11400000, guid: 91d4bdf461f61824ba70517a27821ec3, type: 2}
