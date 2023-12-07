@@ -14,7 +14,7 @@ public class CheckRawFood : Node
 
     public override NODESTATE Evaluate()
     {
-        object t = GetData("target");
+        object t = GetData("Rtarget");
 
         if (t == null)
         {
@@ -29,7 +29,7 @@ public class CheckRawFood : Node
                     {
                         if (enemyColliders.Length > 0)
                         {
-                            parent.parent.SetData("target", enemyColliders[0].transform);
+                            parent.parent.SetData("Rtarget", enemyColliders[0].transform);
 
                             state = NODESTATE.SUCCESS;
                             return state;

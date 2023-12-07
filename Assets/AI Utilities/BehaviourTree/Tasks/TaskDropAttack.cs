@@ -17,12 +17,12 @@ public class TaskDropAttack : Node
 
     public override NODESTATE Evaluate()
     {
-        Transform target = (Transform)GetData("target");
+        Transform target = (Transform)GetData("Dtarget");
 
         if (Vector3.Distance(transform.position, target.position) < GordonRamseyBT.attackRange)
         {
             GordonRamsey.instance.ChangeState(GordonRamsey.RAMSEY_STATE.FOOD_DROPPED, target);
-            parent.parent.ClearData("target");
+            parent.parent.ClearData("Dtarget");
             state = NODESTATE.SUCCESS;
             return state;
         }

@@ -14,7 +14,7 @@ public class CheckBurntFood : Node
 
     public override NODESTATE Evaluate()
     {
-        object t = GetData("target");
+        object t = GetData("Btarget");
 
         if (t == null)
         {
@@ -29,7 +29,7 @@ public class CheckBurntFood : Node
                     {
                         if (enemyColliders.Length > 0)
                         {
-                            parent.parent.SetData("target", enemyColliders[0].transform);
+                            parent.parent.SetData("Btarget", enemyColliders[0].transform);
 
                             state = NODESTATE.SUCCESS;
                             return state;

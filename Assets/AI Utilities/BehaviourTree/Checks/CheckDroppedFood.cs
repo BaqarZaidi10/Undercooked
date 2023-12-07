@@ -29,7 +29,7 @@ public class CheckDroppedFood : Node
                     {
                         if (enemyColliders.Length > 0)
                         {
-                            parent.parent.SetData("target", enemyColliders[0].transform);
+                            parent.parent.SetData("Dtarget", enemyColliders[0].transform);
 
                             state = NODESTATE.SUCCESS;
                             return state;
