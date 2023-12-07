@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e077fc95b95ccf040a2155ffc63c0d21, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e52832821a13e4599e2368fb95d6c6, type: 3}
   m_Name: SteakFrying
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: f408779177ea1a4489e2bd15e4d37f1e, type: 2}
   output: {fileID: 11400000, guid: 1e0e671102a3a914fa91414ca0846984, type: 2}
-  fryingTimerMax: 10
+  fryingTimerMax: 6

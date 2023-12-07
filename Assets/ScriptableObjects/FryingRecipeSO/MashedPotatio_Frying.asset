@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e077fc95b95ccf040a2155ffc63c0d21, type: 3}
+  m_Script: {fileID: 11500000, guid: f5e52832821a13e4599e2368fb95d6c6, type: 3}
   m_Name: MashedPotatio_Frying
   m_EditorClassIdentifier: 
   input: {fileID: 11400000, guid: 971fb33ddf6f0924c8856e22e49a115e, type: 2}
   output: {fileID: 11400000, guid: a578fd34f8b07724dbf04688a4ec1bc6, type: 2}
-  fryingTimerMax: 4
+  fryingTimerMax: 3

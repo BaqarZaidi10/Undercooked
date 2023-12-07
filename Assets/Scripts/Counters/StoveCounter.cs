@@ -27,7 +27,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     }
 
     // Array of frying recipes
-    [SerializeField] private OvenRecipe[] fryingRecipeSOArray;
+    [SerializeField] private FryingRecipeSO[] fryingRecipeSOArray;
 
     // Array of burning recipes
     [SerializeField] private BurningRecipeSO[] burningRecipeSOArray;
@@ -39,7 +39,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     private float fryingTimer;
 
     // Current frying recipe
-    private OvenRecipe fryingRecipeSO;
+    private FryingRecipeSO fryingRecipeSO;
 
     // Timer for burning
     private float burningTimer;
@@ -221,21 +221,21 @@ public class StoveCounter : BaseCounter, IHasProgress
     // Check if there is a recipe with the given input
     private bool HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        OvenRecipe fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
+        FryingRecipeSO fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
         return fryingRecipeSO != null;
     }
 
     // Get the output kitchen object for the given input
     private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        OvenRecipe fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
+        FryingRecipeSO fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
         return fryingRecipeSO != null ? fryingRecipeSO.output : null;
     }
 
     // Get the frying recipe with the given input
-    private OvenRecipe GetFryingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
+    private FryingRecipeSO GetFryingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        foreach (OvenRecipe fryingRecipeSO in fryingRecipeSOArray)
+        foreach (FryingRecipeSO fryingRecipeSO in fryingRecipeSOArray)
         {
             if (fryingRecipeSO.input == inputKitchenObjectSO)
             {
