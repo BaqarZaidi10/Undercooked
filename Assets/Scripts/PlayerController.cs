@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     private bool _canMove = true;
 
     public PlayerStates playerStates;
+    private Vector2 inputVector2Normalized;
+    private Vector3 moveDirection;
 
     public enum PlayerStates
     {
@@ -112,6 +114,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         GameObject newSlipObject = Instantiate(_slipGameObject, dropWorldPosition, _slipGameObject.transform.rotation);
         newSlipObject.transform.parent = null;
         newSlipObject.gameObject.SetActive(true);
+        Destroy(newSlipObject, 6);
     }
 
     private void Update()
@@ -120,13 +123,21 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
 
         if (_canMove)
         {
-            HandleMovement();
+            HandleMovementInput();
             _playerSlip.gameObject.SetActive(false);
             playerStates = PlayerStates.Cooking;
         }
         HandleInteractions();
         
         
+    }
+
+    private void FixedUpdate()
+    {
+        if (_canMove)
+        {
+            MovePlayer();
+        }
     }
 
     public bool IsWalking()
@@ -168,18 +179,21 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         }
     }
 
-    private void HandleMovement()
+    private void HandleMovementInput()
     {
         // Handle player movement
-        Vector2 inputVector2Normalized = GameInput.Instance.GetMovementVectorNormalized(playerInputActions);
-        Vector3 moveDirection = new Vector3(inputVector2Normalized.x, 0, inputVector2Normalized.y);
-
-        rb.velocity = moveDirection * movementSpeed * Time.deltaTime;
+        inputVector2Normalized = GameInput.Instance.GetMovementVectorNormalized(playerInputActions);
+        moveDirection = new Vector3(inputVector2Normalized.x, 0, inputVector2Normalized.y);
 
         // Update walking status and rotation
         isWalking = moveDirection != Vector3.zero;
         float rotateSpeed = 10f;
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+    }
+
+    private void MovePlayer()
+    {
+        rb.velocity = moveDirection * movementSpeed * Time.deltaTime;
     }
 
     private void SetSelectedCounter(BaseCounter selectedCounter)
@@ -237,6 +251,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     {
         if(other.gameObject.CompareTag("Slip"))
         {
+            Destroy(other.gameObject);
             playerStates = PlayerStates.Slipped;
             _playerVisual.gameObject.SetActive(false);
             _playerSlip.gameObject.SetActive(true);
@@ -244,7 +259,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
             currentRotation = _playerVisual.transform.rotation;
             rb.velocity = Vector3.zero;
             _canMove = false;
-            StartCoroutine(SlipPlayer(5f, currentRotation));
+            StartCoroutine(SlipPlayer(4f, currentRotation));
         }
     }
 

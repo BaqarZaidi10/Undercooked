@@ -1,3 +1,4 @@
+using System.Collections;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem.Users;
@@ -98,20 +99,19 @@ public class GameManager_ : MonoBehaviour
             case State.GamePlaying:
                 gamePlayingTimer -= Time.deltaTime;
 
-                if (gamePlayingTimer < 0)
+                if (gamePlayingTimer < 0 || DeliveryCounter.Instance.counterSpace <= 0)
                 {
                     gamePlayingTimer = gamePlayingTimerMax;
 
                     if (currentRound >= 3)
                     {
-                        state = State.GameOver;
-                        OnStateChanged?.Invoke(this, EventArgs.Empty);
+                        ScorePopup.Instance.PopupScores();
+                        StartCoroutine(GameOverCoroutine());
                     }
                     else
                     {
-                        currentRound += 1;
-                        DeliveryManager.Instance.NewRecipe();
-                        DeliveryCounter.Instance.ResetCounterSpace();
+                        ScorePopup.Instance.PopupScores();
+                        StartCoroutine(StartNextRoundCoroutine());
                     }
                 }
                 break;
@@ -129,6 +129,23 @@ public class GameManager_ : MonoBehaviour
             case State.GameOver:
                 break;
         }
+    }
+
+    private IEnumerator StartNextRoundCoroutine()
+    {
+        yield return new WaitForSeconds(10);
+
+        currentRound += 1;
+        DeliveryManager.Instance.NewRecipe();
+        DeliveryCounter.Instance.ResetCounterSpace();
+    }
+
+    private IEnumerator GameOverCoroutine()
+    {
+        yield return new WaitForSeconds(10);
+
+        state = State.GameOver;
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
     // Event handler for player instantiation completion

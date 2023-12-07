@@ -27,6 +27,11 @@ public class DeliveryCounter : BaseCounter
         if (counterSpace <= 0)
             return;
 
+        if (player.gameObject == currentPlayer)
+            return;
+
+        currentPlayer = player.gameObject;
+
         // Check if the player is carrying a kitchen object
         if (player.HasKitchenObject())
         {
@@ -48,24 +53,6 @@ public class DeliveryCounter : BaseCounter
     public void ResetCounterSpace()
     {
         counterSpace = maxCounterSpace;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            currentPlayer = other.gameObject;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (currentPlayer == null)
-            return;
-
-        if (other.gameObject == currentPlayer)
-        {
-            currentPlayer = null;
-        }
+        currentPlayer = null;
     }
 }

@@ -72,60 +72,56 @@ public class DeliveryManager : MonoBehaviour
     {
         int score = 10;
 
-        for (int i = 0; i < waitingRecipeSOList.Count; i++)
+        RecipeSO waitingRecipeSO = waitingRecipeSOList[0];
+
+        bool emptyRecipe = true;
+        int ingredients = 0;
+
+        foreach (KitchenObjectSO plateKitchenObjectSO in plateKitchenObject.GetKitchenObjectSOList())
         {
-            RecipeSO waitingRecipeSO = waitingRecipeSOList[i];
-
-            if (waitingRecipeSO.kitchenObjectSOList.Count == plateKitchenObject.GetKitchenObjectSOList().Count)
+            Debug.Log("Checking ingredient...");
+            // Cycling through all ingredients in the plate
+            if (waitingRecipeSO.kitchenObjectSOList.Contains(plateKitchenObjectSO))
             {
-
-                bool emptyRecipe = true;
-                foreach (KitchenObjectSO recipeKitchenObjectSO in waitingRecipeSO.kitchenObjectSOList)
-                {
-                    // Cycling through all ingredients in the recipe
-                    foreach (KitchenObjectSO plateKitchenObjectSO in plateKitchenObject.GetKitchenObjectSOList())
-                    {
-                        Debug.Log("Checking ingredient...");
-                        // Cycling through all ingredients in the plate
-                        if (plateKitchenObjectSO == recipeKitchenObjectSO)
-                        {
-                            Debug.Log("Ingredient Correct");
-                            emptyRecipe = false;
-                        }
-                        else if (plateKitchenObjectSO.burned)
-                        {
-                            Debug.Log("Ingredient Burned");
-                            score -= 3;
-                        }
-                        else if (plateKitchenObjectSO.raw)
-                        {
-                            Debug.Log("Ingredient Raw");
-                            score -= 5;
-                        }
-                        else
-                        {
-                            Debug.Log("Ingredient Missing");
-                            score -= 2;
-                        }
-                    }
-                }
-
-                if (emptyRecipe)
-                {
-                    score = 0;
-                }
-
-                // Player delivered the correct recipe
-                successfulRecipesAmount++;
-
-                //waitingRecipeSOList.RemoveAt(i);
-
-                lastScore = score;
-
-                OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
-                OnRecipeSuccessed?.Invoke(this, EventArgs.Empty);
+                Debug.Log("Ingredient Correct");
+                emptyRecipe = false;
+                ingredients++;
+            }
+            else if (plateKitchenObjectSO.raw)
+            {
+                Debug.Log("Ingredient Raw");
+                score -= 5;
+                ingredients++;
+            }
+            else if (plateKitchenObjectSO.burned)
+            {
+                Debug.Log("Ingredient Burned");
+                score -= 3;
+                ingredients++;
             }
         }
+
+        if (waitingRecipeSO.kitchenObjectSOList.Count > ingredients)
+        {
+            score -= 2 * (waitingRecipeSO.kitchenObjectSOList.Count - ingredients);
+        }
+
+        if (emptyRecipe || score < 0)
+        {
+            score = 0;
+        }
+
+        Debug.Log("Score: " + score);
+
+        // Player delivered the correct recipe
+        successfulRecipesAmount++;
+
+        //waitingRecipeSOList.RemoveAt(i);
+
+        lastScore = score;
+
+        OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+        OnRecipeSuccessed?.Invoke(this, EventArgs.Empty);
 
         // No matches found, the player did not deliver the correct recipe
         //OnRecipeFailed?.Invoke(this, EventArgs.Empty);
