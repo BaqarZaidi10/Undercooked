@@ -4,10 +4,7 @@ using UnityEngine;
 public class TaskBurnAttack : Node
 {
     private Transform transform;
-    private Animator animator;
     private CharacterController controller;
-
-    private float punishmentTime = 3f, punishmentCooldown = 0f;
 
     public TaskBurnAttack(Transform transform)
     {
@@ -21,6 +18,7 @@ public class TaskBurnAttack : Node
 
         if (Vector3.Distance(transform.position, target.position) < GordonRamseyBT.attackRange)
         {
+            transform.LookAt(target.position);
             GordonRamsey.instance.ChangeState(GordonRamsey.RAMSEY_STATE.FOOD_BURNT, target);
             parent.parent.ClearData("Btarget");
             state = NODESTATE.SUCCESS;

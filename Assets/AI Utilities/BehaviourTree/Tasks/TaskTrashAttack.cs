@@ -4,10 +4,7 @@ using UnityEngine;
 public class TaskTrashAttack : Node
 {
     private Transform transform;
-    private Animator animator;
     private CharacterController controller;
-
-    private float punishmentTime = 3f, punishmentCooldown = 0f;
 
     public TaskTrashAttack(Transform transform)
     {
@@ -21,6 +18,7 @@ public class TaskTrashAttack : Node
 
         if (Vector3.Distance(transform.position, target.position) < GordonRamseyBT.attackRange)
         {
+            transform.LookAt(target.position);
             GordonRamsey.instance.ChangeState(GordonRamsey.RAMSEY_STATE.FOOD_TRASH, target);
 
             parent.parent.ClearData("Ttarget");

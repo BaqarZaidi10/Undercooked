@@ -4,10 +4,7 @@ using UnityEngine;
 public class TaskRawAttack : Node
 {
     private Transform transform;
-    private Animator animator;
     private CharacterController controller;
-
-    private float punishmentTime = 3f, punishmentCooldown = 0f;
 
     public TaskRawAttack(Transform transform)
     {
@@ -21,6 +18,7 @@ public class TaskRawAttack : Node
 
         if (Vector3.Distance(transform.position, target.position) < GordonRamseyBT.attackRange)
         {
+            transform.LookAt(target.position);
             GordonRamsey.instance.ChangeState(GordonRamsey.RAMSEY_STATE.FOOD_RAW, target);
             parent.parent.ClearData("Rtarget");
             state = NODESTATE.SUCCESS;
