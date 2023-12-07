@@ -1,13 +1,13 @@
 using BehaviourTree;
 using UnityEngine;
 
-public class CheckFoodOnGround : Node
+public class CheckDroppedFood : Node
 {
     private Transform transform;
     private LayerMask enemyLayer = 1 << 7;
     private LayerMask foodLayer = 1 << 9;
 
-    public CheckFoodOnGround(Transform transform)
+    public CheckDroppedFood(Transform transform)
     {
         this.transform = transform;
     }

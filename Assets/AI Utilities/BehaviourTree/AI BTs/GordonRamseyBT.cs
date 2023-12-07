@@ -9,8 +9,8 @@ public class GordonRamseyBT : BehaviourTree.Tree
 
     public static float speed = 1f;
     public static float fovRange = 6f;
-    public static float attackRange = 1f;
-    public static float cooldown = 0f, cooldownReset = 5f;
+    public static float attackRange = 2f;
+    public static float cooldown = 5f;
     public bool canAttack = true;
     public static GordonRamseyBT instance;
 
@@ -47,7 +47,7 @@ public class GordonRamseyBT : BehaviourTree.Tree
                     (new List<Node>
                         {
                             new ConditionalDecorator(CanAttack),
-                            new CheckFoodOnGround(transform),
+                            new CheckDroppedFood(transform),
                             new TaskDropAttack(transform),
                         }
                     ),
@@ -64,6 +64,8 @@ public class GordonRamseyBT : BehaviourTree.Tree
 
         if (canAttack)
         {
+            //StartCoroutine(AttackCooldown(cooldown));
+            //canAttack = false;
             return NODESTATE.SUCCESS;
         }
         else
@@ -75,6 +77,7 @@ public class GordonRamseyBT : BehaviourTree.Tree
     public IEnumerator AttackCooldown(float waitTime)
     {
         canAttack = false;
+        cooldown = waitTime;
         yield return new WaitForSeconds(waitTime);
         canAttack = true;
     }
