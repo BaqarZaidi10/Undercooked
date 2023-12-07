@@ -38,21 +38,20 @@ public class DeliveryManager : MonoBehaviour
     {
         if (GameManager_.Instance.IsGamePlaying())
         {
+            spawnRecipeTimer -= Time.deltaTime;
+            if (spawnRecipeTimer <= 0f)
+            {
+                spawnRecipeTimer = spawnRecipeTimerMax;
 
-            //spawnRecipeTimer -= Time.deltaTime;
-            //if (spawnRecipeTimer <= 0f)
-            //{
-            //    spawnRecipeTimer = spawnRecipeTimerMax;
+                if (waitingRecipeSOList.Count < waitingRecipesMax)
+                {
+                    // Spawn recipe
+                    RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
+                    waitingRecipeSOList.Add(waitingRecipeSO);
 
-            //    if (waitingRecipeSOList.Count < waitingRecipesMax)
-            //    {
-            //        // Spawn recipe
-            //        RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count)];
-            //        waitingRecipeSOList.Add(waitingRecipeSO);
-
-            //        OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
-            //    }
-            //}
+                    OnRecipeSpawned?.Invoke(this, EventArgs.Empty);
+                }
+            }
         }
     }
 

@@ -36,6 +36,7 @@ public class TaskAttack : Node
             }
         }
 
+        Debug.Log("attacking");
         state = NODESTATE.RUNNING;
         return state;
     }

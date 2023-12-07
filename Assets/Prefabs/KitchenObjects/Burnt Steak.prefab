@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7443295277607041162}
   m_Layer: 0
   m_Name: Burnt Steak
-  m_TagString: Untagged
+  m_TagString: Burnt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

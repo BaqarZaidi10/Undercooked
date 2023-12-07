@@ -27,7 +27,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     }
 
     // Array of frying recipes
-    [SerializeField] private FryingRecipeSO[] fryingRecipeSOArray;
+    [SerializeField] private OvenRecipe[] fryingRecipeSOArray;
 
     // Array of burning recipes
     [SerializeField] private BurningRecipeSO[] burningRecipeSOArray;
@@ -39,7 +39,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     private float fryingTimer;
 
     // Current frying recipe
-    private FryingRecipeSO fryingRecipeSO;
+    private OvenRecipe fryingRecipeSO;
 
     // Timer for burning
     private float burningTimer;
@@ -56,6 +56,7 @@ public class StoveCounter : BaseCounter, IHasProgress
     // Update is called once per frame
     private void Update()
     {
+        //Debug.Log(   "pan"+ HasKitchenObject());
         // Check if the stove counter has a kitchen object
         if (HasKitchenObject())
         {
@@ -220,21 +221,21 @@ public class StoveCounter : BaseCounter, IHasProgress
     // Check if there is a recipe with the given input
     private bool HasRecipeWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        FryingRecipeSO fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
+        OvenRecipe fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
         return fryingRecipeSO != null;
     }
 
     // Get the output kitchen object for the given input
     private KitchenObjectSO GetOutputForInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        FryingRecipeSO fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
+        OvenRecipe fryingRecipeSO = GetFryingRecipeSOWithInput(inputKitchenObjectSO);
         return fryingRecipeSO != null ? fryingRecipeSO.output : null;
     }
 
     // Get the frying recipe with the given input
-    private FryingRecipeSO GetFryingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
+    private OvenRecipe GetFryingRecipeSOWithInput(KitchenObjectSO inputKitchenObjectSO)
     {
-        foreach (FryingRecipeSO fryingRecipeSO in fryingRecipeSOArray)
+        foreach (OvenRecipe fryingRecipeSO in fryingRecipeSOArray)
         {
             if (fryingRecipeSO.input == inputKitchenObjectSO)
             {

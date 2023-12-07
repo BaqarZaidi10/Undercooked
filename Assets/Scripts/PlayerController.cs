@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     }
 
     // Serialized fields visible in the Unity editor
-    [SerializeField] private float movementSpeed = 7f;
+    public float movementSpeed = 7f;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
     [SerializeField] private Transform kitchenObjectDropPoint;

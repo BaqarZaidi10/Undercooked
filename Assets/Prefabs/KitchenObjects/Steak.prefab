@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2298598861941252381}
   - component: {fileID: 3155515730890410120}
-  m_Layer: 0
+  - component: {fileID: 7813229826936237992}
+  m_Layer: 9
   m_Name: Steak
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,6 +47,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   kitchenObjectSO: {fileID: 11400000, guid: f408779177ea1a4489e2bd15e4d37f1e, type: 2}
+--- !u!135 &7813229826936237992
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299702134709131397}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1131215513139810982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108,6 +130,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: food_ingredient_steak
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 89dc043690b4f4c4385b021a10843b2b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

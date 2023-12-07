@@ -8,20 +8,31 @@ namespace BehaviourTree
     public abstract class Tree : MonoBehaviour
     {
         private Node root = null;
+        private bool isPaused = true;
 
-        private void Start()
+        protected virtual void Start()
         {
             root = SetupTree();
         }
 
-        private void Update()
+        protected virtual void Update()
         {
-            if (root != null)
+            if (root != null && !isPaused)
             {
                 root.Evaluate();
             }
         }
 
         protected abstract Node SetupTree();
+
+        public void PauseTree()
+        {
+            isPaused = true;
+        }
+        
+        public void ResumeTree()
+        {
+            isPaused = false;
+        }
     }
 }
