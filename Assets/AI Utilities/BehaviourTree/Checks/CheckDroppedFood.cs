@@ -23,9 +23,9 @@ public class CheckDroppedFood : Node
 
             if (foodColliders.Length > 0)
             {
-                foreach(Collider f in foodColliders)
+                foreach (Collider f in foodColliders)
                 {
-                    if(Vector3.Distance(f.transform.position, GameObject.Find("Floor").transform.position) < 0.5f)
+                    if(f.gameObject.CompareTag("Slip") && f.gameObject.activeInHierarchy)
                     {
                         if (enemyColliders.Length > 0)
                         {
@@ -42,9 +42,7 @@ public class CheckDroppedFood : Node
             return state;            
         }
 
-        Debug.Log("Checking fov");
         state = NODESTATE.SUCCESS;
-
         return state;
     }
 }

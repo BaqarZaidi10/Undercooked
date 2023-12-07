@@ -18,14 +18,14 @@ public class CheckBurntFood : Node
 
         if (t == null)
         {
-            Collider[] enemyColliders = Physics.OverlapSphere(transform.position + (Vector3.forward * GordonRamseyBT.fovRange), GordonRamseyBT.fovRange, enemyLayer);
-            Collider[] foodColliders = Physics.OverlapSphere(transform.position + (Vector3.forward * GordonRamseyBT.fovRange), GordonRamseyBT.fovRange, foodLayer);
+            Collider[] enemyColliders = Physics.OverlapSphere(transform.position + (transform.forward * GordonRamseyBT.fovRange), GordonRamseyBT.fovRange, enemyLayer);
+            Collider[] foodColliders = Physics.OverlapSphere(transform.position + (transform.forward * GordonRamseyBT.fovRange), GordonRamseyBT.fovRange, foodLayer);
 
             if (foodColliders.Length > 0)
             {
                 foreach (Collider f in foodColliders)
                 {
-                    if (f.CompareTag("Burnt"))
+                    if (f.gameObject.CompareTag("Burnt"))
                     {
                         if (enemyColliders.Length > 0)
                         {
@@ -42,9 +42,7 @@ public class CheckBurntFood : Node
             return state;
         }
 
-        Debug.Log("Checking fov");
         state = NODESTATE.SUCCESS;
-
         return state;
     }
 }

@@ -333,8 +333,8 @@ CharacterController:
   serializedVersion: 3
   m_Height: 2
   m_Radius: 0.7
-  m_SlopeLimit: 45
-  m_StepOffset: 0.1
+  m_SlopeLimit: 0
+  m_StepOffset: 0
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
@@ -376,6 +376,8 @@ MonoBehaviour:
   rawWait: 3
   burntWait: 3
   trashWait: 3
+  dropWait: 10
+  CURRENT_STATE: 0
 --- !u!136 &6202122785881598740
 CapsuleCollider:
   m_ObjectHideFlags: 0

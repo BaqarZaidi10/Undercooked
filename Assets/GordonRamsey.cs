@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GordonRamsey : MonoBehaviour
@@ -20,7 +21,8 @@ public class GordonRamsey : MonoBehaviour
         FOOD_BURNT,
         FOOD_RAW,
         FOOD_TRASH,
-        COLLIDING
+        COLLIDING,
+        COOLDOWN
     }
     public RAMSEY_STATE CURRENT_STATE = RAMSEY_STATE.PATROLLING;
 
@@ -39,11 +41,41 @@ public class GordonRamsey : MonoBehaviour
     private void Start()
     {
         ChangeState(RAMSEY_STATE.PATROLLING);
+        GordonRamseyBT.instance.canAttack = true;
     }
+
+    public void StartCooldown(float cooldown)
+    {
+        GordonRamseyBT.instance.canAttack = false;
+        Invoke(nameof(CanAttack), cooldown);
+    }
+
+    private void CanAttack()
+    {
+        GordonRamseyBT.instance.canAttack = true;
+    }
+
+    //private IEnumerator Cooldown(float time)
+    //{
+    //    CURRENT_STATE = RAMSEY_STATE.COOLDOWN;
+
+    //    if (currentState != null)
+    //        StopCoroutine(currentState);
+
+    //    if (CURRENT_STATE != RAMSEY_STATE.COOLDOWN)
+    //        currentState = StartCoroutine(Cooldown(cooldown));
+
+    //    GordonRamseyBT.instance.canAttack = false;
+    //    yield return new WaitForSeconds(time);
+    //    GordonRamseyBT.instance.canAttack = true;
+    //    yield return new WaitForSeconds(time);
+    //    GordonRamseyBT.instance.canAttack = false;
+    //}
 
     public void ChangeState(RAMSEY_STATE STATE, Transform target)
     {
         CURRENT_STATE = STATE;
+        StartCooldown(10f);
         GordonRamseyBT.instance.PauseTree();
 
         if (currentState != null)

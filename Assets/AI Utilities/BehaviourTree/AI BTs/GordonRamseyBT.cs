@@ -10,8 +10,8 @@ public class GordonRamseyBT : BehaviourTree.Tree
     public static float speed = 1f;
     public static float fovRange = 6f;
     public static float attackRange = 2f;
-    public static float cooldown = 5f;
-    public bool canAttack = true;
+    public static float cooldown = 10f;
+    public bool canAttack;
     public static GordonRamseyBT instance;
 
     private void Awake()
@@ -27,22 +27,22 @@ public class GordonRamseyBT : BehaviourTree.Tree
         Node root = new Selector
             (new List<Node>
                 {
-                    //new Sequence 
-                    //(new List<Node>
-                    //    {
-                    //        new ConditionalDecorator(CanAttack),
-                    //        new CheckRawFood(transform),
-                    //        new TaskRawAttack(transform),
-                    //    }
-                    //),
-                    //new Sequence 
-                    //(new List<Node>
-                    //    {
-                    //        new ConditionalDecorator(CanAttack),
-                    //        new CheckBurntFood(transform),
-                    //        new TaskBurnAttack(transform),
-                    //    }
-                    //),
+                    new Sequence
+                    (new List<Node>
+                        {
+                            new ConditionalDecorator(CanAttack),
+                            new CheckRawFood(transform),
+                            new TaskRawAttack(transform),
+                        }
+                    ),
+                    new Sequence
+                    (new List<Node>
+                        {
+                            new ConditionalDecorator(CanAttack),
+                            new CheckBurntFood(transform),
+                            new TaskBurnAttack(transform),
+                        }
+                    ),
                     new Sequence 
                     (new List<Node>
                         {
@@ -61,23 +61,14 @@ public class GordonRamseyBT : BehaviourTree.Tree
     // Custom method to check if the attack is on cooldown
     private NODESTATE CanAttack()
     {
-
+        Debug.Log(canAttack);
         if (canAttack)
         {
-            StartCoroutine(AttackCooldown(cooldown));
             return NODESTATE.SUCCESS;
         }
         else
         {
             return NODESTATE.FAILURE;
         }
-    }
-
-    public IEnumerator AttackCooldown(float waitTime)
-    {
-        canAttack = false;
-        cooldown = waitTime;
-        yield return new WaitForSeconds(waitTime);
-        canAttack = true;
     }
 }
