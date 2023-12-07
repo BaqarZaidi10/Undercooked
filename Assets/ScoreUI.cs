@@ -3,30 +3,22 @@ using UnityEngine;
 
 public class ScoreUI : MonoBehaviour
 {
-    private TextMeshProUGUI p1WinsText, p1FailsText, p2WinsText, p2FailsText;
-    public int p1Wins, p2Wins, p1Fails, p2Fails;
+    private TextMeshProUGUI p1ScoreText, p2ScoreText;
+    public int p1Score, p2Score;
     public static ScoreUI instance;
 
     private void Awake()
     {
-        p1WinsText = GameObject.Find("P1_Wins").GetComponent<TextMeshProUGUI>();
-        p2WinsText = GameObject.Find("P2_Wins").GetComponent<TextMeshProUGUI>();
-        p1FailsText = GameObject.Find("P1_Fails").GetComponent<TextMeshProUGUI>();
-        p2FailsText = GameObject.Find("P2_Fails").GetComponent<TextMeshProUGUI>();
+        p1ScoreText = GameObject.Find("P1_Score").GetComponent<TextMeshProUGUI>();
+        p2ScoreText = GameObject.Find("P2_Score").GetComponent<TextMeshProUGUI>();
 
-        p1Wins = 0;        
-        p1WinsText.text = p1Wins.ToString();
+        p1Score = 0;
+        p1ScoreText.text = ScoreText(p1Score);
 
-        p1Fails = 0;
-        p1FailsText.text = p1Fails.ToString();
+        p2Score = 0;
+        p2ScoreText.text = ScoreText(p2Score);
 
-        p2Wins = 0;
-        p2WinsText.text = p2Wins.ToString();
-
-        p2Fails = 0;
-        p2FailsText.text = p2Fails.ToString();
-
-        if(instance)
+        if (instance)
         {
             Destroy(instance.gameObject);
         }
@@ -50,32 +42,22 @@ public class ScoreUI : MonoBehaviour
     {
         if(currentPlayer)
         {
-            if (success)
+            if (currentPlayer.name == "p1")
             {
-                if (currentPlayer.name == "p1")
-                {
-                    p1Wins++;
-                    p1WinsText.text = p1Wins.ToString();
-                }
-                else if (currentPlayer.name == "p2")
-                {
-                    p2Wins++;
-                    p2WinsText.text = p2Wins.ToString();
-                }
+                Debug.Log("Adding P1 Score: " + DeliveryManager.Instance.lastScore);
+                p1Score += DeliveryManager.Instance.lastScore;
+                p1ScoreText.text = p1Score.ToString();
             }
-            else
+            else if (currentPlayer.name == "p2")
             {
-                if (currentPlayer.name == "p1")
-                {
-                    p1Fails++;
-                    p1FailsText.text = p1Fails.ToString();
-                }
-                else if (currentPlayer.name == "p2")
-                {
-                    p2Fails++;
-                    p2FailsText.text = p2Fails.ToString();
-                }
+                p2Score += DeliveryManager.Instance.lastScore;
+                p2ScoreText.text = p2Score.ToString();
             }
         }        
+    }
+
+    public string ScoreText(int score)
+    {
+        return score.ToString() + "/30";
     }
 }

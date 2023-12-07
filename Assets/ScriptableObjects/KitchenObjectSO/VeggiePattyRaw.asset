@@ -15,3 +15,5 @@ MonoBehaviour:
   prefab: {fileID: 2412166354557622837, guid: 74e51006a5493cc48b8df416493b38fb, type: 3}
   sprite: {fileID: 21300000, guid: 534c61dcf64f91c4b8c790da0bc537ec, type: 3}
   objectName: RawVeggiePatty
+  burned: 0
+  raw: 1

@@ -15,3 +15,5 @@ MonoBehaviour:
   prefab: {fileID: 188911411094550910, guid: 9c43cc64050531246bb7849ec6ea0c3d, type: 3}
   sprite: {fileID: 21300000, guid: 320635ed958602343bf1ac1ace393ae3, type: 3}
   objectName: SteakChopped
+  burned: 1
+  raw: 0

@@ -15,3 +15,5 @@ MonoBehaviour:
   prefab: {fileID: 4559660612615320886, guid: 104039b089ea18641a5acc5a344685cc, type: 3}
   sprite: {fileID: 21300000, guid: 713ea9afa60dd6e4ebf6503a33e8cc99, type: 3}
   objectName: MeatPattyBurnt
+  burned: 1
+  raw: 0

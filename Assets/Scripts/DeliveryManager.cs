@@ -24,6 +24,8 @@ public class DeliveryManager : MonoBehaviour
     private int waitingRecipesMax = 4;
     private int successfulRecipesAmount;
 
+    public int lastScore = -1;
+
     // Awake method for initialization
     private void Awake()
     {
@@ -68,51 +70,65 @@ public class DeliveryManager : MonoBehaviour
     // Method for delivering a recipe
     public void DeliverRecipe(PlateKitchenObject plateKitchenObject)
     {
+        int score = 10;
+
         for (int i = 0; i < waitingRecipeSOList.Count; i++)
         {
             RecipeSO waitingRecipeSO = waitingRecipeSOList[i];
 
             if (waitingRecipeSO.kitchenObjectSOList.Count == plateKitchenObject.GetKitchenObjectSOList().Count)
             {
-                // Has the same number of ingredients
-                bool plateContentMatchesRecipe = true;
+
+                bool emptyRecipe = true;
                 foreach (KitchenObjectSO recipeKitchenObjectSO in waitingRecipeSO.kitchenObjectSOList)
                 {
                     // Cycling through all ingredients in the recipe
-                    bool ingredientFound = false;
                     foreach (KitchenObjectSO plateKitchenObjectSO in plateKitchenObject.GetKitchenObjectSOList())
                     {
+                        Debug.Log("Checking ingredient...");
                         // Cycling through all ingredients in the plate
                         if (plateKitchenObjectSO == recipeKitchenObjectSO)
                         {
-                            // Ingredient does match
-                            ingredientFound = true;
-                            break;
+                            Debug.Log("Ingredient Correct");
+                            emptyRecipe = false;
+                        }
+                        else if (plateKitchenObjectSO.burned)
+                        {
+                            Debug.Log("Ingredient Burned");
+                            score -= 3;
+                        }
+                        else if (plateKitchenObjectSO.raw)
+                        {
+                            Debug.Log("Ingredient Raw");
+                            score -= 5;
+                        }
+                        else
+                        {
+                            Debug.Log("Ingredient Missing");
+                            score -= 2;
                         }
                     }
-                    if (!ingredientFound)
-                    {
-                        // This Recipe ingredient was not found on the plate
-                        plateContentMatchesRecipe = false;
-                    }
                 }
-                if (plateContentMatchesRecipe)
+
+                if (emptyRecipe)
                 {
-                    // Player delivered the correct recipe
-                    successfulRecipesAmount++;
-
-                    //waitingRecipeSOList.RemoveAt(i);
-
-                    OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
-                    OnRecipeSuccessed?.Invoke(this, EventArgs.Empty);
-
-                    return;
+                    score = 0;
                 }
+
+                // Player delivered the correct recipe
+                successfulRecipesAmount++;
+
+                //waitingRecipeSOList.RemoveAt(i);
+
+                lastScore = score;
+
+                OnRecipeCompleted?.Invoke(this, EventArgs.Empty);
+                OnRecipeSuccessed?.Invoke(this, EventArgs.Empty);
             }
         }
 
         // No matches found, the player did not deliver the correct recipe
-        OnRecipeFailed?.Invoke(this, EventArgs.Empty);
+        //OnRecipeFailed?.Invoke(this, EventArgs.Empty);
     }
 
     // Getter for the waiting recipe list

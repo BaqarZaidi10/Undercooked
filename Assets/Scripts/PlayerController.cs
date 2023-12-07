@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using System.Collections;
+using Unity.Mathematics;
 
 public class PlayerController : MonoBehaviour, IKitchenObjectParent
 {
@@ -16,6 +17,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     [SerializeField] private float movementSpeed = 7f;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
+    [SerializeField] private Transform kitchenObjectDropPoint;
 
     // Private variables
     private bool isWalking;
@@ -29,9 +31,19 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     private GameObject _playerVisual;
     [SerializeField]
     private GameObject _playerSlip;
+    [SerializeField]
+    private GameObject _slipGameObject;
 
     private bool _canMove = true;
 
+    public PlayerStates playerStates;
+
+    public enum PlayerStates
+    {
+        Cooking,
+        Slipped
+    }
+    
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -60,7 +72,18 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         {
             selectedCounter.Interact(this);
         }
+        else
+        {
+            if (HasKitchenObject() && selectedCounter == null)
+            {
+                DestroyKitchenObject();
+                InstantiateNewKitchenSlip();
+            }
+        }
+
+      
     }
+    
 
     private void GameInput_OnInteractAlternateAction(object sender, GameInput.OnInteractAlternateActionEventArgs e)
     {
@@ -71,6 +94,24 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         {
             selectedCounter.InteractAlternate(this);
         }
+        
+    }
+    
+    private void DestroyKitchenObject()
+    {
+        if (HasKitchenObject())
+        {
+            GetKitchenObject().DestroySelf();
+            ClearKitchenObject();
+        }
+    }
+    
+    private void InstantiateNewKitchenSlip()
+    {
+        Vector3 dropWorldPosition = kitchenObjectDropPoint.position;
+        GameObject newSlipObject = Instantiate(_slipGameObject, dropWorldPosition, _slipGameObject.transform.rotation);
+        newSlipObject.transform.parent = null;
+        newSlipObject.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -81,8 +122,11 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         {
             HandleMovement();
             _playerSlip.gameObject.SetActive(false);
+            playerStates = PlayerStates.Cooking;
         }
         HandleInteractions();
+        
+        
     }
 
     public bool IsWalking()
@@ -193,6 +237,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     {
         if(other.gameObject.CompareTag("Slip"))
         {
+            playerStates = PlayerStates.Slipped;
             _playerVisual.gameObject.SetActive(false);
             _playerSlip.gameObject.SetActive(true);
             Quaternion currentRotation;
