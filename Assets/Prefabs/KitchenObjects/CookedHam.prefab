@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3122414479216498689}
   - component: {fileID: 2837847378697560626}
   m_Layer: 0
-  m_Name: Ham
+  m_Name: CookedHam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
