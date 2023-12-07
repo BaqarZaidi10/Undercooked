@@ -75,7 +75,7 @@ public class GordonRamsey : MonoBehaviour
     public void ChangeState(RAMSEY_STATE STATE, Transform target)
     {
         CURRENT_STATE = STATE;
-        StartCooldown(10f);
+        StartCooldown(15f);
         GordonRamseyBT.instance.PauseTree();
 
         if (currentState != null)
@@ -207,13 +207,13 @@ public class GordonRamsey : MonoBehaviour
         }
     }
     
-    private void OnCollisionExit(Collision collision)
-    {
-        if(collision.collider.CompareTag("Player") && !canCollide && CURRENT_STATE == RAMSEY_STATE.PATROLLING)
-        {            
-            RamseySoundManager.instance.PlayCollideSound(false);
-        }
-    }
+    //private void OnCollisionExit(Collision collision)
+    //{
+    //    if(collision.collider.CompareTag("Player") && !canCollide && CURRENT_STATE == RAMSEY_STATE.PATROLLING)
+    //    {            
+    //        RamseySoundManager.instance.PlayCollideSound(false);
+    //    }
+    //}
 
     private IEnumerator Collision(Collider collider)
     {
@@ -221,9 +221,11 @@ public class GordonRamsey : MonoBehaviour
         float timeElapsed = 0f;
         playerSpeed = collider.GetComponent<PlayerController>().movementSpeed;  
         collider.GetComponent<PlayerController>().movementSpeed = 0;
+        GordonRamseyBT.instance.PauseTree();
 
         while(timeElapsed < RamseySoundManager.instance.collideEnter.length)
         {
+            transform.LookAt(collider.transform.position);
             timeElapsed += Time.deltaTime;
             yield return null;
         }

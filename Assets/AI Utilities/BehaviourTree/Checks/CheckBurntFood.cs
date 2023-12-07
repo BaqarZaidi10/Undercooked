@@ -29,7 +29,8 @@ public class CheckBurntFood : Node
                     {
                         if (enemyColliders.Length > 0)
                         {
-                            parent.parent.SetData("Btarget", enemyColliders[0].transform);
+                            //if (Vector3.Distance(f.transform.position, enemyColliders[0].transform.position) < 1f)
+                                parent.parent.SetData("Btarget", enemyColliders[0].transform);
 
                             state = NODESTATE.SUCCESS;
                             return state;
