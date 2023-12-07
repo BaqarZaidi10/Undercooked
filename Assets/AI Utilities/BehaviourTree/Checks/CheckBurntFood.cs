@@ -29,11 +29,12 @@ public class CheckBurntFood : Node
                     {
                         if (enemyColliders.Length > 0)
                         {
-                            //if (Vector3.Distance(f.transform.position, enemyColliders[0].transform.position) < 1f)
+                            if (Vector3.Distance(f.transform.position, enemyColliders[0].transform.position) < 2f)
+                            {
                                 parent.parent.SetData("Btarget", enemyColliders[0].transform);
-
-                            state = NODESTATE.SUCCESS;
-                            return state;
+                                state = NODESTATE.SUCCESS;
+                                return state;
+                            }                                
                         }
                     }
                 }

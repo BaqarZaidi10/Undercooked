@@ -17,19 +17,26 @@ public class TaskTrashAttack : Node
 
     public override NODESTATE Evaluate()
     {
-        Transform target = (Transform)GetData("target");
+        Transform target = (Transform)GetData("Ttarget");
 
-        if(Vector3.Distance(transform.position, target.position) > GordonRamseyBT.attackRange)
+        if (Vector3.Distance(transform.position, target.position) < GordonRamseyBT.attackRange)
+        {
+            GordonRamsey.instance.ChangeState(GordonRamsey.RAMSEY_STATE.FOOD_TRASH, target);
+
+            parent.parent.ClearData("Ttarget");
+            state = NODESTATE.SUCCESS;
+            return state;
+        }
+
+        if (Vector3.Distance(transform.position, target.position) > GordonRamseyBT.attackRange)
         {
             controller.Move((target.position - transform.position) * GordonRamseyBT.speed * Time.deltaTime);
             //transform.position = Vector3.MoveTowards(transform.position, target.position, GuardBT.speed * Time.deltaTime);
             transform.LookAt(target.position);
         }
-        if (Vector3.Distance(transform.position, target.position) < GordonRamseyBT.attackRange)
-            GordonRamsey.instance.ChangeState(GordonRamsey.RAMSEY_STATE.FOOD_TRASH,  target);
 
         Debug.Log("going to target");
-        state = NODESTATE.RUNNING; 
+        state = NODESTATE.RUNNING;
         return state;
     }
 }

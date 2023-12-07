@@ -11,8 +11,9 @@ public class GordonRamseyBT : BehaviourTree.Tree
     public static float fovRange = 6f;
     public static float attackRange = 2f;
     public static float cooldown = 10f;
-    public bool canAttack;
+    public bool canAttack, foodTrashed;
     public static GordonRamseyBT instance;
+    public static Transform trasher;
 
     private void Awake()
     {
@@ -22,12 +23,44 @@ public class GordonRamseyBT : BehaviourTree.Tree
             instance = this;
     }
 
+    private void OnEnable()
+    {
+        TrashCounter.onFoodTrashed += FoodTrashedAction;
+    }
+    
+    private void OnDisable()
+    {
+        TrashCounter.onFoodTrashed -= FoodTrashedAction;
+    }
+
+    private void FoodTrashedAction(Transform player)
+    {
+        foodTrashed = true;
+        Invoke(nameof(ResetFoodTrash), 3f);
+        trasher = player;
+    }
+
+    public void ResetFoodTrash()
+    {
+        foodTrashed = false;
+        trasher = null;
+    }
+
     protected override Node SetupTree()
     {
         Node root = new Selector
             (new List<Node>
                 {
                     new Sequence
+                    (new List<Node>
+                        {
+                            new ConditionalDecorator(CanAttack),
+                            new ConditionalDecorator(FoodTrashed),
+                            new CheckTrashFood(transform),
+                            new TaskTrashAttack(transform),
+                        }
+                    ), 
+                new Sequence
                     (new List<Node>
                         {
                             new ConditionalDecorator(CanAttack),
@@ -63,6 +96,19 @@ public class GordonRamseyBT : BehaviourTree.Tree
     {
         Debug.Log(canAttack);
         if (canAttack)
+        {
+            return NODESTATE.SUCCESS;
+        }
+        else
+        {
+            return NODESTATE.FAILURE;
+        }
+    }
+    
+    private NODESTATE FoodTrashed()
+    {
+        Debug.Log(foodTrashed);
+        if (foodTrashed)
         {
             return NODESTATE.SUCCESS;
         }

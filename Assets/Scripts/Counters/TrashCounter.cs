@@ -7,6 +7,7 @@ public class TrashCounter : BaseCounter
 {
     // Event triggered when any object is trashed
     public static event EventHandler OnAnyObjectTrashed;
+    public static event Action<Transform> onFoodTrashed;
 
     // Reset static data method to clear event subscriptions
     new public static void ResetStaticData()
@@ -20,6 +21,7 @@ public class TrashCounter : BaseCounter
         // Check if the player is holding a kitchen object
         if (player.HasKitchenObject())
         {
+            onFoodTrashed?.Invoke(player.transform);
             // Destroy the kitchen object held by the player
             player.GetKitchenObject().DestroySelf();
 

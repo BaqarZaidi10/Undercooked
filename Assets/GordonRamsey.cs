@@ -36,7 +36,7 @@ public class GordonRamsey : MonoBehaviour
         {
             instance = this;
         }
-    }
+    }    
 
     private void Start()
     {
@@ -54,23 +54,6 @@ public class GordonRamsey : MonoBehaviour
     {
         GordonRamseyBT.instance.canAttack = true;
     }
-
-    //private IEnumerator Cooldown(float time)
-    //{
-    //    CURRENT_STATE = RAMSEY_STATE.COOLDOWN;
-
-    //    if (currentState != null)
-    //        StopCoroutine(currentState);
-
-    //    if (CURRENT_STATE != RAMSEY_STATE.COOLDOWN)
-    //        currentState = StartCoroutine(Cooldown(cooldown));
-
-    //    GordonRamseyBT.instance.canAttack = false;
-    //    yield return new WaitForSeconds(time);
-    //    GordonRamseyBT.instance.canAttack = true;
-    //    yield return new WaitForSeconds(time);
-    //    GordonRamseyBT.instance.canAttack = false;
-    //}
 
     public void ChangeState(RAMSEY_STATE STATE, Transform target)
     {
