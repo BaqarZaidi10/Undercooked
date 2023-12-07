@@ -7,7 +7,7 @@ public class RamseySoundManager : MonoBehaviour
     public static RamseySoundManager instance;
     public AudioSource audioSource;
 
-    [SerializeField] private AudioClip burnt, raw, dropped, collideEnter, collideExit, trash;
+    public AudioClip burnt, raw, dropped, collideEnter, collideExit, trash;
 
     private Coroutine currentSound;
 

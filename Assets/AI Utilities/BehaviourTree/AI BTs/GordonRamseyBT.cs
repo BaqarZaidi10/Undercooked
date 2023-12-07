@@ -27,23 +27,31 @@ public class GordonRamseyBT : BehaviourTree.Tree
         Node root = new Selector
             (new List<Node>
                 {
-                    new Sequence //Node 1 (first priority)
+                    new Sequence 
                     (new List<Node>
                         {
+                            new ConditionalDecorator(CanAttack),
                             new CheckRawFood(transform),
-                            new ConditionalDecorator(CanAttack),
-                            new TaskAttack(transform),
+                            new TaskRawAttack(transform),
                         }
                     ),
-                    new Sequence //Node 2 (second priority) - runs only when node 1 fails
+                    new Sequence 
                     (new List<Node>
                         {
-                            new CheckFoodOnGround(transform),
                             new ConditionalDecorator(CanAttack),
-                            new TaskGoToTarget(transform),
+                            new CheckBurntFood(transform),
+                            new TaskBurnAttack(transform),
                         }
                     ),
-                    new TaskPatrol(transform, waypoints), //Default node: only runs when all other nodes fail
+                    new Sequence 
+                    (new List<Node>
+                        {
+                            new ConditionalDecorator(CanAttack),
+                            new CheckFoodOnGround(transform),
+                            new TaskDropAttack(transform),
+                        }
+                    ),
+                    new TaskPatrol(transform, waypoints),
                 }
             );
         

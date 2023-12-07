@@ -1,7 +1,7 @@
 using BehaviourTree;
 using UnityEngine;
 
-public class TaskGoToTarget : Node
+public class TaskTrashAttack : Node
 {
     private Transform transform;
     private Animator animator;
@@ -9,7 +9,7 @@ public class TaskGoToTarget : Node
 
     private float punishmentTime = 3f, punishmentCooldown = 0f;
 
-    public TaskGoToTarget(Transform transform)
+    public TaskTrashAttack(Transform transform)
     {
         this.transform = transform;
         controller = transform.GetComponent<CharacterController>();
@@ -25,8 +25,8 @@ public class TaskGoToTarget : Node
             //transform.position = Vector3.MoveTowards(transform.position, target.position, GuardBT.speed * Time.deltaTime);
             transform.LookAt(target.position);
         }
-        
-        GordonRamsey.instance.ChangeState(GordonRamsey.RAMSEY_STATE.FOOD_DROPPED,  target);
+        if (Vector3.Distance(transform.position, target.position) < 1f)
+            GordonRamsey.instance.ChangeState(GordonRamsey.RAMSEY_STATE.FOOD_TRASH,  target);
 
         Debug.Log("going to target");
         state = NODESTATE.RUNNING; 

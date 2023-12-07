@@ -9487,6 +9487,31 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6629498046704128584, guid: 689f1697f96218140a700ba69bd93931,
+        type: 3}
+      propertyPath: rawWait
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629498046704128584, guid: 689f1697f96218140a700ba69bd93931,
+        type: 3}
+      propertyPath: dropWait
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629498046704128584, guid: 689f1697f96218140a700ba69bd93931,
+        type: 3}
+      propertyPath: burntWait
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629498046704128584, guid: 689f1697f96218140a700ba69bd93931,
+        type: 3}
+      propertyPath: trashWait
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6629498046704128584, guid: 689f1697f96218140a700ba69bd93931,
+        type: 3}
+      propertyPath: collideWait
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6936142333109737403, guid: 689f1697f96218140a700ba69bd93931,
         type: 3}
       propertyPath: m_UseGravity

@@ -49,27 +49,32 @@ public class GordonRamsey : MonoBehaviour
         if (currentState != null)
             StopCoroutine(currentState);
 
-        switch(STATE)
+        if (target)
         {
-            case RAMSEY_STATE.FOOD_DROPPED:
+            switch (STATE)
+            {
+                case RAMSEY_STATE.FOOD_DROPPED:
                     currentState = StartCoroutine(DroppedFoodPunishment(target));
-                break;
-            case RAMSEY_STATE.FOOD_BURNT:
-                currentState = StartCoroutine(BurntFoodPunishment(target));
-                break;
-            case RAMSEY_STATE.FOOD_RAW:
-                currentState = StartCoroutine(RawFoodPunishment(target));
-                break;
-            case RAMSEY_STATE.FOOD_TRASH:
-                currentState = StartCoroutine(TrashedFoodPunishment(target));
-                break; 
+                    break;
+                case RAMSEY_STATE.FOOD_BURNT:
+                    currentState = StartCoroutine(BurntFoodPunishment(target));
+                    break;
+                case RAMSEY_STATE.FOOD_RAW:
+                    currentState = StartCoroutine(RawFoodPunishment(target));
+                    break;
+                case RAMSEY_STATE.FOOD_TRASH:
+                    currentState = StartCoroutine(TrashedFoodPunishment(target));
+                    break;
+            }
         }
+
+        else
+            ChangeState(RAMSEY_STATE.PATROLLING);
     }
 
     public void ChangeState(RAMSEY_STATE STATE)
     {
         CURRENT_STATE = STATE;
-        GordonRamseyBT.instance.PauseTree();
 
         if (currentState != null)
             StopCoroutine(currentState);
@@ -91,7 +96,7 @@ public class GordonRamsey : MonoBehaviour
         playerSpeed = target.GetComponent<PlayerController>().movementSpeed;
         target.GetComponent<PlayerController>().movementSpeed = 0;
 
-        while (punishmentTime < RamseySoundManager.instance.audioSource.clip.length)
+        while (punishmentTime < RamseySoundManager.instance.dropped.length)
         {
             punishmentTime += Time.deltaTime;
             yield return null;
@@ -106,12 +111,11 @@ public class GordonRamsey : MonoBehaviour
     
     private IEnumerator TrashedFoodPunishment(Transform target)
     {
-        GordonRamseyBT.instance.PauseTree();
         RamseySoundManager.instance.PlayTrashSound();
         playerSpeed = target.GetComponent<PlayerController>().movementSpeed;
         target.GetComponent<PlayerController>().movementSpeed = 0;
 
-        while (punishmentTime < RamseySoundManager.instance.audioSource.clip.length)
+        while (punishmentTime < RamseySoundManager.instance.trash.length)
         {
             punishmentTime += Time.deltaTime;
             yield return null;
@@ -126,13 +130,12 @@ public class GordonRamsey : MonoBehaviour
     
     private IEnumerator BurntFoodPunishment(Transform target)
     {
-        GordonRamseyBT.instance.PauseTree();
         RamseySoundManager.instance.PlayBurntSound();
         playerSpeed = target.GetComponent<PlayerController>().movementSpeed;
         target.GetComponent<PlayerController>().movementSpeed = 0;
 
         float punishmentTime = 0f;
-        while (punishmentTime < RamseySoundManager.instance.audioSource.clip.length)
+        while (punishmentTime < RamseySoundManager.instance.burnt.length)
         {
             punishmentTime += Time.deltaTime;
             yield return null;
@@ -147,13 +150,12 @@ public class GordonRamsey : MonoBehaviour
     
     private IEnumerator RawFoodPunishment(Transform target)
     {
-        GordonRamseyBT.instance.PauseTree();
         RamseySoundManager.instance.PlayRawSound();
         playerSpeed = target.GetComponent<PlayerController>().movementSpeed;
         target.GetComponent<PlayerController>().movementSpeed = 0;
 
         float punishmentTime = 0f;
-        while (punishmentTime < RamseySoundManager.instance.audioSource.clip.length)
+        while (punishmentTime < RamseySoundManager.instance.raw.length)
         {
             punishmentTime += Time.deltaTime;
             yield return null;
@@ -168,7 +170,7 @@ public class GordonRamsey : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.CompareTag("Player") && canCollide)
+        if(collision.collider.CompareTag("Player") && canCollide && CURRENT_STATE == RAMSEY_STATE.PATROLLING)
         {
             GordonRamseyBT.instance.PauseTree();
             RamseySoundManager.instance.PlayCollideSound(true);
@@ -178,10 +180,9 @@ public class GordonRamsey : MonoBehaviour
     
     private void OnCollisionExit(Collision collision)
     {
-        if(collision.collider.CompareTag("Player") && !canCollide)
+        if(collision.collider.CompareTag("Player") && !canCollide && CURRENT_STATE == RAMSEY_STATE.PATROLLING)
         {            
             RamseySoundManager.instance.PlayCollideSound(false);
-            ChangeState(RAMSEY_STATE.PATROLLING);
         }
     }
 
