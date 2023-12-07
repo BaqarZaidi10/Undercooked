@@ -221,9 +221,11 @@ public class GordonRamsey : MonoBehaviour
         float timeElapsed = 0f;
         playerSpeed = collider.GetComponent<PlayerController>().movementSpeed;  
         collider.GetComponent<PlayerController>().movementSpeed = 0;
+        GordonRamseyBT.instance.PauseTree();
 
         while(timeElapsed < RamseySoundManager.instance.collideEnter.length)
         {
+            transform.LookAt(collider.transform.position);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
