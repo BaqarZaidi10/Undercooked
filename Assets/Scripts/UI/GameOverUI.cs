@@ -43,28 +43,13 @@ public class GameOverUI : MonoBehaviour
             Show();
             // Update the recipesDeliveredText with the number of successful recipes delivered
             recipesDeliveredText.text = DeliveryManager.Instance.GetSuccessfulRecipesAmount().ToString();
-            if(ScoreUI.instance.p1Wins > ScoreUI.instance.p2Wins)
+            if(ScoreUI.instance.p1Score > ScoreUI.instance.p2Score)
             {
                 playerText.text = "1";
             }
-            else if(ScoreUI.instance.p1Wins < ScoreUI.instance.p2Wins)
+            else if(ScoreUI.instance.p1Score < ScoreUI.instance.p2Score)
             {
                 playerText.text = "2";
-            }
-            else
-            {
-                if (ScoreUI.instance.p1Fails > ScoreUI.instance.p2Fails)
-                {
-                    playerText.text = "2";
-                }
-                else if (ScoreUI.instance.p1Fails < ScoreUI.instance.p2Fails)
-                {
-                    playerText.text = "1";
-                }
-                else
-                {
-                    playerText.text = "3";
-                }
             }
         }
         else

@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: OnionSlices
   m_EditorClassIdentifier: 
   prefab: {fileID: 6413845465830473056, guid: 90b49c8299641ca4a8003842c5aa78d9, type: 3}
-  sprite: {fileID: 21300000, guid: d84aa308f03a61c408bb441df32bce91, type: 3}
+  sprite: {fileID: 21300000, guid: b063329be1fcb6f4f94b0c5de98077fa, type: 3}
   objectName: OnionSlices
+  burned: 0
+  raw: 0
