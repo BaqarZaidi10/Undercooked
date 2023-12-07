@@ -53,6 +53,7 @@ public class GordonRamseyBT : BehaviourTree.Tree
     // Custom method to check if the attack is on cooldown
     private NODESTATE CanAttack()
     {
+
         if (canAttack)
         {
             return NODESTATE.SUCCESS;

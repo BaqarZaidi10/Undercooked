@@ -9,6 +9,7 @@ public class GordonRamsey : MonoBehaviour
 
     public float collideWait = 5f, rawWait = 3f, burntWait = 3f, trashWait = 3f, dropWait = 3f;
     private float punishmentTime = 0f;
+    private float playerSpeed;
 
     private bool canCollide = true;
 
@@ -37,13 +38,17 @@ public class GordonRamsey : MonoBehaviour
 
     private void Start()
     {
-        GordonRamseyBT.instance.ResumeTree();
+        ChangeState(RAMSEY_STATE.PATROLLING);
     }
 
     public void ChangeState(RAMSEY_STATE STATE, Transform target)
     {
         CURRENT_STATE = STATE;
-        StopCoroutine(currentState);
+        GordonRamseyBT.instance.PauseTree();
+
+        if (currentState != null)
+            StopCoroutine(currentState);
+
         switch(STATE)
         {
             case RAMSEY_STATE.FOOD_DROPPED:
@@ -58,17 +63,33 @@ public class GordonRamsey : MonoBehaviour
             case RAMSEY_STATE.FOOD_TRASH:
                 currentState = StartCoroutine(TrashedFoodPunishment(target));
                 break; 
+        }
+    }
+
+    public void ChangeState(RAMSEY_STATE STATE)
+    {
+        CURRENT_STATE = STATE;
+        GordonRamseyBT.instance.PauseTree();
+
+        if (currentState != null)
+            StopCoroutine(currentState);
+
+        switch(STATE)
+        {
             case RAMSEY_STATE.COLLIDING:
-               // currentState = StartCoroutine(Collision(target));
+                currentState = StartCoroutine(Collision());
+                break;
+            case RAMSEY_STATE.PATROLLING:
+                currentState = StartCoroutine(Patrolling());
                 break;
         }
     }
 
     private IEnumerator DroppedFoodPunishment(Transform target)
     {
-        GordonRamseyBT.instance.PauseTree();
         RamseySoundManager.instance.PlayFoodDroppedSound();
-        target.GetComponent<PlayerController>().enabled = false;
+        playerSpeed = target.GetComponent<PlayerController>().movementSpeed;
+        target.GetComponent<PlayerController>().movementSpeed = 0;
 
         while (punishmentTime < RamseySoundManager.instance.audioSource.clip.length)
         {
@@ -77,18 +98,18 @@ public class GordonRamsey : MonoBehaviour
         }
         punishmentTime = 0f;
 
-        target.GetComponent<PlayerController>().enabled = true; 
-        GordonRamseyBT.instance.ResumeTree();
+        target.GetComponent<PlayerController>().movementSpeed = playerSpeed;
         GordonRamseyBT.instance.AttackCooldown(dropWait);
 
-        CURRENT_STATE = RAMSEY_STATE.PATROLLING;
+        ChangeState(RAMSEY_STATE.PATROLLING);
     }
     
     private IEnumerator TrashedFoodPunishment(Transform target)
     {
         GordonRamseyBT.instance.PauseTree();
         RamseySoundManager.instance.PlayTrashSound();
-        target.GetComponent<PlayerController>().enabled = false;
+        playerSpeed = target.GetComponent<PlayerController>().movementSpeed;
+        target.GetComponent<PlayerController>().movementSpeed = 0;
 
         while (punishmentTime < RamseySoundManager.instance.audioSource.clip.length)
         {
@@ -97,18 +118,18 @@ public class GordonRamsey : MonoBehaviour
         }
         punishmentTime = 0f;
 
-        target.GetComponent<PlayerController>().enabled = true; 
-        GordonRamseyBT.instance.ResumeTree();
+        target.GetComponent<PlayerController>().movementSpeed = playerSpeed; 
         GordonRamseyBT.instance.AttackCooldown(trashWait);
 
-        CURRENT_STATE = RAMSEY_STATE.PATROLLING;
+        ChangeState(RAMSEY_STATE.PATROLLING);
     }
     
     private IEnumerator BurntFoodPunishment(Transform target)
     {
         GordonRamseyBT.instance.PauseTree();
         RamseySoundManager.instance.PlayBurntSound();
-        target.GetComponent<PlayerController>().enabled = false;
+        playerSpeed = target.GetComponent<PlayerController>().movementSpeed;
+        target.GetComponent<PlayerController>().movementSpeed = 0;
 
         float punishmentTime = 0f;
         while (punishmentTime < RamseySoundManager.instance.audioSource.clip.length)
@@ -118,18 +139,18 @@ public class GordonRamsey : MonoBehaviour
         }
 
         punishmentTime = 0f;
-        target.GetComponent<PlayerController>().enabled = true; 
-        GordonRamseyBT.instance.ResumeTree();
+        target.GetComponent<PlayerController>().movementSpeed = playerSpeed;
         GordonRamseyBT.instance.AttackCooldown(burntWait);
 
-        CURRENT_STATE = RAMSEY_STATE.PATROLLING;
+        ChangeState(RAMSEY_STATE.PATROLLING);
     }
     
     private IEnumerator RawFoodPunishment(Transform target)
     {
         GordonRamseyBT.instance.PauseTree();
         RamseySoundManager.instance.PlayRawSound();
-        target.GetComponent<PlayerController>().enabled = false;
+        playerSpeed = target.GetComponent<PlayerController>().movementSpeed;
+        target.GetComponent<PlayerController>().movementSpeed = 0;
 
         float punishmentTime = 0f;
         while (punishmentTime < RamseySoundManager.instance.audioSource.clip.length)
@@ -139,11 +160,10 @@ public class GordonRamsey : MonoBehaviour
         }
 
         punishmentTime = 0f;
-        target.GetComponent<PlayerController>().enabled = true; 
-        GordonRamseyBT.instance.ResumeTree();
+        target.GetComponent<PlayerController>().movementSpeed = playerSpeed; 
         GordonRamseyBT.instance.AttackCooldown(rawWait);
 
-        CURRENT_STATE = RAMSEY_STATE.PATROLLING;
+        ChangeState(RAMSEY_STATE.PATROLLING);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -152,7 +172,7 @@ public class GordonRamsey : MonoBehaviour
         {
             GordonRamseyBT.instance.PauseTree();
             RamseySoundManager.instance.PlayCollideSound(true);
-            StartCoroutine(Collision(collideWait));
+            StartCoroutine(Collision());
         }
     }
     
@@ -161,15 +181,21 @@ public class GordonRamsey : MonoBehaviour
         if(collision.collider.CompareTag("Player") && !canCollide)
         {            
             RamseySoundManager.instance.PlayCollideSound(false);
-            GordonRamseyBT.instance.ResumeTree();
+            ChangeState(RAMSEY_STATE.PATROLLING);
         }
     }
 
-    private IEnumerator Collision(float collisionCooldown)
+    private IEnumerator Collision()
     {
         canCollide = false;
-        yield return new WaitForSeconds(collisionCooldown);
+        yield return new WaitForSeconds(collideWait);
         canCollide = true;
-        CURRENT_STATE = RAMSEY_STATE.PATROLLING;
+        ChangeState(RAMSEY_STATE.PATROLLING);
+    }
+    
+    private IEnumerator Patrolling()
+    {
+        GordonRamseyBT.instance.ResumeTree();
+        yield return null;
     }
 }
