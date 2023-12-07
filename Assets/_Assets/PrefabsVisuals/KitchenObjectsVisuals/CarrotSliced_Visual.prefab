@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9038328476413468928}
-  m_Layer: 0
+  - component: {fileID: -730817380952382759}
+  m_Layer: 9
   m_Name: CarrotSliced_Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,6 +33,27 @@ Transform:
   - {fileID: 3852701554829393931}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!135 &-730817380952382759
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5537503085909570905}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &3674148790128797664
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,6 +116,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: food_ingredient_carrot_pieces
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: dc0ea53f94cff7c4b8ac0b5ecdcc22e4,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

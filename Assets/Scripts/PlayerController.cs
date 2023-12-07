@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
     }
 
     // Serialized fields visible in the Unity editor
-    [SerializeField] private float movementSpeed = 7f;
+    public float movementSpeed = 7f;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
     [SerializeField] private Transform kitchenObjectDropPoint;
@@ -188,7 +188,8 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         // Update walking status and rotation
         isWalking = moveDirection != Vector3.zero;
         float rotateSpeed = 10f;
-        transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
+        if(isWalking)
+            transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
     }
 
     private void MovePlayer()
