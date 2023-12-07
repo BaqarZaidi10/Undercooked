@@ -45,6 +45,8 @@ public class GameManager_ : MonoBehaviour
     private bool isGamePaused = false; // Flag indicating if the game is paused
     private InputUser inputUserChanged; // InputUser affected by device changes
 
+    public bool waitingForScore;
+
     // Awake is called when the script instance is being loaded
     private void Awake()
     {
@@ -91,13 +93,18 @@ public class GameManager_ : MonoBehaviour
                 {
                     state = State.GamePlaying;
                     DeliveryManager.Instance.NewRecipe();
+                    DeliveryCounter.Instance.ResetCounterSpace();
+                    ScoreUI.instance.p1RoundScore = 0;
+                    ScoreUI.instance.p2RoundScore = 0;
                     gamePlayingTimer = gamePlayingTimerMax;
                     OnStateChanged?.Invoke(this, EventArgs.Empty);
                 }
                 break;
 
             case State.GamePlaying:
-                gamePlayingTimer -= Time.deltaTime;
+
+                if (!waitingForScore)
+                    gamePlayingTimer -= Time.deltaTime;
 
                 if (gamePlayingTimer < 0 || DeliveryCounter.Instance.counterSpace <= 0)
                 {
@@ -105,11 +112,13 @@ public class GameManager_ : MonoBehaviour
 
                     if (currentRound >= 3)
                     {
+                        waitingForScore = true;
                         ScorePopup.Instance.PopupScores();
                         StartCoroutine(GameOverCoroutine());
                     }
                     else
                     {
+                        waitingForScore = true;
                         ScorePopup.Instance.PopupScores();
                         StartCoroutine(StartNextRoundCoroutine());
                     }
@@ -133,17 +142,20 @@ public class GameManager_ : MonoBehaviour
 
     private IEnumerator StartNextRoundCoroutine()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(8);
 
+        waitingForScore = false;
         currentRound += 1;
-        DeliveryManager.Instance.NewRecipe();
-        DeliveryCounter.Instance.ResetCounterSpace();
+        countdownToStartTimer = 3;
+        state = State.CountdownToStart;
+        OnStateChanged?.Invoke(this, EventArgs.Empty);
     }
 
     private IEnumerator GameOverCoroutine()
     {
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(8);
 
+        waitingForScore = false;
         state = State.GameOver;
         OnStateChanged?.Invoke(this, EventArgs.Empty);
     }

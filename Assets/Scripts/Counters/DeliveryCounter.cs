@@ -30,6 +30,9 @@ public class DeliveryCounter : BaseCounter
         if (player.gameObject == currentPlayer)
             return;
 
+        if (GameManager_.Instance.waitingForScore)
+            return;
+
         currentPlayer = player.gameObject;
 
         // Check if the player is carrying a kitchen object

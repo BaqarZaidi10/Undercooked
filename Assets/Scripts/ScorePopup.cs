@@ -27,7 +27,7 @@ public class ScorePopup : MonoBehaviour
         p1Popup.gameObject.SetActive(true);
         p1Popup.SetTrigger("Activate");
 
-        yield return new WaitForSeconds(4);
+        yield return new WaitForSeconds(3.5f);
 
         UpdateScoreCard(p2ScoreText, ScoreUI.instance.p2RoundScore.ToString() + "/10");
         p1Popup.gameObject.SetActive(false);

@@ -49,10 +49,12 @@ public class ScoreUI : MonoBehaviour
             if (currentPlayer.name == "p1")
             {
                 p1Score += DeliveryManager.Instance.lastScore;
+                p1RoundScore += DeliveryManager.Instance.lastScore;
             }
             else if (currentPlayer.name == "p2")
             {
                 p2Score += DeliveryManager.Instance.lastScore;
+                p2RoundScore += DeliveryManager.Instance.lastScore;
             }
         }        
     }
