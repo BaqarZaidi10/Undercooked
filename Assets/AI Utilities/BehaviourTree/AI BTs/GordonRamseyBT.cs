@@ -27,22 +27,22 @@ public class GordonRamseyBT : BehaviourTree.Tree
         Node root = new Selector
             (new List<Node>
                 {
-                    new Sequence 
-                    (new List<Node>
-                        {
-                            new ConditionalDecorator(CanAttack),
-                            new CheckRawFood(transform),
-                            new TaskRawAttack(transform),
-                        }
-                    ),
-                    new Sequence 
-                    (new List<Node>
-                        {
-                            new ConditionalDecorator(CanAttack),
-                            new CheckBurntFood(transform),
-                            new TaskBurnAttack(transform),
-                        }
-                    ),
+                    //new Sequence 
+                    //(new List<Node>
+                    //    {
+                    //        new ConditionalDecorator(CanAttack),
+                    //        new CheckRawFood(transform),
+                    //        new TaskRawAttack(transform),
+                    //    }
+                    //),
+                    //new Sequence 
+                    //(new List<Node>
+                    //    {
+                    //        new ConditionalDecorator(CanAttack),
+                    //        new CheckBurntFood(transform),
+                    //        new TaskBurnAttack(transform),
+                    //    }
+                    //),
                     new Sequence 
                     (new List<Node>
                         {
@@ -64,8 +64,7 @@ public class GordonRamseyBT : BehaviourTree.Tree
 
         if (canAttack)
         {
-            //StartCoroutine(AttackCooldown(cooldown));
-            //canAttack = false;
+            StartCoroutine(AttackCooldown(cooldown));
             return NODESTATE.SUCCESS;
         }
         else

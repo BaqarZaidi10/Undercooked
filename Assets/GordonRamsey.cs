@@ -82,7 +82,7 @@ public class GordonRamsey : MonoBehaviour
         switch(STATE)
         {
             case RAMSEY_STATE.COLLIDING:
-                currentState = StartCoroutine(Collision());
+                //currentState = StartCoroutine(Collision());
                 break;
             case RAMSEY_STATE.PATROLLING:
                 currentState = StartCoroutine(Patrolling());
@@ -104,7 +104,7 @@ public class GordonRamsey : MonoBehaviour
         AttackTime = 0f;
 
         target.GetComponent<PlayerController>().movementSpeed = playerSpeed;
-        GordonRamseyBT.instance.AttackCooldown(dropWait);
+        //GordonRamseyBT.instance.AttackCooldown(dropWait);
 
         ChangeState(RAMSEY_STATE.PATROLLING);
     }
@@ -123,7 +123,7 @@ public class GordonRamsey : MonoBehaviour
         AttackTime = 0f;
 
         target.GetComponent<PlayerController>().movementSpeed = playerSpeed; 
-        GordonRamseyBT.instance.AttackCooldown(trashWait);
+        //GordonRamseyBT.instance.AttackCooldown(trashWait);
 
         ChangeState(RAMSEY_STATE.PATROLLING);
     }
@@ -142,7 +142,7 @@ public class GordonRamsey : MonoBehaviour
         AttackTime = 0f;
 
         target.GetComponent<PlayerController>().movementSpeed = playerSpeed;
-        GordonRamseyBT.instance.AttackCooldown(burntWait);
+        //GordonRamseyBT.instance.AttackCooldown(burntWait);
 
         ChangeState(RAMSEY_STATE.PATROLLING);
     }
@@ -161,7 +161,7 @@ public class GordonRamsey : MonoBehaviour
         AttackTime = 0f;
 
         target.GetComponent<PlayerController>().movementSpeed = playerSpeed; 
-        GordonRamseyBT.instance.AttackCooldown(rawWait);
+        //GordonRamseyBT.instance.AttackCooldown(rawWait);
 
         ChangeState(RAMSEY_STATE.PATROLLING);
     }
@@ -171,7 +171,7 @@ public class GordonRamsey : MonoBehaviour
         if(collision.collider.CompareTag("Player") && canCollide && CURRENT_STATE == RAMSEY_STATE.PATROLLING)
         {
             RamseySoundManager.instance.PlayCollideSound(true);
-            StartCoroutine(Collision());
+            StartCoroutine(Collision(collision.collider));
         }
     }
     
@@ -183,10 +183,22 @@ public class GordonRamsey : MonoBehaviour
         }
     }
 
-    private IEnumerator Collision()
+    private IEnumerator Collision(Collider collider)
     {
-        ChangeState(RAMSEY_STATE.PATROLLING);
         canCollide = false;
+        float timeElapsed = 0f;
+        playerSpeed = collider.GetComponent<PlayerController>().movementSpeed;  
+        collider.GetComponent<PlayerController>().movementSpeed = 0;
+
+        while(timeElapsed < RamseySoundManager.instance.collideEnter.length)
+        {
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        collider.GetComponent<PlayerController>().movementSpeed = playerSpeed;
+        ChangeState(RAMSEY_STATE.PATROLLING);
+
         yield return new WaitForSeconds(collideWait);
         canCollide = true;
     }

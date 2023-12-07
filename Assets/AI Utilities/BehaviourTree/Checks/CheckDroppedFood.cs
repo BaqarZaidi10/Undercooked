@@ -18,14 +18,14 @@ public class CheckDroppedFood : Node
 
         if(t == null)
         {
-            Collider[] enemyColliders = Physics.OverlapSphere(transform.position + (Vector3.forward * GordonRamseyBT.fovRange), GordonRamseyBT.fovRange, enemyLayer);
-            Collider[] foodColliders = Physics.OverlapSphere(transform.position + (Vector3.forward * GordonRamseyBT.fovRange), GordonRamseyBT.fovRange, foodLayer);
+            Collider[] enemyColliders = Physics.OverlapSphere(transform.position + (transform.forward * GordonRamseyBT.fovRange), GordonRamseyBT.fovRange, enemyLayer);
+            Collider[] foodColliders = Physics.OverlapSphere(transform.position + (transform.forward * GordonRamseyBT.fovRange), GordonRamseyBT.fovRange, foodLayer);
 
-            if(foodColliders.Length > 0)
+            if (foodColliders.Length > 0)
             {
                 foreach(Collider f in foodColliders)
                 {
-                    if(f.transform.position.y - GameObject.Find("Floor").transform.position.y < 0.5f)
+                    if(Vector3.Distance(f.transform.position, GameObject.Find("Floor").transform.position) < 0.5f)
                     {
                         if (enemyColliders.Length > 0)
                         {
@@ -36,8 +36,8 @@ public class CheckDroppedFood : Node
                         }
                     }
                 }
-            }            
-
+            }
+            //f.transform.position.y - GameObject.Find("Floor").transform.position.y < 0.5f
             state = NODESTATE.FAILURE;
             return state;            
         }
@@ -46,5 +46,5 @@ public class CheckDroppedFood : Node
         state = NODESTATE.SUCCESS;
 
         return state;
-    } 
+    }
 }
