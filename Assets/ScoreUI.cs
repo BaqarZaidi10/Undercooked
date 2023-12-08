@@ -5,6 +5,7 @@ public class ScoreUI : MonoBehaviour
 {
     private TextMeshProUGUI p1ScoreText, p2ScoreText;
     public int p1Score, p2Score;
+    public int p1RoundScore, p2RoundScore;
     public static ScoreUI instance;
 
     private void Awake()
@@ -40,20 +41,26 @@ public class ScoreUI : MonoBehaviour
 
     private void Delivered(GameObject currentPlayer, bool success)
     {
+        Debug.Log("Test");
+        Debug.Log(currentPlayer.name);
+
         if(currentPlayer)
         {
             if (currentPlayer.name == "p1")
             {
-                Debug.Log("Adding P1 Score: " + DeliveryManager.Instance.lastScore);
                 p1Score += DeliveryManager.Instance.lastScore;
-                p1ScoreText.text = p1Score.ToString();
             }
             else if (currentPlayer.name == "p2")
             {
                 p2Score += DeliveryManager.Instance.lastScore;
-                p2ScoreText.text = p2Score.ToString();
             }
         }        
+    }
+
+    public void UpdateText()
+    {
+        p1ScoreText.text = ScoreText(p1Score);
+        p2ScoreText.text = ScoreText(p2Score);
     }
 
     public string ScoreText(int score)
