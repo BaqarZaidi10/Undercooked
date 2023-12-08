@@ -72,18 +72,12 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         {
             selectedCounter.Interact(this);
         }
-        else
+        else if(selectedCounter == null && GameInput.Instance.isActionMine(e.action, playerInputActions) && HasKitchenObject())
         {
-            if (HasKitchenObject() && selectedCounter == null)
-            {
                 DestroyKitchenObject();
                 InstantiateNewKitchenSlip();
-            }
-        }
-
-      
-    }
-    
+        }      
+    }    
 
     private void GameInput_OnInteractAlternateAction(object sender, GameInput.OnInteractAlternateActionEventArgs e)
     {
@@ -254,6 +248,4 @@ public class PlayerController : MonoBehaviour, IKitchenObjectParent
         _canMove = true;
         _playerVisual.gameObject.SetActive(true);
     }
-    
-
 }
