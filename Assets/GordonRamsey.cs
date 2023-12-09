@@ -9,8 +9,8 @@ public class GordonRamsey : MonoBehaviour
     private Coroutine currentState;
 
     public float collideWait = 10f, rawWait = 10f, burntWait = 10f, trashWait = 10f, dropWait = 10f;
-    private float AttackTime = 0f;
-    private float playerSpeed = 0f;
+    private float AttackTime = 0f, playerSpeed = 0f;
+    public float cooldown = 15f;
 
     private bool canCollide = true;
 
@@ -58,7 +58,7 @@ public class GordonRamsey : MonoBehaviour
     public void ChangeState(RAMSEY_STATE STATE, Transform target)
     {
         CURRENT_STATE = STATE;
-        StartCooldown(15f);
+        StartCooldown(cooldown);
         GordonRamseyBT.instance.PauseTree();
 
         if (currentState != null)
@@ -183,24 +183,24 @@ public class GordonRamsey : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.CompareTag("Player") && canCollide && CURRENT_STATE == RAMSEY_STATE.PATROLLING)
+        if(collision.collider.CompareTag("Player") && GordonRamseyBT.instance.canAttack)
         {
+            StartCooldown(15f);
             RamseySoundManager.instance.PlayCollideSound(true);
             StartCoroutine(Collision(collision.collider));
         }
     }
-    
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if(collision.collider.CompareTag("Player") && !canCollide && CURRENT_STATE == RAMSEY_STATE.PATROLLING)
-    //    {            
-    //        RamseySoundManager.instance.PlayCollideSound(false);
-    //    }
-    //}
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.CompareTag("Player"))
+        {
+            RamseySoundManager.instance.PlayCollideSound(false);
+        }
+    }
 
     private IEnumerator Collision(Collider collider)
     {
-        canCollide = false;
         float timeElapsed = 0f;
         playerSpeed = collider.GetComponent<PlayerController>().movementSpeed;  
         collider.GetComponent<PlayerController>().movementSpeed = 0;
@@ -214,10 +214,7 @@ public class GordonRamsey : MonoBehaviour
         }
 
         collider.GetComponent<PlayerController>().movementSpeed = playerSpeed;
-        ChangeState(RAMSEY_STATE.PATROLLING);
-
-        yield return new WaitForSeconds(collideWait);
-        canCollide = true;
+        ChangeState(RAMSEY_STATE.PATROLLING);        
     }
     
     private IEnumerator Patrolling()
